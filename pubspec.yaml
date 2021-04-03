@@ -23,6 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite:
+  path:
+  path_provider:
+  flutter_simple_dependency_injection:
+  date_time_picker: ^2.0.0
+  file_picker: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

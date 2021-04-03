@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tripmanager/dashboard.dart';
+import 'package:tripmanager/temp.dart';
 
-import 'Home/home.dart';
+import 'database.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Injection.initInjection();
   runApp(MyApp());
 }
 
@@ -17,9 +21,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Balance Sheet',
-      home: Home(),
+      home: dashboard(),
     );
   }
 }
-
-

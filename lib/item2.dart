@@ -5,49 +5,36 @@ import '../temp.dart';
 
 // tripid:,serial_number:,dep_time: ,dep_date: ,dep_station: ,arr_time: ,arr_date: ,arr_station: ,mot: ,km: ,fare: ,pnr: ,remarks: ,ticket_address: ,receipt_location: ,
 
-class Item extends StatefulWidget {
-  Item(
+class Item2 extends StatefulWidget {
+  Item2(
       this.tripid,
       this.serial_number,
-      this.dep_time,
-      this.dep_date,
-      this.dep_station,
-      this.arr_time,
-      this.arr_date,
-      this.arr_station,
-      this.mot,
-      this.km,
-      this.fare,
-      this.pnr,
-      this.remarks,
-      this.ticket_address,
+      this.type,
+      this.details,
+      this.amount_paid,
+      this.receipt_details,
+      this.receipt_address,
       this.receipt_location,
+      this.date,
       this.callback);
   // String sign;
   // double amount;
   // String note;
-  // String date;
+  final String date;
   Function() callback;
   final int tripid;
   final int serial_number;
-  final String dep_time;
-  final String dep_date;
-  final String dep_station;
-  final String arr_time;
-  final String arr_date;
-  final String arr_station;
-  final String mot;
-  final double km;
-  final double fare;
-  final String pnr;
-  final String remarks;
-  final String ticket_address;
+  final String type;
+  final String details;
+  final double amount_paid;
+  final String receipt_details;
+  final String receipt_address;
   final String receipt_location;
   @override
-  _ItemState createState() => _ItemState();
+  _Item2State createState() => _Item2State();
 }
 
-class _ItemState extends State<Item> {
+class _Item2State extends State<Item2> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
@@ -73,28 +60,35 @@ class _ItemState extends State<Item> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
-                      padding: EdgeInsets.all(10),
-                      child: (() {
-                        if (widget.mot == "Train") {
-                          return Icon(
-                            Icons.train,
-                            color: Colors.indigo,
-                            size: 50,
-                          );
-                        } else if (widget.mot == "Roadways") {
-                          return Icon(
-                            Icons.add_road,
-                            color: Colors.indigo,
-                            size: 50,
-                          );
-                        } else if (widget.mot == "Airways") {
-                          return Icon(
-                            Icons.airplanemode_on_rounded,
-                            color: Colors.indigo,
-                            size: 50,
-                          );
-                        }
-                      }())),
+                    padding: EdgeInsets.all(10),
+                    child: (() {
+                      if (this.widget.type == "Accomodation") {
+                        return Icon(
+                          Icons.hotel,
+                          color: Colors.indigo,
+                          size: 50,
+                        );
+                      } else if (this.widget.type == "Food") {
+                        return Icon(
+                          Icons.food_bank,
+                          color: Colors.indigo,
+                          size: 50,
+                        );
+                      } else if (this.widget.type == "Insurance") {
+                        return Icon(
+                          Icons.ballot_rounded,
+                          color: Colors.indigo,
+                          size: 50,
+                        );
+                      } else if (this.widget.type == "Visa") {
+                        return Icon(
+                          Icons.wallet_travel,
+                          color: Colors.indigo,
+                          size: 50,
+                        );
+                      }
+                    }()),
+                  ),
                   Container(
                     margin: EdgeInsets.only(right: 10),
                     width: 1,
@@ -110,14 +104,12 @@ class _ItemState extends State<Item> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Travel',
+                              this.widget.type,
                               style: TextStyle(
                                   fontSize: 20, color: Colors.deepPurple),
                             ),
                             Text(
-                              this.widget.dep_station +
-                                  ' to ' +
-                                  this.widget.arr_station,
+                              this.widget.details,
                               style: TextStyle(color: Colors.black87),
                             ),
                           ],
@@ -130,11 +122,11 @@ class _ItemState extends State<Item> {
                     child: Column(
                       children: [
                         Text(
-                          '₹ ' + this.widget.fare.toString(),
+                          '₹ ' + this.widget.amount_paid.toString(),
                           style: TextStyle(fontSize: 20, color: Colors.blue),
                         ),
                         Text(
-                          this.widget.dep_date,
+                          this.widget.date,
                           style: TextStyle(color: Colors.black),
                         ),
                       ],
@@ -170,83 +162,6 @@ class _ItemState extends State<Item> {
                                 height: 1,
                                 color: Colors.blue,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      'Mode of Travel :',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(widget.mot),
-                                    Text(
-                                      'Distance :',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(widget.km.toString()),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 1,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          widget.dep_station,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
-                                              color: Colors.red),
-                                        ),
-                                      ),
-                                      Text('Dep. Date : ' + widget.dep_date),
-                                      Text('Dep. Time : ' + widget.dep_time),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          widget.arr_station,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
-                                              color: Colors.red),
-                                        ),
-                                      ),
-                                      Text('Arr. Date : ' + widget.arr_date),
-                                      Text('Arr. Time : ' + widget.arr_time),
-                                    ],
-                                  )
-                                ],
-                              ), // ,mot: ,km: ,pnr: ,remarks: ,ticket_address: ,receipt_location: ,
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 1,
-                                  color: Colors.blue,
-                                ),
-                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -254,12 +169,12 @@ class _ItemState extends State<Item> {
                                   Column(
                                     children: [
                                       Text(
-                                        'Remarks',
+                                        'Receipt Details',
                                         style: TextStyle(
                                             color: Colors.deepPurple,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(widget.remarks),
+                                      Text(widget.receipt_details),
                                     ],
                                   ),
                                   Column(
@@ -270,7 +185,7 @@ class _ItemState extends State<Item> {
                                             color: Colors.deepPurple,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(widget.receipt_location),
+                                      Text(widget.receipt_address),
                                     ],
                                   ),
                                   // Text('Receipt : ' + widget.receipt_location),
@@ -331,9 +246,6 @@ class _ItemState extends State<Item> {
                                             onPressed: () {
                                               setState(() {
                                                 print("deleted");
-
-                                                Future<int> temp = deleteItem(
-                                                    this.widget.serial_number);
                                                 widget.callback();
                                               });
                                               Navigator.of(context).pop();

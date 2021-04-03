@@ -1,21 +1,43 @@
 class ItemClass {
-  String note;
-  String date;
-  String sign;
+  String title;
+  String sdate;
+  String edate;
   double amount;
-  ItemClass(String note, String date, String sign, double amount) {
-    this.note = note;
+  int fav;
+  int id;
+
+  ItemClass(
+      {int id,
+      String title,
+      String sdate,
+      String edate,
+      double amount,
+      int fav}) {
+    this.id = id;
+    this.title = title;
     this.amount = amount;
-    this.date = date;
-    this.sign = sign;
+    this.sdate = sdate;
+    this.edate = edate;
+    this.fav = fav;
   }
-  Map<String,dynamic> tomap()
-  {
+
+  Map<String, dynamic> tomap() {
     return {
-      "note":note,
-      "date":date,
-      "sign":sign,
-      "amount":amount
+      "note": title,
+      "sdate": sdate,
+      "edate": edate,
+      "amount": amount,
+      "fav": fav
     };
+  }
+
+  factory ItemClass.fromJson(Map<String, dynamic> json) {
+    return ItemClass(
+      title: json['title'] as String,
+      sdate: json['sdate'] as String,
+      edate: json['edate'] as String,
+      amount: json['amount'] as double,
+      fav: json['fav'] as int,
+    );
   }
 }
