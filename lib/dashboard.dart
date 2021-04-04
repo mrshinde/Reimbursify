@@ -73,12 +73,12 @@ class _dashboardState extends State<dashboard> {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Profile(dummy)),
+        MaterialPageRoute(builder: (context) => YourTrip()),
       );
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => YourTrip()),
+        MaterialPageRoute(builder: (context) => Profile(dummy)),
       );
     }
   }

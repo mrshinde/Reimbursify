@@ -37,17 +37,23 @@ class _TempState extends State<Temp> {
   @override
   Widget build(BuildContext context) {
     tripclass trip;
-    getTripById(widget.trip_id).then((value) {
+    print(this.widget.trip_id);
+    // Future<tripclass> = getTripById(this.widget.trip)
+    getTripById(this.widget.trip_id).then((value) {
       trip = value;
     });
-    while (true) {
-      if (trip != null) break;
+    print("reached here too");
+    print(trip);
+    if (trip != null) {
+      expense = trip.total;
+      tripName = trip.title;
+      date = trip.start_date;
+    } else {
+      isTravelEmpty = true;
+      isOtherEmpty = true;
     }
-    expense = trip.total;
-    tripName = trip.title;
-    date = trip.start_date;
 
-    // print(a);
+    print("You fucking idiot");
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -285,214 +291,233 @@ class _TempState extends State<Temp> {
                           //   style: BorderStyle.solid,
                           // ),
                         ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(),
-                              (() {
-                                if (isSelected[0] == true ||
-                                    isSelected[1] == true) {
-                                  return StreamBuilder<
-                                          List<Map<dynamic, dynamic>>>(
-                                      stream: Stream.fromFuture(getElements(1)),
-                                      builder: (context,
-                                          AsyncSnapshot<
-                                                  List<Map<dynamic, dynamic>>>
-                                              snapshot) {
-                                        if (snapshot.hasData) {
-                                          isTravelEmpty = false;
-                                          return Column(
-                                            children: [
-                                              ListView.builder(
-                                                itemCount: snapshot.data.length,
-                                                primary: false,
-                                                shrinkWrap: true,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  print(snapshot.data[index]);
-                                                  // return Text('Hi');
-                                                  return new Item(
-                                                    snapshot.data[index]
-                                                        ["tripid"],
-                                                    snapshot.data[index]
-                                                        ["serial_number"],
-                                                    snapshot.data[index]
-                                                        ["dep_time"],
-                                                    snapshot.data[index]
-                                                        ["dep_date"],
-                                                    snapshot.data[index]
-                                                        ["dep_station"],
-                                                    snapshot.data[index]
-                                                        ["arr_time"],
-                                                    snapshot.data[index]
-                                                        ["arr_date"],
-                                                    snapshot.data[index]
-                                                        ["arr_station"],
-                                                    snapshot.data[index]["mot"],
-                                                    snapshot.data[index]["km"],
-                                                    snapshot.data[index]
-                                                        ["fare"],
-                                                    snapshot.data[index]["pnr"],
-                                                    snapshot.data[index]
-                                                        ["remarks"],
-                                                    snapshot.data[index]
-                                                        ["ticket_address"],
-                                                    snapshot.data[index]
-                                                        ["receipt_location"],
-                                                    callback1,
-                                                  );
-                                                },
+                        child: (() {
+                          if (trip != null) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Container(),
+                                  (() {
+                                    if (isSelected[0] == true ||
+                                        isSelected[1] == true) {
+                                      return StreamBuilder<
+                                              List<Map<dynamic, dynamic>>>(
+                                          stream:
+                                              Stream.fromFuture(getElements(1)),
+                                          builder: (context,
+                                              AsyncSnapshot<
+                                                      List<
+                                                          Map<dynamic,
+                                                              dynamic>>>
+                                                  snapshot) {
+                                            if (snapshot.hasData) {
+                                              isTravelEmpty = false;
+                                              return Column(
+                                                children: [
+                                                  ListView.builder(
+                                                    itemCount:
+                                                        snapshot.data.length,
+                                                    primary: false,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      print(
+                                                          snapshot.data[index]);
+                                                      // return Text('Hi');
+                                                      return new Item(
+                                                        snapshot.data[index]
+                                                            ["tripid"],
+                                                        snapshot.data[index]
+                                                            ["serial_number"],
+                                                        snapshot.data[index]
+                                                            ["dep_time"],
+                                                        snapshot.data[index]
+                                                            ["dep_date"],
+                                                        snapshot.data[index]
+                                                            ["dep_station"],
+                                                        snapshot.data[index]
+                                                            ["arr_time"],
+                                                        snapshot.data[index]
+                                                            ["arr_date"],
+                                                        snapshot.data[index]
+                                                            ["arr_station"],
+                                                        snapshot.data[index]
+                                                            ["mot"],
+                                                        snapshot.data[index]
+                                                            ["km"],
+                                                        snapshot.data[index]
+                                                            ["fare"],
+                                                        snapshot.data[index]
+                                                            ["pnr"],
+                                                        snapshot.data[index]
+                                                            ["remarks"],
+                                                        snapshot.data[index]
+                                                            ["ticket_address"],
+                                                        snapshot.data[index][
+                                                            "receipt_location"],
+                                                        callback1,
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            } else {
+                                              isTravelEmpty = true;
+                                              return Container();
+                                            }
+                                          });
+                                    } else {
+                                      return Container();
+                                    }
+                                  }()),
+                                  (() {
+                                    if (trip != null &&
+                                        (isSelected[0] == true ||
+                                            isSelected[2] == true)) {
+                                      return StreamBuilder<
+                                              List<Map<dynamic, dynamic>>>(
+                                          stream: Stream.fromFuture(
+                                              getElementsOtherExpense(1)),
+                                          builder: (context,
+                                              AsyncSnapshot<
+                                                      List<
+                                                          Map<dynamic,
+                                                              dynamic>>>
+                                                  snapshot) {
+                                            if (snapshot.hasData) {
+                                              // print("Hi in");
+                                              // print(isSelected);
+                                              isOtherEmpty = false;
+                                              return Column(
+                                                children: [
+                                                  ListView.builder(
+                                                    itemCount:
+                                                        snapshot.data.length,
+                                                    primary: false,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      print(
+                                                          snapshot.data[index]);
+                                                      return Item2(
+                                                          1,
+                                                          0,
+                                                          'Food',
+                                                          'Stay at IIT Bombay hostel',
+                                                          1000,
+                                                          'sdfgasdg',
+                                                          'GMail',
+                                                          'NA',
+                                                          '21-01-21',
+                                                          callback1);
+                                                      // return new Item2(
+                                                      //   snapshot.data[index]["tripid"],
+                                                      //   snapshot.data[index]
+                                                      //       ["serial_number"],
+                                                      //   snapshot.data[index]
+                                                      //       ["type"],
+                                                      //   snapshot.data[index]
+                                                      //       ["details"],
+                                                      //   snapshot.data[index]
+                                                      //       ["amount_paid"],
+                                                      //   snapshot.data[index]
+                                                      //       ["receipt_details"],
+                                                      //   snapshot.data[index]
+                                                      //       ["receipt_address"],
+                                                      //   snapshot.data[index]
+                                                      //       ["receipt_location"],
+                                                      //   snapshot.data[index]["date"],
+                                                      //   callback1,
+                                                      // );
+                                                    },
+                                                  ),
+                                                  Container(
+                                                    child: Image.network(
+                                                      'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                      height: 30,
+                                                      width: 30,
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            } else {
+                                              print("hi");
+                                              isOtherEmpty = true;
+                                              return Container();
+                                            }
+                                          });
+                                    } else {
+                                      return Container();
+                                    }
+                                  }()),
+                                  (() {
+                                    if (isSelected[0] == true) {
+                                      if (isOtherEmpty == true &&
+                                          isTravelEmpty == true) {
+                                        return Column(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(16),
+                                              child: Text(
+                                                'Welcome! You have created a new Trip.',
+                                                style: TextStyle(fontSize: 40),
                                               ),
-                                            ],
-                                          );
-                                        } else {
-                                          isTravelEmpty = true;
-                                          return Container();
-                                        }
-                                      });
-                                } else {
-                                  return Container();
-                                }
-                              }()),
-                              (() {
-                                if (isSelected[0] == true ||
-                                    isSelected[2] == true) {
-                                  return StreamBuilder<
-                                          List<Map<dynamic, dynamic>>>(
-                                      stream: Stream.fromFuture(
-                                          getElementsOtherExpense(1)),
-                                      builder: (context,
-                                          AsyncSnapshot<
-                                                  List<Map<dynamic, dynamic>>>
-                                              snapshot) {
-                                        if (snapshot.hasData) {
-                                          // print("Hi in");
-                                          // print(isSelected);
-                                          isOtherEmpty = false;
-                                          return Column(
-                                            children: [
-                                              ListView.builder(
-                                                itemCount: snapshot.data.length,
-                                                primary: false,
-                                                shrinkWrap: true,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  print(snapshot.data[index]);
-                                                  return Item2(
-                                                      1,
-                                                      0,
-                                                      'Food',
-                                                      'Stay at IIT Bombay hostel',
-                                                      1000,
-                                                      'sdfgasdg',
-                                                      'GMail',
-                                                      'NA',
-                                                      '21-01-21',
-                                                      callback1);
-                                                  // return new Item2(
-                                                  //   snapshot.data[index]["tripid"],
-                                                  //   snapshot.data[index]
-                                                  //       ["serial_number"],
-                                                  //   snapshot.data[index]
-                                                  //       ["type"],
-                                                  //   snapshot.data[index]
-                                                  //       ["details"],
-                                                  //   snapshot.data[index]
-                                                  //       ["amount_paid"],
-                                                  //   snapshot.data[index]
-                                                  //       ["receipt_details"],
-                                                  //   snapshot.data[index]
-                                                  //       ["receipt_address"],
-                                                  //   snapshot.data[index]
-                                                  //       ["receipt_location"],
-                                                  //   snapshot.data[index]["date"],
-                                                  //   callback1,
-                                                  // );
-                                                },
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(16),
+                                              child: Text(
+                                                'Add an Expense to view here',
+                                                style: TextStyle(fontSize: 20),
                                               ),
-                                              Container(
-                                                child: Image.network(
-                                                  'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
-                                                  height: 30,
-                                                  width: 30,
-                                                ),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    } else if (isSelected[1] == true) {
+                                      if (isTravelEmpty == true) {
+                                        return Column(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(16),
+                                              child: Text(
+                                                'Add a Travel Expense to view here',
+                                                style: TextStyle(fontSize: 20),
                                               ),
-                                            ],
-                                          );
-                                        } else {
-                                          print("hi");
-                                          isOtherEmpty = true;
-                                          return Container();
-                                        }
-                                      });
-                                } else {
-                                  return Container();
-                                }
-                              }()),
-                              (() {
-                                if (isSelected[0] == true) {
-                                  if (isOtherEmpty == true &&
-                                      isTravelEmpty == true) {
-                                    return Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(16),
-                                          child: Text(
-                                            'Welcome! You have created a new Trip.',
-                                            style: TextStyle(fontSize: 40),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.all(16),
-                                          child: Text(
-                                            'Add an Expense to view here',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                } else if (isSelected[1] == true) {
-                                  if (isTravelEmpty == true) {
-                                    return Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(16),
-                                          child: Text(
-                                            'Add a Travel Expense to view here',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                } else if (isSelected[2] == true) {
-                                  if (isOtherEmpty == true) {
-                                    return Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(16),
-                                          child: Text(
-                                            'Add a Non Travel expense to view here',
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                }
-                              }())
-                            ],
-                          ),
-                        ),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    } else if (isSelected[2] == true) {
+                                      if (isOtherEmpty == true) {
+                                        return Column(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(16),
+                                              child: Text(
+                                                'Add a Non Travel expense to view here',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    }
+                                  }())
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }()),
                       ),
                     ),
                   ],
