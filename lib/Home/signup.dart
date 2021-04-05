@@ -1,4 +1,3 @@
-
 // import 'package:tripmanager/Home/home.dart';
 import 'package:tripmanager/Home/mycards.dart';
 import 'package:tripmanager/Home/userinfo.dart';
@@ -6,8 +5,8 @@ import 'package:tripmanager/classes/profileclass.dart' as profclass;
 import 'package:tripmanager/classes/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 
-import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
 class Signup extends StatefulWidget {
   final User dummy;
   Signup(this.dummy);
@@ -17,7 +16,7 @@ class Signup extends StatefulWidget {
 }
 
 class _ProfileState extends State<Signup> {
-  String Uid="1";
+  String Uid = "1";
   //TextEditingController Uid = TextEditingController();
   TextEditingController Name = TextEditingController();
   TextEditingController Employee_code = TextEditingController();
@@ -31,9 +30,7 @@ class _ProfileState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       home: Scaffold(
-
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
           title: Text('Edit Profile'),
@@ -43,7 +40,6 @@ class _ProfileState extends State<Signup> {
               onPressed: () {
                 Navigator.pop(context);
               }),
-
         ),
         body: Column(
           children: [
@@ -53,13 +49,11 @@ class _ProfileState extends State<Signup> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.purple[200], Colors.purple[200]]
-                  ),
+                      colors: [Colors.purple[200], Colors.purple[200]]),
                 ),
                 child: Container(
                     width: double.infinity,
                     height: double.infinity,
-
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,8 +63,6 @@ class _ProfileState extends State<Signup> {
                           //
                           //                           radius: 50.0,
                           //                         ),
-
-
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -86,11 +78,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
-
-
+                              )),
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -98,7 +86,6 @@ class _ProfileState extends State<Signup> {
                                 controller: Employee_code,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
-
                                   labelText: 'Employee Code *',
                                 ),
                                 onSaved: (String value) {
@@ -106,10 +93,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
-
+                              )),
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -124,9 +108,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
+                              )),
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -141,9 +123,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
+                              )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
@@ -157,9 +137,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
+                              )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
@@ -173,9 +151,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
+                              )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
@@ -189,9 +165,7 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
+                              )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
@@ -205,15 +179,10 @@ class _ProfileState extends State<Signup> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String value) {},
-                              )
-
-                          ),
-
+                              )),
                         ],
                       ),
-                    )
-
-                ),
+                    )),
               ),
             )
           ],
@@ -223,7 +192,16 @@ class _ProfileState extends State<Signup> {
             onPressed: () {
               setState(() {
                 //deleteProfile(Uid);
-                updateProfile(Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text, Uid);
+                updateProfile(
+                    Name.text,
+                    Employee_code.text,
+                    Department.text,
+                    Designation.text,
+                    Grade_pay.text,
+                    Account_number.text,
+                    Ifsc_code.text,
+                    Google_account.text,
+                    Uid);
               });
               // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
 
@@ -232,7 +210,7 @@ class _ProfileState extends State<Signup> {
       ),
     );
   }
-}//backgroundColor: Colors.white,
+} //backgroundColor: Colors.white,
 //         body: Container(
 //           width: double.maxFinite,
 //           child: Column(
