@@ -2,12 +2,14 @@ import 'package:tripmanager/Home/additem.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/classes/user.dart';
+import 'package:tripmanager/addTrip.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:tripmanager/classes/itemclass.dart';
 import 'package:tripmanager/Home/newtrip.dart';
+
 
 final balance = 206;
 
@@ -35,6 +37,7 @@ String stringfun(String as) {
 }
 
 class _YourTripState extends State<YourTrip> {
+
   Future<String> _counter;
   Icon favicon = Icon(Icons.favorite_border);
   String dropdownValue = 'Select';
@@ -252,13 +255,18 @@ class _YourTripState extends State<YourTrip> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: Text(
-          "Add New Trip",
-          style: TextStyle(fontSize: 15),
-        ),
-        icon: Icon(Icons.add),
-        backgroundColor: Colors.orange,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (ct) {
+                return addTrip(callback1);
+              });
+        },
+        elevation: 15,
+        splashColor: Colors.blue,
+        backgroundColor: Colors.green,
+        icon: Icon(Icons.addchart_rounded),
+        label: Text("Add Trip"),
       ),
     );
   }
