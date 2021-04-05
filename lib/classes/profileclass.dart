@@ -3,6 +3,7 @@
 import 'package:tripmanager/database.dart';
 
 class Profile {
+  final String uid;//set to 1
   final String name;
   final String id; //employee code
   final String dep; //department
@@ -13,6 +14,7 @@ class Profile {
   final String google; //google account
 
   Profile({
+    this.uid,
     this.name,
     this.id,
     this.dep,
@@ -24,6 +26,7 @@ class Profile {
   });
   Map<String, dynamic> toMap() {
     final map = new Map<String, dynamic>();
+    map["uid"]=uid;
     map["name"] = name;
     // map["serial_number"] = serial_number;
     map["id"] = id;
@@ -38,6 +41,7 @@ class Profile {
   }
 
   fromMap(Map<String, dynamic> data) => new Profile(
+        uid: data['uid'],
         name: data['name'],
         id: data['id'],
         dep: data['dep'],
@@ -108,6 +112,7 @@ class Account {
 DatabaseHelper _databaseHelper = Injection.injector.get();
 // For Profile class
 Future<int> insertProfile(
+    String uid,
     String name,
     String id,
     String dep,
@@ -117,6 +122,7 @@ Future<int> insertProfile(
     String ifsc_code,
     String google) async {
   final todo = new Profile(
+    uid: uid,
     name: name,
     id: id,
     dep: dep,
@@ -126,6 +132,8 @@ Future<int> insertProfile(
     ifsc_code: ifsc_code,
     google: google,
   );
+
+
   //databaseHelper has been injected in the class
   int sn = await _databaseHelper.db.insert('profile', todo.toMap());
   print('Inserted');
@@ -133,10 +141,10 @@ Future<int> insertProfile(
   return sn;
 }
 
-Future<Map<dynamic, dynamic>> getProfileById(String id) async {
+Future<Map<dynamic, dynamic>> getProfileById(String uid) async {
   //databaseHelper has been injected in the class
   List<Map> list = await _databaseHelper.db
-      .rawQuery("Select * from  profile where id = ?", [id]);
+      .rawQuery("Select * from  profile where uid = ?", [uid]);
   if (list.length > 0) {
     return Profile().fromMap(list[0]);
   }
@@ -151,6 +159,22 @@ Future<List<Map<String, dynamic>>> getProfiles(String id) async {
     return list;
   }
   return null;
+}
+
+Future<int> updateProfile(String uid,String id, String name, String dep, String designation,
+    String grade_pay, String acc_number, String ifsc_code, String google ) async {
+  return await _databaseHelper.db.rawUpdate('''
+    UPDATE profile 
+    SET id = ?
+    SET name = ?,
+    SET dep =?,
+    SET designation =?,
+    SET grade_pay =?,
+    SET acc_number =?,
+    SET ifsc_code =?,
+    SET google =?,
+    WHERE uid = ?
+    ''', [id,name,dep,designation,grade_pay,acc_number,ifsc_code,google,uid]);
 }
 
 Future<int> deleteProfile(String id) async {
