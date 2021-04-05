@@ -56,10 +56,10 @@ class _TempState extends State<Temp> {
               child: CircularProgressIndicator(),
             );
           } else {
-            expense = snapshot.data.total;
-            tripName = snapshot.data.title;
+            expense = 1023; //snapshot.data.total;
+            // tripName = snapshot.data.title;
             date = snapshot.data.start_date;
-            lastModified = snapshot.data.last_modified;
+            lastModified = '06-04-2021'; //snapshot.data.last_modified;
             return SafeArea(
               child: Column(
                 children: [
@@ -640,10 +640,10 @@ class _TempState extends State<Temp> {
                                           if (isSelected[0] == true) {
                                             if (isOtherEmpty == true &&
                                                 isTravelEmpty == true) {
-                                              Future.delayed(Duration.zero,
-                                                  () => callback1());
-                                              WidgetsFlutterBinding
-                                                  .ensureInitialized();
+                                              // Future.delayed(Duration.zero,
+                                              // () => callback1());
+                                              // WidgetsFlutterBinding
+                                              // .ensureInitiali     zed();
                                               return Column(
                                                 children: [
                                                   Container(

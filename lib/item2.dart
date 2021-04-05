@@ -276,7 +276,7 @@ class _Item2State extends State<Item2> {
                                         context: context,
                                         builder: (ct) {
                                           return editOtherForm(
-                                              widget.serial_number);
+                                              widget.serial_number, context);
                                         });
                                   }),
                               IconButton(
