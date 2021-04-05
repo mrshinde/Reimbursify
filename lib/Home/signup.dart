@@ -1,11 +1,12 @@
 // import 'package:tripmanager/Home/home.dart';
 import 'package:tripmanager/Home/mycards.dart';
 import 'package:tripmanager/Home/userinfo.dart';
+import 'package:tripmanager/classes/profileclass.dart' as profclass;
 import 'package:tripmanager/classes/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tripmanager/Home/profileclass.dart';
 
+import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
 class Signup extends StatefulWidget {
   final User dummy;
   Signup(this.dummy);
@@ -15,19 +16,23 @@ class Signup extends StatefulWidget {
 }
 
 class _ProfileState extends State<Signup> {
-  TextEditingController name = TextEditingController();
-  TextEditingController employee_code = TextEditingController();
-  TextEditingController department = TextEditingController();
-  TextEditingController designation = TextEditingController();
+  String Uid="1";
+  //TextEditingController Uid = TextEditingController();
+  TextEditingController Name = TextEditingController();
+  TextEditingController Employee_code = TextEditingController();
+  TextEditingController Department = TextEditingController();
+  TextEditingController Designation = TextEditingController();
+  TextEditingController Grade_pay = TextEditingController();
+  TextEditingController Account_number = TextEditingController();
+  TextEditingController Ifsc_code = TextEditingController();
+  TextEditingController Google_account = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Text("Submit"),
-          backgroundColor: Colors.deepPurple,
-        ),
+
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
           title: Text('Edit Profile'),
@@ -37,6 +42,7 @@ class _ProfileState extends State<Signup> {
               onPressed: () {
                 Navigator.pop(context);
               }),
+
         ),
         body: Column(
           children: [
@@ -46,11 +52,13 @@ class _ProfileState extends State<Signup> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.purple[200], Colors.purple[200]]),
+                      colors: [Colors.purple[200], Colors.purple[200]]
+                  ),
                 ),
                 child: Container(
                     width: double.infinity,
                     height: double.infinity,
+
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,10 +69,12 @@ class _ProfileState extends State<Signup> {
                           //                           radius: 50.0,
                           //                         ),
 
+
+
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
-                                controller: name,
+                                controller: Name,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   //hintText: 'What do people call you?',
@@ -74,34 +84,36 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
+
+
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Employee_code,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
+
                                   labelText: 'Employee Code *',
                                 ),
                                 onSaved: (String value) {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
+
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Department,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   labelText: 'Department *',
@@ -110,16 +122,15 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
 
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Designation,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   labelText: 'Designation *',
@@ -128,15 +139,14 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Grade_pay,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   labelText: 'Grade Pay *',
@@ -145,15 +155,14 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Account_number,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   labelText: 'Account Number *',
@@ -162,15 +171,14 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Ifsc_code,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   labelText: 'Ifsc Code *',
@@ -179,15 +187,14 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
                           FractionallySizedBox(
                               widthFactor: 0.9,
                               child: TextFormField(
+                                controller: Google_account,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   labelText: 'Google Account *',
@@ -196,24 +203,31 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
-                                },
-                              )),
+                                validator: (String value) {},
+                              )
+
+                          ),
+
                         ],
                       ),
-                    )),
+                    )
+
+                ),
               ),
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.check),
+            onPressed: () {
+              insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
+
+              Navigator.pop(context, "Your profile has been saved.");
+            }),
       ),
     );
   }
-}
-//backgroundColor: Colors.white,
+}//backgroundColor: Colors.white,
 //         body: Container(
 //           width: double.maxFinite,
 //           child: Column(

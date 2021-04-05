@@ -39,6 +39,8 @@ class DatabaseHelper {
         'CREATE TABLE otherexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,receipt_details TEXT,receipt_address TEXT,receipt_location TEXT)');
     await db.execute(
         'CREATE TABLE trip (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, start_date TEXT, end_date TEXT, complete INTEGER, total REAL, fav INTEGER, note TEXT, budget_head TEXT, last_modified TEXT, advance REAL, archive INTEGER)');
+    await db.execute(
+        'CREATE TABLE profile (uid TEXT, name TEXT, id TEXT, dep TEXT ,designation TEXT, grade_pay TEXT, acc_number TEXT, ifsc_code TEXT,google TEXT)');
   }
 }
 

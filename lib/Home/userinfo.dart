@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/Home/profile.dart';
-import 'package:tripmanager/Home/profileclass.dart';
+import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
 
 class userinfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+   // insertProfile("1", "blank", "blank", "blank", "blank", "blank", "blank", "blank", "blank");
+
     Map<dynamic, dynamic> user_profile;
     getProfileById("1").then((value) {
       user_profile = value;
     });
     while (true) {
       if (user_profile != null) break;
+      else{
+        insertProfile("1", "blank", "blank", "blank", "blank", "blank", "blank", "blank", "blank");
+        getProfileById("1").then((value) {
+          user_profile = value;
+        });
+        break;
+      }
     }
-
+    String uid=user_profile["uid"];
     String name = user_profile["name"];
     String employee_code = user_profile["id"];
     String department = user_profile["dep"];
