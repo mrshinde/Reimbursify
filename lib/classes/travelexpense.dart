@@ -125,7 +125,8 @@ Future<Travel> getItemById(int id) async {
 
 Future<List<Map<String, dynamic>>> getElements(int id) async {
   //databaseHelper has been injected in the class
-  List<Map> list = await _databaseHelper.db.rawQuery("Select * from travel");
+  List<Map> list = await _databaseHelper.db
+      .rawQuery("Select * from travel where tripid = ?", [id]);
   print(list.length);
   if (list.length > 0) {
     return list;

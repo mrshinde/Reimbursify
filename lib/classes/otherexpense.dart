@@ -81,8 +81,8 @@ Future<OtherExpense> getItemByIdOtherExpense(int id) async {
 
 Future<List<Map<String, dynamic>>> getElementsOtherExpense(int id) async {
   //databaseHelper has been injected in the class
-  List<Map> list =
-      await _databaseHelper.db.rawQuery("Select * from otherexpense");
+  List<Map> list = await _databaseHelper.db
+      .rawQuery("Select * from otherexpense where tripid = ?", [id]);
   print(list.length);
   if (list.length > 0) {
     return list;
