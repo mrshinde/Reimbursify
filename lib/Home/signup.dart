@@ -220,7 +220,11 @@ class _ProfileState extends State<Signup> {
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.check),
             onPressed: () {
-              insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
+              setState(() {
+                //deleteProfile(Uid);
+                updateProfile(Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text, Uid);
+              });
+             // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
 
               Navigator.pop(context, "Your profile has been saved.");
             }),

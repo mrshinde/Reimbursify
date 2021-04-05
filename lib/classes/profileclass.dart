@@ -1,9 +1,9 @@
 //import 'dart:html';
 
 import 'package:tripmanager/database.dart';
-
+import 'package:tripmanager/classes/profileclass.dart';
 class Profile {
-  final String uid;//set to 1
+  final String uid; //set to 1
   final String name;
   final String id; //employee code
   final String dep; //department
@@ -26,7 +26,7 @@ class Profile {
   });
   Map<String, dynamic> toMap() {
     final map = new Map<String, dynamic>();
-    map["uid"]=uid;
+    map["uid"] = uid;
     map["name"] = name;
     // map["serial_number"] = serial_number;
     map["id"] = id;
@@ -133,7 +133,6 @@ Future<int> insertProfile(
     google: google,
   );
 
-
   //databaseHelper has been injected in the class
   int sn = await _databaseHelper.db.insert('profile', todo.toMap());
   print('Inserted');
@@ -141,19 +140,9 @@ Future<int> insertProfile(
   return sn;
 }
 
-Future<Map<dynamic, dynamic>> getProfileById(String uid) async {
-  //databaseHelper has been injected in the class
-  List<Map> list = await _databaseHelper.db
-      .rawQuery("Select * from  profile where uid = ?", [uid]);
-  if (list.length > 0) {
-    return Profile().fromMap(list[0]);
-  }
-  return null;
-}
-
 Future<List<Map<String, dynamic>>> getProfiles(String id) async {
   //databaseHelper has been injected in the class
-  List<Map> list = await _databaseHelper.db.rawQuery("Select * from profile");
+  List<Map> list = await _databaseHelper.db.rawQuery("Select * from profile where uid=?",[id]);
   print(list.length);
   if (list.length > 0) {
     return list;
@@ -161,25 +150,23 @@ Future<List<Map<String, dynamic>>> getProfiles(String id) async {
   return null;
 }
 
-Future<int> updateProfile(String uid,String id, String name, String dep, String designation,
-    String grade_pay, String acc_number, String ifsc_code, String google ) async {
-  return await _databaseHelper.db.rawUpdate('''
-    UPDATE profile 
-    SET id = ?
-    SET name = ?,
-    SET dep =?,
-    SET designation =?,
-    SET grade_pay =?,
-    SET acc_number =?,
-    SET ifsc_code =?,
-    SET google =?,
-    WHERE uid = ?
-    ''', [id,name,dep,designation,grade_pay,acc_number,ifsc_code,google,uid]);
+Future<int> updateProfile(
+    String name,
+    String id,
+    String dep,
+    String designation,
+    String grade_pay,
+    String acc_number,
+    String ifsc_code,
+    String google,
+    String uid) async {
+  return await _databaseHelper.db.rawUpdate('UPDATE profile SET name = ?, id = ?, dep =?, designation =?, grade_pay =?, acc_number =?, ifsc_code =?, google =? WHERE uid = ?',
+      [name, id, dep, designation, grade_pay, acc_number, ifsc_code, google, uid]);
 }
 
 Future<int> deleteProfile(String id) async {
   return await _databaseHelper.db
-      .delete("profile", where: "id = ?", whereArgs: [id]);
+      .delete("profile", where: "uid = ?", whereArgs: [id]);
 }
 
 // For Card class
@@ -265,4 +252,17 @@ Future<List<Map<String, dynamic>>> getAccounts(String number) async {
 Future<int> deleteAccount(String acc_number) async {
   return await _databaseHelper.db
       .delete("account", where: "acc_number = ?", whereArgs: [acc_number]);
+}
+
+Future<Profile> getProfileById(String uid) async {
+  //databaseHelper has been injected in the class
+
+  print("test");
+  List<Map> list = await _databaseHelper.db
+      .rawQuery("Select * from  profile where uid = ?", [uid]);
+  print(list[0]);
+  if (list.length > 0) {
+    return Profile().fromMap(list[0]);
+  }
+  return null;
 }
