@@ -5,6 +5,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import './classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
+import './classes/personal.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage(this.trip_id, this.callback);
@@ -302,9 +303,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Map<String, dynamic> travelMap = new Map<String, dynamic>();
                   travelMap['tripid'] = widget.trip_id;
                   travelMap['dep_time'] =
-                      '${departureDate.hour.toString()} : ${departureDate.minute.toString()}';
+                      '${departureDate.hour.toString()}:${departureDate.minute.toString()}';
                   travelMap['dep_date'] =
-                      '${departureDate.day.toString()}-${departureDate.month.toString()}-${departureDate.year.toString()}';
+                      '${departureDate.year.toString()}-${departureDate.month.toString()}-${departureDate.date.toString()}';
                   travelMap['dep_station'] = departurePlace;
                   travelMap['arr_time'] =
                       '${arrivalDate.hour.toString()} : ${arrivalDate.minute.toString()}';
@@ -346,7 +347,9 @@ class _MyHomePageState extends State<MyHomePage> {
           amount_paid,
           receipt_details,
           receipt_address,
-          receipt_location;
+          receipt_location,
+          dateOfExpense,
+          dateString;
       var tripid = 1;
       setState(() {
         travelDetails = Form(
@@ -410,6 +413,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               SizedBox(height: 10),
+              Row(children: [
+                Expanded(
+                  child: DateTimePicker(
+                    type: DateTimePickerType.date,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                    initialDate: DateTime.now(),
+                    dateLabelText: 'Date of Expense',
+                    onChanged: (value) {
+                      dateOfExpense = DateTime.parse(value);
+                      dateString = value;
+                    },
+                  ),
+                  flex: 1,
+                )
+              ]),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -433,6 +453,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       onChanged: (value) {
                         amount_paid = double.parse(amount_paid);
+                        print(amount_paid);
                       },
                     ),
                     flex: 2,
@@ -518,7 +539,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         amount_paid,
                         receipt_details,
                         receipt_address,
-                        receipt_location);
+                        receipt_location,
+                        dateString);
                     widget.callback();
                   },
                   child: Text('Send')),
@@ -531,8 +553,9 @@ class _MyHomePageState extends State<MyHomePage> {
           details,
           amount_paid,
           receipt_details,
-          receipt_address,
-          receipt_location;
+          dateOfExpense,
+          dateString,
+          timeString;
       type = 'Other';
       var tripid = 1;
       setState(() {
@@ -557,6 +580,23 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             SizedBox(height: 10),
+            Row(children: [
+              Expanded(
+                child: DateTimePicker(
+                  type: DateTimePickerType.date,
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2100),
+                  initialDate: DateTime.now(),
+                  dateLabelText: 'Date of Expense',
+                  onChanged: (value) {
+                    dateOfExpense = DateTime.parse(value);
+                    dateString = value;
+                  },
+                ),
+                flex: 1,
+              )
+            ]),
+            SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
@@ -575,76 +615,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: SizedBox(),
                   flex: 1,
                 ),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(),
-                      labelText: 'Enter Receipt Number / GSTIN',
-                    ),
-                    onChanged: (value) {
-                      receipt_details = value;
-                    },
-                  ),
-                  flex: 2,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField(
-                    items: [
-                      DropdownMenuItem(
-                        child: Text('Local'),
-                        value: 0,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('GMail'),
-                        value: 1,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('Google Drive'),
-                        value: 2,
-                      ),
-                    ],
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(),
-                      labelText: 'Where is the receipt saved?',
-                    ),
-                    onChanged: (value) {
-                      switch (value) {
-                        case 0:
-                          receipt_address = 'Local';
-                          break;
-                        case 1:
-                          receipt_address = 'GMail';
-                          break;
-                        case 2:
-                          receipt_address = 'Google Drive';
-                      }
-                    },
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          FilePickerResult result = await FilePicker.platform
-                              .pickFiles(type: FileType.any);
-                          receipt_location = result.paths.first;
-                        },
-                        child: Text('Select Receipt Location'),
-                      ),
-                    )),
               ],
             ),
             ElevatedButton(
                 onPressed: () async {
-                  insertOtherExpense(tripid, type, details, amount_paid,
-                      receipt_details, receipt_address, receipt_location);
+                  insertPersonalExpense(
+                      widget.trip_id, type, details, amount_paid, dateString);
                   Navigator.pop(context);
                 },
                 child: Text('Send')),
@@ -724,8 +700,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             items: [
                               DropdownMenuItem(child: Text('Travel'), value: 0),
                               DropdownMenuItem(
-                                  child: Text('Personal'), value: 1),
-                              DropdownMenuItem(child: Text("Others"), value: 2)
+                                  child: Text('Other Expenses'), value: 1),
+                              DropdownMenuItem(
+                                  child: Text("Personal"), value: 2)
                             ],
                           ),
                         ],
