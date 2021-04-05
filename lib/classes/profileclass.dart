@@ -41,16 +41,16 @@ class Profile {
   }
 
   fromMap(Map<String, dynamic> data) => new Profile(
-        uid: data['uid'],
-        name: data['name'],
-        id: data['id'],
-        dep: data['dep'],
-        designation: data['designation'],
-        grade_pay: data['grade_pay'],
-        acc_number: data['acc_number'],
-        ifsc_code: data['ifsc_code'],
-        google: data['google'],
-      );
+    uid: data['uid'],
+    name: data['name'],
+    id: data['id'],
+    dep: data['dep'],
+    designation: data['designation'],
+    grade_pay: data['grade_pay'],
+    acc_number: data['acc_number'],
+    ifsc_code: data['ifsc_code'],
+    google: data['google'],
+  );
 }
 
 class PaymentCard {
@@ -69,10 +69,10 @@ class PaymentCard {
   }
 
   fromMap(Map<String, dynamic> data) => new PaymentCard(
-        type: data['type'],
-        number: data['number'],
-        acc_number: data['acc_number'],
-      );
+    type: data['type'],
+    number: data['number'],
+    acc_number: data['acc_number'],
+  );
 }
 
 class Account {
@@ -84,10 +84,10 @@ class Account {
 
   Account(
       {this.acc_number,
-      this.ifsc_code,
-      this.branch_name,
-      this.bank_name,
-      this.name});
+        this.ifsc_code,
+        this.branch_name,
+        this.bank_name,
+        this.name});
 
   Map<String, dynamic> toMap() {
     final map = new Map<String, dynamic>();
@@ -101,12 +101,12 @@ class Account {
   }
 
   fromMap(Map<String, dynamic> data) => new Account(
-        acc_number: data['acc_number'],
-        ifsc_code: data['ifsc_code'],
-        branch_name: data['branch_name'],
-        bank_name: data['bank_name'],
-        name: data['name'],
-      );
+    acc_number: data['acc_number'],
+    ifsc_code: data['ifsc_code'],
+    branch_name: data['branch_name'],
+    bank_name: data['bank_name'],
+    name: data['name'],
+  );
 }
 
 DatabaseHelper _databaseHelper = Injection.injector.get();
@@ -210,12 +210,12 @@ Future<int> deleteCard(String number) async {
 
 // For Account class
 Future<int> insertAccount(
-  String acc_number,
-  String ifsc_code,
-  String branch_name,
-  String bank_name,
-  String name,
-) async {
+    String acc_number,
+    String ifsc_code,
+    String branch_name,
+    String bank_name,
+    String name,
+    ) async {
   final todo = new Account(
       acc_number: acc_number,
       ifsc_code: ifsc_code,
