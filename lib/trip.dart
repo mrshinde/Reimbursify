@@ -145,7 +145,7 @@ class _YourTripState extends State<YourTrip> {
             Expanded(
               child: SingleChildScrollView(
                 child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                    stream: Stream.fromFuture(getTripElements(1)),
+                    stream: Stream.fromFuture(getTripElements()),
                     builder: (context,
                         AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
                       if (snapshot.hasData) {

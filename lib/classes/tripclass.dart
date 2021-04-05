@@ -101,7 +101,7 @@ Future<tripclass> getTripById(int id) async {
   return null;
 }
 
-Future<List<Map<String, dynamic>>> getTripElements(int id) async {
+Future<List<Map<String, dynamic>>> getTripElements() async {
   //databaseHelper has been injected in the class
   List<Map> list = await _databaseHelper.db.rawQuery("Select * from trip");
   print(list.length);

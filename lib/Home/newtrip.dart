@@ -44,7 +44,7 @@ class _TripState extends State<Trip> {
         print(widget.id);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Temp(1)),
+          MaterialPageRoute(builder: (context) => Temp(widget.id)),
         );
       },
       child: Container(
