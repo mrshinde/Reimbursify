@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
+import 'package:tripmanager/edit.dart';
 
 import '../temp.dart';
+
+final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
 // tripid:,serial_number:,dep_time: ,dep_date: ,dep_station: ,arr_time: ,arr_date: ,arr_station: ,mot: ,km: ,fare: ,pnr: ,remarks: ,ticket_address: ,receipt_location: ,
 
@@ -270,7 +273,7 @@ class _ItemState extends State<Item> {
                                             color: Colors.deepPurple,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(widget.receipt_location),
+                                      Text(widget.ticket_address),
                                     ],
                                   ),
                                   // Text('Receipt : ' + widget.receipt_location),
@@ -331,7 +334,8 @@ class _ItemState extends State<Item> {
                                             onPressed: () {
                                               setState(() {
                                                 print("deleted");
-
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
                                                 Future<int> temp = deleteItem(
                                                     this.widget.serial_number);
                                                 widget.callback();
@@ -350,7 +354,14 @@ class _ItemState extends State<Item> {
                                     Icons.edit_outlined,
                                     color: Colors.white,
                                   ),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (ct) {
+                                          return editTravelForm(
+                                              widget.serial_number);
+                                        });
+                                  }),
                               IconButton(
                                   icon: Icon(Icons.attachment),
                                   onPressed: () {}),

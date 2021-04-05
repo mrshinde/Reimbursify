@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tripmanager/Home/additem.dart';
 import 'package:tripmanager/addexpense.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
+import 'package:tripmanager/classes/personal.dart';
 import 'package:tripmanager/item2.dart';
 import 'classes/tripclass.dart';
 import 'classes/itemclass.dart';
@@ -25,6 +26,7 @@ class Temp extends StatefulWidget {
 class _TempState extends State<Temp> {
   callback1() {
     setState(() {});
+    // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   double expense = 2200;
@@ -32,7 +34,7 @@ class _TempState extends State<Temp> {
   String date = '09/03/2021';
   String lastModified = 'NA';
 
-  List<bool> isSelected = [true, false, false];
+  List<bool> isSelected = [true, false, false, false];
   bool isTravelEmpty = true;
   bool isOtherEmpty = true;
   Future<tripclass> _tripinstance;
@@ -41,7 +43,6 @@ class _TempState extends State<Temp> {
     // SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {}));
     _tripinstance = getTripById(this.widget.trip_id);
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -283,6 +284,48 @@ class _TempState extends State<Temp> {
                                     }
                                   }()),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: (() {
+                                    if (isSelected[3] == true) {
+                                      return RaisedButton(
+                                        elevation: 5,
+                                        color: Colors.purple,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        onPressed: () {},
+                                        child: Text(
+                                          'Personal',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      );
+                                    } else {
+                                      return RaisedButton(
+                                        elevation: 5,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.purple, width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        onPressed: () {
+                                          setState(() {
+                                            isSelected[3] = false;
+                                            isSelected[1] = false;
+                                            isSelected[2] = false;
+                                            isSelected[0] = false;
+                                          });
+                                        },
+                                        child: Text(
+                                          'Personal',
+                                          style:
+                                              TextStyle(color: Colors.purple),
+                                        ),
+                                      );
+                                    }
+                                  }()),
+                                ),
                               ],
                             ),
                           ),
@@ -432,36 +475,49 @@ class _TempState extends State<Temp> {
                                                                   int index) {
                                                             print(snapshot
                                                                 .data[index]);
-                                                            return Item2(
-                                                                1,
-                                                                0,
-                                                                'Food',
-                                                                'Stay at IIT Bombay hostel',
-                                                                1000,
-                                                                'sdfgasdg',
-                                                                'GMail',
-                                                                'NA',
-                                                                '21-01-21',
-                                                                callback1);
-                                                            // return new Item2(
-                                                            //   snapshot.data[index]["tripid"],
-                                                            //   snapshot.data[index]
-                                                            //       ["serial_number"],
-                                                            //   snapshot.data[index]
-                                                            //       ["type"],
-                                                            //   snapshot.data[index]
-                                                            //       ["details"],
-                                                            //   snapshot.data[index]
-                                                            //       ["amount_paid"],
-                                                            //   snapshot.data[index]
-                                                            //       ["receipt_details"],
-                                                            //   snapshot.data[index]
-                                                            //       ["receipt_address"],
-                                                            //   snapshot.data[index]
-                                                            //       ["receipt_location"],
-                                                            //   snapshot.data[index]["date"],
-                                                            //   callback1,
-                                                            // );
+                                                            // return Item2(
+                                                            //     1,
+                                                            //     0,
+                                                            //     'Food',
+                                                            //     'Stay at IIT Bombay hostel',
+                                                            //     1000,
+                                                            //     'sdfgasdg',
+                                                            //     'GMail',
+                                                            //     'NA',
+                                                            //     '21-01-21',
+                                                            //     callback1);
+                                                            print(
+                                                                snapshot.data);
+                                                            return new Item2(
+                                                              snapshot.data[
+                                                                      index]
+                                                                  ["tripid"],
+                                                              snapshot.data[
+                                                                      index][
+                                                                  "serial_number"],
+                                                              snapshot.data[
+                                                                      index]
+                                                                  ["type"],
+                                                              snapshot.data[
+                                                                      index]
+                                                                  ["details"],
+                                                              snapshot.data[
+                                                                      index][
+                                                                  "amount_paid"],
+                                                              snapshot.data[
+                                                                      index][
+                                                                  "receipt_details"],
+                                                              snapshot.data[
+                                                                      index][
+                                                                  "receipt_location"],
+                                                              snapshot.data[
+                                                                      index][
+                                                                  "receipt_address"],
+                                                              snapshot.data[
+                                                                      index]
+                                                                  ["date"],
+                                                              callback1,
+                                                            );
                                                           },
                                                         ),
                                                         Container(
@@ -484,12 +540,110 @@ class _TempState extends State<Temp> {
                                           }
                                         }()),
                                         (() {
+                                          //PErsonal
+                                          if ((isSelected[0] == true ||
+                                              isSelected[2] == true)) {
+                                            return StreamBuilder<
+                                                    List<
+                                                        Map<dynamic, dynamic>>>(
+                                                stream: Stream.fromFuture(
+                                                    getElementsPersonalExpense(
+                                                        widget.trip_id)),
+                                                builder: (context,
+                                                    AsyncSnapshot<
+                                                            List<
+                                                                Map<dynamic,
+                                                                    dynamic>>>
+                                                        snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    // print("Hi in");
+                                                    // print(isSelected);
+                                                    // isOtherEmpty = false;
+                                                    return Column(
+                                                      children: [
+                                                        ListView.builder(
+                                                          itemCount: snapshot
+                                                              .data.length,
+                                                          primary: false,
+                                                          shrinkWrap: true,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            print(snapshot
+                                                                .data[index]);
+                                                            return Item2(
+                                                                1,
+                                                                0,
+                                                                'Food',
+                                                                'Stay at IIT Bombay hostel',
+                                                                1000,
+                                                                'sdfgasdg',
+                                                                'GMail',
+                                                                'NA',
+                                                                '21-01-21',
+                                                                callback1);
+                                                            // print(
+                                                            //     snapshot.data);
+                                                            // return new Item2(
+                                                            //   snapshot.data[
+                                                            //           index]
+                                                            //       ["tripid"],
+                                                            //   snapshot.data[
+                                                            //           index][
+                                                            //       "serial_number"],
+                                                            //   snapshot.data[
+                                                            //           index]
+                                                            //       ["type"],
+                                                            //   snapshot.data[
+                                                            //           index]
+                                                            //       ["details"],
+                                                            //   snapshot.data[
+                                                            //           index][
+                                                            //       "amount_paid"],
+                                                            //   snapshot.data[
+                                                            //           index][
+                                                            //       "receipt_details"],
+                                                            //   snapshot.data[
+                                                            //           index][
+                                                            //       "receipt_location"],
+                                                            //   snapshot.data[
+                                                            //           index][
+                                                            //       "receipt_address"],
+                                                            //   snapshot.data[
+                                                            //           index]
+                                                            //       ["date"],
+                                                            //   callback1,
+                                                            // );
+                                                          },
+                                                        ),
+                                                        Container(
+                                                          child: Image.network(
+                                                            'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                            height: 30,
+                                                            width: 30,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  } else {
+                                                    print("hi");
+                                                    // isOtherEmpty = true;
+                                                    return Container();
+                                                  }
+                                                });
+                                          } else {
+                                            return Container();
+                                          }
+                                        }()),
+                                        (() {
                                           if (isSelected[0] == true) {
                                             if (isOtherEmpty == true &&
                                                 isTravelEmpty == true) {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback(
-                                                      (_) => setState(() {}));
+                                              Future.delayed(Duration.zero,
+                                                  () => callback1());
+                                              WidgetsFlutterBinding
+                                                  .ensureInitialized();
                                               return Column(
                                                 children: [
                                                   Container(

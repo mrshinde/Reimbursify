@@ -40,7 +40,7 @@ class DatabaseHelper {
     await db.execute(
         'CREATE TABLE trip (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, start_date TEXT, end_date TEXT, complete INTEGER, total REAL, fav INTEGER, note TEXT, budget_head TEXT, last_modified TEXT, advance REAL, archive INTEGER)');
     await db.execute(
-        'CREATE TABLE profile (uid TEXT PRIMARY KEY, name TEXT, id TEXT, dep TEXT ,designation TEXT, grade_pay TEXT, acc_number TEXT, ifsc_code TEXT,google TEXT)');
+        'CREATE TABLE profile (uid TEXT, name TEXT, id TEXT, dep TEXT ,designation TEXT, grade_pay TEXT, acc_number TEXT, ifsc_code TEXT,google TEXT)');
   }
 }
 

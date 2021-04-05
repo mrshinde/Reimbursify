@@ -4,7 +4,7 @@ import 'package:tripmanager/Home/userinfo.dart';
 import 'package:tripmanager/classes/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 import 'package:tripmanager/dashboard.dart';
 
 class Profile extends StatefulWidget {

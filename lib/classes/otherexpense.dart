@@ -9,6 +9,7 @@ class OtherExpense {
   final String receipt_details;
   final String receipt_address;
   final String receipt_location;
+  final String date;
 
   OtherExpense(
       {this.tripid,
@@ -18,7 +19,8 @@ class OtherExpense {
       this.amount_paid,
       this.receipt_details,
       this.receipt_address,
-      this.receipt_location});
+      this.receipt_location,
+      this.date});
 
   Map<String, dynamic> toMap() {
     final map = new Map<String, dynamic>();
@@ -30,18 +32,21 @@ class OtherExpense {
     map["receipt_details"] = receipt_details;
     map["receipt_address"] = receipt_address;
     map["receipt_location"] = receipt_location;
+    map["date"] = date;
     return map;
   }
 
   fromMap(Map<String, dynamic> data) => new OtherExpense(
-      tripid: data['tripid'],
-      serial_number: data['serial_number'],
-      type: data["type"],
-      details: data["details"],
-      amount_paid: data["amount_paid"],
-      receipt_details: data["receipt_details"],
-      receipt_address: data["receipt_address"],
-      receipt_location: data["receipt_location"]);
+        tripid: data['tripid'],
+        serial_number: data['serial_number'],
+        type: data["type"],
+        details: data["details"],
+        amount_paid: data["amount_paid"],
+        receipt_details: data["receipt_details"],
+        receipt_address: data["receipt_address"],
+        receipt_location: data["receipt_location"],
+        date: data["date"],
+      );
 }
 
 DatabaseHelper _databaseHelper = Injection.injector.get();
@@ -53,15 +58,18 @@ Future<int> insertOtherExpense(
     double amount_paid,
     String receipt_details,
     String receipt_address,
-    String receipt_location) async {
+    String receipt_location,
+    String date) async {
   final todo = new OtherExpense(
-      tripid: tripid,
-      type: type,
-      details: details,
-      amount_paid: amount_paid,
-      receipt_details: receipt_details,
-      receipt_address: receipt_address,
-      receipt_location: receipt_location);
+    tripid: tripid,
+    type: type,
+    details: details,
+    amount_paid: amount_paid,
+    receipt_details: receipt_details,
+    receipt_address: receipt_address,
+    receipt_location: receipt_location,
+    date: date,
+  );
   //databaseHelper has been injected in the class
   int sn = await _databaseHelper.db.insert('otherexpense', todo.toMap());
   print('Inserted');
@@ -96,14 +104,16 @@ Future<int> deleteItemOtherExpense(int id) async {
 }
 
 Future<int> updateOtherExpense(
-    int id,
-    int tripid,
-    String type,
-    String details,
-    double amount_paid,
-    String receipt_details,
-    String receipt_address,
-    String receipt_location) async {
+  int id,
+  int tripid,
+  String type,
+  String details,
+  double amount_paid,
+  String receipt_details,
+  String receipt_address,
+  String receipt_location,
+  String date,
+) async {
   final todo = new OtherExpense(
       tripid: tripid,
       type: type,
@@ -111,7 +121,8 @@ Future<int> updateOtherExpense(
       amount_paid: amount_paid,
       receipt_details: receipt_details,
       receipt_address: receipt_address,
-      receipt_location: receipt_location);
+      receipt_location: receipt_location,
+      date: date);
   //databaseHelper has been injected in the class
   int sn = await _databaseHelper.db.update('OtherExpense', todo.toMap(),
       where: "serial_number = ?", whereArgs: [id]);
