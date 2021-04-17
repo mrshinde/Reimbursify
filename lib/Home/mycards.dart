@@ -28,7 +28,7 @@ class _mycardstate extends State<Mycards> {
               MaterialPageRoute(builder: (context) => Editcards()),
             );
           },
-          child: Text("Edit"),
+          child: Text("Add card"),
           backgroundColor: Colors.deepPurple,
         ),
         appBar: AppBar(
