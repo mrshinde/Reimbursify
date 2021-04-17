@@ -5,14 +5,14 @@ import 'package:tripmanager/classes/profileclass.dart';
 
 class FormClass{
   int tripid;
-  List<Map<String, dynamic>> travelExpenses;
-  List<Map<String, dynamic>> otherExpenses;
-  Map<String, dynamic> tripInfo;
-  Map<String, dynamic> profile;
+  Future<List<Map<String, dynamic>>> travelExpenses;
+  Future<List<Map<String, dynamic>>> otherExpenses;
+  Future<tripclass> tripInfo;
+  Future<Profile> profile;
   FormClass(this.tripid){
-    getElementsOtherExpense(this.tripid).then((value){this.otherExpenses = value;});
-    getElements(this.tripid).then((value){this.travelExpenses = value;});
-    getProfileById('1').then((value){this.profile = value.toMap();});
-    getTripById(this.tripid).then((value){this.tripInfo = value.tomap();});
+    otherExpenses = getElementsOtherExpense(this.tripid);
+    travelExpenses = getElements(this.tripid);
+    profile = getProfileById('1');
+    tripInfo = getTripById(this.tripid);
   }
 }
