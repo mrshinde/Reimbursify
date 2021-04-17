@@ -5,6 +5,14 @@ import 'package:tripmanager/classes/user.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:tripmanager/classes/itemclass.dart';
 import 'package:tripmanager/trip.dart';
+import 'package:share/share.dart';
+import 'dart:io' as io;
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as pth;
+import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 
 class dashboard extends StatefulWidget {
   @override
@@ -31,21 +39,9 @@ ScrollController _controller;
 
 class _dashboardState extends State<dashboard> {
   int _selectedIndex = 0;
+   String path;
+  List <String> databasePaths = [];
 
-  _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        //you can do anything here
-      });
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        //you can do anything here
-      });
-    }
-  }
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -88,13 +84,27 @@ class _dashboardState extends State<dashboard> {
       temporary = newList;
     });
   }
+  
+    _onShare(BuildContext context) async {
+    // final RenderBox box = context.findRenderObject() as RenderBox;
+    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    path = pth.join(documentsDirectory.path, "reimbursement1.db");
+    databasePaths.clear();
+    databasePaths.add(path);
+    print(databasePaths);
 
-  @override
-  void initState() {
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener); //the listener for up and down.
-    super.initState();
+    if (databasePaths.isNotEmpty) {
+      await Share.shareFiles(databasePaths,
+          text: "reimbursment1.db",
+          subject: "subject");
+          // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    } else {
+      await Share.share("reimbursment1.db",
+          subject: "subject");
+          // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +151,40 @@ class _dashboardState extends State<dashboard> {
             SizedBox(
               height: 5,
             ),
+            
+             Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                      title: Text('Back Up your Data'),
+                      onTap: () => _onShare(context),
+                  ),
+                ),
+                Expanded(
+                    child: ListTile(
+                      title: Text('Import Database'),
+                      onTap: ()async{
+                        FilePickerResult result = await FilePicker.platform.pickFiles();
+                        List<io.File> files = result.paths.map((path) => io.File(path)).toList();
+
+                        io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
+                        path = pth.join(documentsDirectory.path, "reimbursement1.db");
+
+                        await deleteDatabase(path);
+
+                        Uint8List data = await files[0].readAsBytes();
+                        List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+                        await io.File(path).writeAsBytes(bytes);
+
+                        io.Directory documentsDirectorya = await getApplicationDocumentsDirectory();
+                        print(documentsDirectorya);
+                      },
+                    )
+                )
+              ],
+            ),
+            
+            
             Container(
                 alignment: Alignment.centerLeft,
                 child: Text("Your Recent Trips -",
