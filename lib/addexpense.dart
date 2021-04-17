@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../database.dart';
+import 'package:tripmanager/database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import './classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
