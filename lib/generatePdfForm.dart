@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-Future<int> createPdf(int tripid) async{
+Future<int> createPdf(int tripid) async {
   FormClass form = FormClass(tripid);
   List<Map<String, dynamic>> travelExpenses = await form.travelExpenses;
   List<Map<String, dynamic>> otherExpenses = await form.otherExpenses;
@@ -20,29 +20,33 @@ Future<int> createPdf(int tripid) async{
     title: tripInfo.title + tripInfo.start_date,
   );
 
-  final iit_logo = (await rootBundle.load('assets/iit.png')).buffer.asUint8List();
+  final iit_logo =
+      (await rootBundle.load('assets/iit.png')).buffer.asUint8List();
 
-  pdf.addPage(
-    pw.MultiPage(
-      pageFormat: PdfPageFormat.a4,
-      build: (pw.Context context){
-        return <pw.Widget>[
-          createHeader(iit_logo),
-        ];
-      },
-    )
-  );
+  pdf.addPage(pw.MultiPage(
+    pageFormat: PdfPageFormat.a4,
+    build: (pw.Context context) {
+      return <pw.Widget>[
+        createHeader(iit_logo),
+      ];
+    },
+  ));
   Directory directoryPath = await getApplicationDocumentsDirectory();
   String docPath = directoryPath.path;
   print(docPath);
   var targetName = tripInfo.title + tripInfo.start_date;
   File filename = File('$docPath/$targetName.pdf');
-  pdf.save().then((value){filename.writeAsBytesSync(value);});
+  pdf.save().then((value) {
+    filename.writeAsBytesSync(value);
+  });
 }
 
-pw.Widget createHeader(var imgData){
+pw.Widget createHeader(var imgData) {
   return pw.Table(
-    columnWidths: {0: pw.FractionColumnWidth(0.2), 1: pw.FractionColumnWidth(0.8)},
+    columnWidths: {
+      0: pw.FractionColumnWidth(0.2),
+      1: pw.FractionColumnWidth(0.8)
+    },
     children: <pw.TableRow>[
       pw.TableRow(
         children: <pw.Widget>[
@@ -51,5 +55,26 @@ pw.Widget createHeader(var imgData){
         ],
       ),
     ],
+  );
+}
+
+pw.Widget createTable() {
+  return pw.Container(
+    child: pw.Table(
+        border:
+            pw.TableBorder.all(width: 1.0, color: PdfColor.fromHex('#000000')),
+        children: <pw.TableRow>[
+          pw.TableRow(
+            children: <pw.Widget>[
+              pw.Text('Departure'),
+              pw.Text('Arrival'),
+              pw.Text('Mode (Train/Road/Air)'),
+              pw.Text('KM'),
+              pw.Text('Fare'),
+              pw.Text('PNR No/Ticket No'),
+              pw.Text('Remarks'),
+            ],
+          )
+        ]),
   );
 }
