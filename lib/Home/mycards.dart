@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 import 'package:tripmanager/Home/editcards.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:tripmanager/Home/editcards.dart';
+import 'package:tripmanager/classes/user.dart';
+import 'package:tripmanager/temp.dart';
 
-class mycards extends StatelessWidget {
+class Mycards extends StatefulWidget {
+  //final User dummy;
+  Mycards();
+  @override
+  _mycardstate createState() => _mycardstate();
+}
+class _mycardstate extends State<Mycards> {
   String type = "Debit Card";
   String cardnumber = "348492034";
   String account_number = '12345678';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Editcards()),
+            );
+          },
           child: Text("Edit"),
           backgroundColor: Colors.deepPurple,
         ),
@@ -40,95 +54,62 @@ class mycards extends StatelessWidget {
                 child: Container(
                     width: double.infinity,
                     height: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 50.0,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "Mohit Shinde",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "IIT ROPAR",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Card Type: " +
-                                          type +
-                                          "\nCard Number: " +
-                                          cardnumber +
-                                          "\nAccount Number: " +
-                                          account_number,
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        color: Colors.deepPurple[800],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Card Type: " +
-                                          "Credit Card" +
-                                          "\nCard Number: " +
-                                          "4839027348" +
-                                          "\nAccount Number: " +
-                                          "4980928340",
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        color: Colors.deepPurple[800],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: StreamBuilder<List<Map<dynamic, dynamic>>>(
+                      stream: Stream.fromFuture(getCards()),
+                      builder: (context, AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
+                        if(snapshot.hasData) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ListView.builder(
+                                itemCount: snapshot.data.length,
+                                primary: false,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext ctxt, int index) {
+                                  print(snapshot.data[index]);
+                                  // return Text('Hi');
+
+                                    return Container(
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                  color: Colors.red[500],
+                                                ),
+                                                borderRadius: BorderRadius.all(Radius.circular(20))),
+                                            child: ListTile(
+
+                                              leading:Text(
+                                                  snapshot.data[index]["type"],
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ) ,
+                                              ) ,
+                                              title: Text(snapshot.data[index]["number"],
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                ) ,
+                                              ),
+                                              subtitle:Text(snapshot.data[index]["acc_number"],
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                ) ,
+                                              ),
+                                            ),
+                                          );
+
+                                },
+                              )
+
+                            ],
+                          );
+                        }
+                        else{
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }
                     )),
               ),
             )
