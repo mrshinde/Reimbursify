@@ -122,7 +122,7 @@ class _ProfileState extends State<Profile> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => mycards()),
+                                    builder: (context) => Mycards()),
                               );
                             },
                             child: Text("My Cards"),

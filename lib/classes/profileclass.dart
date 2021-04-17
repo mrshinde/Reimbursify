@@ -177,7 +177,7 @@ Future<int> insertCard(String type, String number, String acc_number) async {
     acc_number: acc_number,
   );
   //databaseHelper has been injected in the class
-  int sn = await _databaseHelper.db.insert('card', todo.toMap());
+  int sn = await _databaseHelper.db.insert('PaymentCard', todo.toMap());
   print('Inserted');
   print(sn);
   return sn;
@@ -186,16 +186,16 @@ Future<int> insertCard(String type, String number, String acc_number) async {
 Future<int> getCardByNumber(String number) async {
   //databaseHelper has been injected in the class
   List<Map> list = await _databaseHelper.db
-      .rawQuery("Select * from  card where number = ?", [number]);
+      .rawQuery("Select * from  paymentCard where number = ?", [number]);
   if (list.length > 0) {
     return PaymentCard().fromMap(list[0]);
   }
   return null;
 }
 
-Future<List<Map<String, dynamic>>> getCards(String number) async {
+Future<List<Map<String, dynamic>>> getCards() async {
   //databaseHelper has been injected in the class
-  List<Map> list = await _databaseHelper.db.rawQuery("Select * from card");
+  List<Map> list = await _databaseHelper.db.rawQuery("Select * from PaymentCard");
   print(list.length);
   if (list.length > 0) {
     return list;
@@ -205,7 +205,7 @@ Future<List<Map<String, dynamic>>> getCards(String number) async {
 
 Future<int> deleteCard(String number) async {
   return await _databaseHelper.db
-      .delete("card", where: "number = ?", whereArgs: [number]);
+      .delete("PaymentCard", where: "number = ?", whereArgs: [number]);
 }
 
 // For Account class

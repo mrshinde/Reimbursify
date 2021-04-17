@@ -41,6 +41,10 @@ class DatabaseHelper {
         'CREATE TABLE trip (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, start_date TEXT, end_date TEXT, complete INTEGER, total REAL, fav INTEGER, note TEXT, budget_head TEXT, last_modified TEXT, advance REAL, archive INTEGER)');
     await db.execute(
         'CREATE TABLE profile (uid TEXT PRIMARY KEY, name TEXT, id TEXT, dep TEXT ,designation TEXT, grade_pay TEXT, acc_number TEXT, ifsc_code TEXT,google TEXT)');
+    await db.execute(
+        'CREATE TABLE PaymentCard (type TEXT , number TEXT PRIMARY KEY, acc_number TEXT)');
+    await db.execute(
+        'INSERT INTO profile (uid , name , id , dep  ,designation , grade_pay , acc_number , ifsc_code ,google ) VALUES(\'1\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\'  )');
   }
 }
 
