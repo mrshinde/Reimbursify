@@ -3,7 +3,7 @@ import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
 import 'package:tripmanager/edit.dart';
 
-import '../temp.dart';
+import 'package:tripmanager/temp.dart';
 
 final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
@@ -66,7 +66,7 @@ class _Item2State extends State<Item2> {
                   Container(
                     padding: EdgeInsets.all(10),
                     child: (() {
-                      if (this.widget.type == "Accomodation") {
+                      if (this.widget.type == "Stay") {
                         return Icon(
                           Icons.hotel,
                           color: Colors.indigo,
@@ -276,7 +276,7 @@ class _Item2State extends State<Item2> {
                                         context: context,
                                         builder: (ct) {
                                           return editOtherForm(
-                                              widget.serial_number);
+                                              widget.serial_number, context);
                                         });
                                   }),
                               IconButton(

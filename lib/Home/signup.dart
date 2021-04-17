@@ -7,7 +7,7 @@ import 'package:tripmanager/classes/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 class Signup extends StatefulWidget {
   final User dummy;
   Signup(this.dummy);

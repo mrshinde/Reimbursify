@@ -111,6 +111,18 @@ Future<List<Map<String, dynamic>>> getTripElements() async {
   return null;
 }
 
+Future<List<Map<String, dynamic>>> getTripbySearch(String titl) async {
+  //databaseHelper has been injected in the class
+  List<Map> list = await _databaseHelper.db.rawQuery("SELECT * FROM trip WHERE title LIKE '%$titl%';");;
+  print("Length of List ") ;
+  print(list.length);
+  if (list.length > 0) {
+    return list;
+  }
+  return null;
+}
+
+
 Future<int> deleteTrip(int id) async {
   return await _databaseHelper.db
       .delete("trip", where: "id = ?", whereArgs: [id]);

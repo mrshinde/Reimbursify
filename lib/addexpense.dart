@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../database.dart';
+import 'package:tripmanager/database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import './classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
@@ -302,15 +302,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Map<String, dynamic> travelMap = new Map<String, dynamic>();
                   travelMap['tripid'] = widget.trip_id;
+                  var temp = departureDate.toString().split(" ");
+
                   travelMap['dep_time'] =
-                      '${departureDate.hour.toString()}:${departureDate.minute.toString()}';
-                  travelMap['dep_date'] =
-                      '${departureDate.year.toString()}-${departureDate.month.toString()}-${departureDate.date.toString()}';
+                      temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                  travelMap['dep_date'] = temp[0];
                   travelMap['dep_station'] = departurePlace;
+                  temp = arrivalDate.toString().split(" ");
                   travelMap['arr_time'] =
-                      '${arrivalDate.hour.toString()} : ${arrivalDate.minute.toString()}';
-                  travelMap['arr_date'] =
-                      '${arrivalDate.day.toString()}-${arrivalDate.month.toString()}-${arrivalDate.year.toString()}';
+                      temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                  travelMap['arr_date'] = temp[0];
                   travelMap['arr_station'] = arrivalPlace;
                   travelMap['mot'] = mode;
                   travelMap['km'] = km;
@@ -452,7 +453,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         labelText: 'Amount Paid',
                       ),
                       onChanged: (value) {
-                        amount_paid = double.parse(amount_paid);
+                        amount_paid = double.parse(value);
                         print(amount_paid);
                       },
                     ),
@@ -542,6 +543,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         receipt_location,
                         dateString);
                     widget.callback();
+                    Navigator.pop(context);
                   },
                   child: Text('Send')),
             ],
@@ -606,7 +608,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: 'Amount Paid',
                     ),
                     onChanged: (value) {
-                      amount_paid = double.parse(amount_paid);
+                      amount_paid = double.parse(value);
                     },
                   ),
                   flex: 2,

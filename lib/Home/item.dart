@@ -117,6 +117,13 @@ class _ItemState extends State<Item> {
                               style: TextStyle(
                                   fontSize: 20, color: Colors.deepPurple),
                             ),
+                            (() {
+                              print("Hi23435");
+                              print(this.widget.dep_station);
+                              print("Hsdfasdf");
+                              print(this.widget.arr_station);
+                              return Container();
+                            }()),
                             Text(
                               this.widget.dep_station +
                                   ' to ' +
@@ -359,7 +366,29 @@ class _ItemState extends State<Item> {
                                         context: context,
                                         builder: (ct) {
                                           return editTravelForm(
-                                              widget.serial_number);
+                                              widget.serial_number,
+                                              ct,
+                                              Travel(
+                                                  tripid: widget.tripid,
+                                                  serial_number:
+                                                      widget.serial_number,
+                                                  dep_time: widget.dep_time,
+                                                  dep_date: widget.dep_date,
+                                                  dep_station:
+                                                      widget.dep_station,
+                                                  arr_time: widget.arr_time,
+                                                  arr_date: widget.arr_date,
+                                                  arr_station:
+                                                      widget.arr_station,
+                                                  mot: widget.mot,
+                                                  km: widget.km,
+                                                  fare: widget.fare,
+                                                  pnr: widget.pnr,
+                                                  remarks: widget.remarks,
+                                                  ticket_address:
+                                                      widget.ticket_address,
+                                                  receipt_location:
+                                                      widget.receipt_location));
                                         });
                                   }),
                               IconButton(

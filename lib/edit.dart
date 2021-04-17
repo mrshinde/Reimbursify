@@ -6,11 +6,12 @@ import 'package:date_time_picker/date_time_picker.dart';
 import './classes/otherexpense.dart';
 import './classes/personal.dart';
 
-Widget editTravelForm(int id) {
-  Travel dataMap;
-  getItemById(id).then((value) {
-    dataMap = value;
-  });
+Widget editTravelForm(int id, BuildContext context, Travel travelinstance) {
+  Travel dataMap = travelinstance;
+  print(dataMap.toMap());
+  // getItemById(id).then((value) {
+  // dataMap = value;
+  // });
   var arrivalPlace,
       receiptLocation,
       arrivalDate,
@@ -222,7 +223,7 @@ Widget editTravelForm(int id) {
                         ),
                         Expanded(
                           child: TextFormField(
-                            initialValue: km,
+                            initialValue: km.toString(),
                             decoration: InputDecoration(
                               labelText: 'Enter KM travelled',
                               prefixIcon: Icon(Icons.add_road),
@@ -241,7 +242,7 @@ Widget editTravelForm(int id) {
                       Row(children: <Widget>[
                         Expanded(
                           child: TextFormField(
-                            initialValue: fare,
+                            initialValue: fare.toString(),
                             decoration: InputDecoration(
                               labelText: 'Enter Fare',
                               prefixIcon: Icon(Icons.money),
@@ -342,15 +343,18 @@ Widget editTravelForm(int id) {
                             Map<String, dynamic> travelMap =
                                 new Map<String, dynamic>();
                             travelMap['tripid'] = trip_id;
-                            travelMap['dep_time'] =
-                                '${departureDate.hour.toString()}:${departureDate.minute.toString()}';
-                            travelMap['dep_date'] =
-                                '${departureDate.year.toString()}-${departureDate.month.toString()}-${departureDate.day.toString()}}';
+                            var temp = departureDate.toString().split(" ");
+
+                            travelMap['dep_time'] = temp[1].split(":")[0] +
+                                ":" +
+                                temp[1].split(":")[1];
+                            travelMap['dep_date'] = temp[0];
                             travelMap['dep_station'] = departurePlace;
-                            travelMap['arr_time'] =
-                                '${arrivalDate.hour.toString()}:${arrivalDate.minute.toString()}';
-                            travelMap['arr_date'] =
-                                '${arrivalDate.year.toString()}-${arrivalDate.month.toString()}-${arrivalDate.day.toString()}}';
+                            temp = arrivalDate.toString().split(" ");
+                            travelMap['arr_time'] = temp[1].split(":")[0] +
+                                ":" +
+                                temp[1].split(":")[1];
+                            travelMap['arr_date'] = temp[0];
                             travelMap['arr_station'] = arrivalPlace;
                             travelMap['mot'] = mode;
                             travelMap['km'] = km;
@@ -375,6 +379,7 @@ Widget editTravelForm(int id) {
                                 travelMap['remarks'],
                                 travelMap['ticket_address'],
                                 travelMap['receipt_location']);
+                            Navigator.pop(context);
                           })
                     ],
                   ))
@@ -388,7 +393,8 @@ Widget editTravelForm(int id) {
   );
 }
 
-Widget editOtherForm(int id) {
+Widget editOtherForm(int id, BuildContext context) {
+  print("Navneet's Wish");
   OtherExpense dataMap;
   getItemByIdOtherExpense(id).then(
     (value) => dataMap = value,
@@ -543,7 +549,7 @@ Widget editOtherForm(int id) {
                                   labelText: 'Amount Paid',
                                 ),
                                 onChanged: (value) {
-                                  amount_paid = double.parse(amount_paid);
+                                  amount_paid = double.parse(value);
                                 },
                               ),
                               flex: 2,
@@ -650,7 +656,7 @@ Widget editOtherForm(int id) {
   );
 }
 
-Widget editPersonalForm(int id) {
+Widget editPersonalForm(int id, BuildContext context) {
   PersonalExpense dataMap;
   getItemByIdPersonalExpense(id).then((value) {
     dataMap = value;
@@ -729,7 +735,7 @@ Widget editPersonalForm(int id) {
                                 labelText: 'Amount Paid',
                               ),
                               onChanged: (value) {
-                                amount_paid = double.parse(amount_paid);
+                                amount_paid = double.parse(value);
                               },
                             ),
                             flex: 2,
@@ -740,6 +746,7 @@ Widget editPersonalForm(int id) {
                           onPressed: () async {
                             updatePersonalExpense(id, tripid, type, details,
                                 amount_paid, dateString);
+                            Navigator.of(context, rootNavigator: true).pop();
                           },
                           child: Text('Send')),
                     ],
