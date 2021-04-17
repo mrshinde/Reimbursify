@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 import 'dart:async';
 import 'package:tripmanager/database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -6,11 +7,13 @@ import './classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
 import './classes/personal.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage(this.trip_id, this.callback);
   Function() callback;
   final int trip_id;
+  List<Map<String, dynamic>> listOfCards;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -22,13 +25,21 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState(){
+    getCards().then((value){
+      listOfCards = value;
+    });
+    return _MyHomePageState();
+  }
 }
+
+int _selected_card;
 
 class _MyHomePageState extends State<MyHomePage> {
   Form travelform;
   Form travelDetails;
   final myFuture = Future.delayed(Duration(seconds: 3), () => 12);
+  Widget cardsTile;
 
   buildFormView(val) {
     if (val == 0) {
@@ -297,10 +308,22 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 10,
             ),
+            Expanded(
+              flex:1,
+              child: cardsTile,
+            ),
             ElevatedButton(
                 child: Text('Send'),
                 onPressed: () {
                   Map<String, dynamic> travelMap = new Map<String, dynamic>();
+                  Map<String, dynamic> card = widget.listOfCards[_selected_card];
+                  String new_comment = "Payment made through card which has type: " +
+                      card["type"].toString() +
+                      ", account number: " +
+                      card["account"].toString() +
+                      ", card number: " +
+                      card["number"] +
+                      ";"+additional_comments;
                   travelMap['tripid'] = widget.trip_id;
                   var temp = departureDate.toString().split(" ");
 
@@ -317,7 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   travelMap['km'] = km;
                   travelMap['fare'] = fare;
                   travelMap['pnr'] = ticket_no;
-                  travelMap['remarks'] = additional_comments;
+                  travelMap['remarks'] = new_comment;
                   travelMap['receipt_location'] = receiptLocation;
                   travelMap['ticket_address'] = ticketAddress;
                   insertTravelExpense(
@@ -531,6 +554,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )),
                 ],
               ),
+              
               ElevatedButton(
                   onPressed: () async {
                     insertOtherExpense(
@@ -646,6 +670,19 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    setState((){
+      cardsTile = ListView.builder(
+        itemBuilder: (context, index){
+          return RadioListTile(
+            value: index,
+            groupValue: _selected_card,
+            onChanged: (i){_selected_card = i;},
+            title: Text(widget.listOfCards[index]['number']),
+            subtitle: Text('Type: ${widget.listOfCards[index]['type']}, AC no : ${widget.listOfCards[index]['acc_number']}')
+          );
+        },
+      );
+    });
     return Padding(
       padding: const EdgeInsets.only(top: 40),
       child: Dialog(

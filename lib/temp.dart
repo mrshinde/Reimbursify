@@ -133,7 +133,7 @@ class _TempState extends State<Temp> {
                                     Icons.edit,
                                     color: Colors.black,
                                   ),
-                                  onPressed: (){
+                                  onPressed: () {
                                     /* TODO: Implement the Button function */
                                   },
                                 ),
@@ -367,7 +367,9 @@ class _TempState extends State<Temp> {
                                                           Map<dynamic,
                                                               dynamic>>>
                                                   snapshot) {
-                                            if (snapshot.hasData) {
+                                            if (snapshot.hasData &&
+                                                snapshot.connectionState ==
+                                                    ConnectionState.done) {
                                               isTravelEmpty = false;
                                               return Column(
                                                 children: [
@@ -443,7 +445,9 @@ class _TempState extends State<Temp> {
                                                           Map<dynamic,
                                                               dynamic>>>
                                                   snapshot) {
-                                            if (snapshot.hasData) {
+                                            if (snapshot.hasData &&
+                                                snapshot.connectionState ==
+                                                    ConnectionState.done) {
                                               // print("Hi in");
                                               // print(isSelected);
                                               isOtherEmpty = false;
@@ -554,7 +558,10 @@ class _TempState extends State<Temp> {
                                                           Map<dynamic,
                                                               dynamic>>>
                                                   snapshot) {
-                                            if (snapshot.hasData) {
+                                            print(snapshot.connectionState);
+                                            if (snapshot.hasData &&
+                                                snapshot.connectionState ==
+                                                    ConnectionState.done) {
                                               // isTravelEmpty = false;
                                               return Column(
                                                 children: [
@@ -648,7 +655,9 @@ class _TempState extends State<Temp> {
                                                           Map<dynamic,
                                                               dynamic>>>
                                                   snap) {
-                                            if (snap.hasData) {
+                                            if (snap.hasData &&
+                                                snap.connectionState ==
+                                                    ConnectionState.done) {
                                               print("Hi in dsfdsaf");
                                               print(snap.data);
                                               // print(isSelected);
@@ -733,7 +742,9 @@ class _TempState extends State<Temp> {
                                                           Map<dynamic,
                                                               dynamic>>>
                                                   snapshot) {
-                                            if (snapshot.hasData) {
+                                            if (snapshot.hasData &&
+                                                snapshot.connectionState ==
+                                                    ConnectionState.done) {
                                               // print("Hi in");
                                               // print(isSelected);
                                               isPersonalEmpty = false;
