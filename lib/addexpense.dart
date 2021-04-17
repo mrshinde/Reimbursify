@@ -24,7 +24,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   @override
-  _MyHomePageState createState(){
+  _MyHomePageState createState() {
     return _MyHomePageState();
   }
 }
@@ -313,13 +313,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Map<String, dynamic> travelMap = new Map<String, dynamic>();
                   Map<String, dynamic> card = listOfCards[_selected_card];
-                  String new_comment = "Payment made through card which has type: " +
-                      card["type"].toString() +
-                      ", account number: " +
-                      card["account"].toString() +
-                      ", card number: " +
-                      card["number"] +
-                      ";"+additional_comments;
+                  String new_comment =
+                      "Payment made through card which has type: " +
+                          card["type"].toString() +
+                          ", account number: " +
+                          card["account"].toString() +
+                          ", card number: " +
+                          card["number"] +
+                          ";" +
+                          additional_comments;
                   travelMap['tripid'] = widget.trip_id;
                   var temp = departureDate.toString().split(" ");
 
@@ -550,7 +552,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )),
                 ],
               ),
-              
               ElevatedButton(
                   onPressed: () async {
                     insertOtherExpense(
@@ -655,7 +656,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    getCards().then((value){listOfCards = value;});
+    getCards().then((value) {
+      listOfCards = value;
+    });
     travelDetails = Form(child: Text(''));
   }
 
@@ -667,18 +670,21 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    setState((){
+    setState(() {
       cardsTile = ListView.builder(
         shrinkWrap: true,
         itemCount: listOfCards.length,
-        itemBuilder: (context, index){
+        itemBuilder: (context, index) {
           print('hEllo${listOfCards.length}');
           return RadioListTile(
             value: index,
             groupValue: _selected_card,
-            onChanged: (id){_selected_card = id;},
+            onChanged: (id) {
+              _selected_card = id;
+            },
             title: Text(listOfCards[index]['number']),
-            subtitle: Text('Type: ${listOfCards[index]['type']}, AC no : ${listOfCards[index]['acc_number']}'),
+            subtitle: Text(
+                'Type: ${listOfCards[index]['type']}, AC no : ${listOfCards[index]['acc_number']}'),
           );
         },
       );
