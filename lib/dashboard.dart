@@ -5,6 +5,14 @@ import 'package:tripmanager/classes/user.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:tripmanager/classes/itemclass.dart';
 import 'package:tripmanager/trip.dart';
+import 'package:share/share.dart';
+import 'dart:io' as io;
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as pth;
+import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
+// import 'package:flutter/services.dart';
 
 class dashboard extends StatefulWidget {
   @override
