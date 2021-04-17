@@ -105,12 +105,6 @@ class _dashboardState extends State<dashboard> {
     }
   }
 
-  @override
-  void initState() {
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener); //the listener for up and down.
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
