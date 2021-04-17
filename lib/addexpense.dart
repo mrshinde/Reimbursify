@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Form travelform;
   Form travelDetails;
   final myFuture = Future.delayed(Duration(seconds: 3), () => 12);
-  Widget cardsTile;
+  List<DropdownMenuItem> cardsTile;
 
   buildFormView(val) {
     if (val == 0) {
@@ -306,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 10,
             ),
             SafeArea(
-              child: cardsTile,
+              child: DropdownButton(items: cardsTile, onChanged:(id){_selected_card = id;},hint: Text('Select Mode of Payment')),
             ),
             ElevatedButton(
                 child: Text('Send'),
@@ -668,20 +668,15 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     setState((){
-      cardsTile = ListView.builder(
-        shrinkWrap: true,
-        itemCount: listOfCards.length,
-        itemBuilder: (context, index){
-          print('hEllo${listOfCards.length}');
-          return RadioListTile(
-            value: index,
-            groupValue: _selected_card,
-            onChanged: (id){_selected_card = id;},
-            title: Text(listOfCards[index]['number']),
-            subtitle: Text('Type: ${listOfCards[index]['type']}, AC no : ${listOfCards[index]['acc_number']}'),
-          );
-        },
-      );
+      var i = 0;
+      cardsTile = [];
+      while(i < listOfCards.length){
+          cardsTile.add(DropdownMenuItem(
+            value: i,
+            child: Text(listOfCards[i]['number'] + 'Type: ${listOfCards[i]['type']}, AC no : ${listOfCards[i]['acc_number']}'),
+          ));
+          i++;
+      }
     });
     return Padding(
       padding: const EdgeInsets.only(top: 40),
