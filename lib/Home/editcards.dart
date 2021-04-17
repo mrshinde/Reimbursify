@@ -33,7 +33,7 @@ class _CardState extends State<Editcards> {
 
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
-          title: Text('Edit Cards'),
+          title: Text('Add Cards'),
           centerTitle: true,
           leading: IconButton(
               icon: Icon(Icons.arrow_back),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 import 'dart:async';
 import 'package:tripmanager/database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
