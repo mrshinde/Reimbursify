@@ -60,27 +60,6 @@ class _YourTripState extends State<YourTrip> {
 
 
 
-   delete_trip(AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot, int index, BuildContext context) {
-      final snackBar = SnackBar(
-        content: Text('Item Deleted'),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            deleteTrip(
-                snapshot.data[index]["id"]);
-            // Some code to undo the change.
-          },
-        ),
-      );
-      ScaffoldMessenger.of(context)
-          .showSnackBar(snackBar);
-
-      setState(() {
-      // temporary.removeAt(index);
-      deleteTrip(snapshot.data[index]["id"]);
-      });
-    }
-
 
   // Future<int> a = insertTripExpense('Trip to dsf', '11/01/2020', '14/01/2021',
   //     1, 2353.00, 1, 'sdaf', 'asdf', '12/02/2020', 908.23, 0);
