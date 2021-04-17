@@ -103,9 +103,37 @@ class _mycardstate extends State<Mycards> {
                                                     IconButton(
                                                       icon: const Icon(Icons.delete),
                                                       onPressed: () {
-                                                        setState(() {
-                                                          deleteCard(snapshot.data[index]["number"]);
-                                                        });
+                                                        showDialog<void>(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                          false, // user must tap button!
+                                                          builder: (BuildContext context) {
+                                                            return AlertDialog(
+                                                              title: Text('Delete Card?'),
+                                                              content: Text(
+                                                                  'Do you want to delete the card?'),
+                                                              actions: <Widget>[
+                                                                TextButton(
+                                                                  child: Text('No'),
+                                                                  onPressed: () {
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                ),
+                                                                TextButton(
+                                                                  child: Text('Yes'),
+                                                                  onPressed: () {
+                                                                    setState(() {
+                                                                      print("deleted");
+                                                                      deleteCard(snapshot.data[index]["number"]);
+                                                                    });
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+
                                                       },
                                                     )
                                                   ],
