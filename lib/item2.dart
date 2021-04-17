@@ -66,7 +66,7 @@ class _Item2State extends State<Item2> {
                   Container(
                     padding: EdgeInsets.all(10),
                     child: (() {
-                      if (this.widget.type == "Accomodation") {
+                      if (this.widget.type == "Stay") {
                         return Icon(
                           Icons.hotel,
                           color: Colors.indigo,

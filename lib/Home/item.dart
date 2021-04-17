@@ -117,6 +117,13 @@ class _ItemState extends State<Item> {
                               style: TextStyle(
                                   fontSize: 20, color: Colors.deepPurple),
                             ),
+                            (() {
+                              print("Hi23435");
+                              print(this.widget.dep_station);
+                              print("Hsdfasdf");
+                              print(this.widget.arr_station);
+                              return Container();
+                            }()),
                             Text(
                               this.widget.dep_station +
                                   ' to ' +
