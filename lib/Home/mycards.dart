@@ -80,7 +80,7 @@ class _mycardstate extends State<Mycards> {
                                                 ),
                                                 borderRadius: BorderRadius.all(Radius.circular(20))),
                                             child: ListTile(
-
+                                              isThreeLine: true,
                                               leading:Text(
                                                   snapshot.data[index]["type"],
                                               style: TextStyle(
@@ -92,10 +92,22 @@ class _mycardstate extends State<Mycards> {
                                                   fontSize: 20,
                                                 ) ,
                                               ),
-                                              subtitle:Text(snapshot.data[index]["acc_number"],
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                ) ,
+                                              subtitle:Column(
+                                                children: [
+                                                  Text(snapshot.data[index]["acc_number"],
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                    ) ,
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(Icons.delete),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        deleteCard(snapshot.data[index]["number"]);
+                                                      });
+                                                    },
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           );
