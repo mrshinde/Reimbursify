@@ -307,12 +307,16 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 10,
             ),
+            Expanded(
+              flex:1,
+              child: cardsTile,
+            ),
             ElevatedButton(
                 child: Text('Send'),
                 onPressed: () {
                   Map<String, dynamic> travelMap = new Map<String, dynamic>();
                   Map<String, dynamic> card = widget.listOfCards[_selected_card];
-                  String new_comments = "Payment made through card which has type: " +
+                  String new_comment = "Payment made through card which has type: " +
                       card["type"].toString() +
                       ", account number: " +
                       card["account"].toString() +
@@ -335,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   travelMap['km'] = km;
                   travelMap['fare'] = fare;
                   travelMap['pnr'] = ticket_no;
-                  travelMap['remarks'] = new_comments;
+                  travelMap['remarks'] = new_comment;
                   travelMap['receipt_location'] = receiptLocation;
                   travelMap['ticket_address'] = ticketAddress;
                   insertTravelExpense(
