@@ -9,7 +9,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:tripmanager/classes/itemclass.dart';
 import 'package:tripmanager/Home/newtrip.dart';
-import 'package:flutter_search_bar/flutter_search_bar.dart';
 
 
 
