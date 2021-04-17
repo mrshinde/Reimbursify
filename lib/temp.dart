@@ -61,10 +61,10 @@ class _TempState extends State<Temp> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  expense = 1023; //snapshot.data.total;
-                  // tripName = snapshot.data.title;
+                  expense = snapshot.data.total;
+                  tripName = snapshot.data.title;
                   date = snapshot.data.start_date;
-                  lastModified = '06-04-2021'; //snapshot.data.last_modified;
+                  lastModified = snapshot.data.last_modified;
                   return Container(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
