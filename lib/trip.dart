@@ -9,6 +9,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:tripmanager/classes/itemclass.dart';
 import 'package:tripmanager/Home/newtrip.dart';
+import 'package:flutter_search_bar/flutter_search_bar.dart';
+
 
 
 final balance = 206;
@@ -41,8 +43,11 @@ class _YourTripState extends State<YourTrip> {
   Future<String> _counter;
   Icon favicon = Icon(Icons.favorite_border);
   String dropdownValue = 'Select';
-
+  String searchTitle = "";
   Future<String> str;
+  Widget appBarTitle = new Text("Trips");
+  Icon actionIcon = new Icon(Icons.search);
+
 
   void showInSnackBar(String value) {
     Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(value)));
@@ -52,12 +57,37 @@ class _YourTripState extends State<YourTrip> {
     setState(() {});
   }
 
-  Future<int> a = insertTripExpense('Trip to dsf', '11/01/2020', '14/01/2021',
-      1, 2353.00, 1, 'sdaf', 'asdf', '12/02/2020', 908.23, 0);
-  Future<int> b = insertTripExpense('Trip to dasf', '11/01/2020', '14/01/2021',
-      1, 2345.00, 1, 'jgfed', 'jklo', '12/02/2020', 694.23, 0);
-  Future<int> c = insertTripExpense('Trip to adsf', '11/01/2020', '14/01/2021',
-      1, 1223.00, 1, 'sdaf', 'sdf', '12/02/2020', 0928.23, 0);
+
+
+
+   delete_trip(AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot, int index, BuildContext context) {
+      final snackBar = SnackBar(
+        content: Text('Item Deleted'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            deleteTrip(
+                snapshot.data[index]["id"]);
+            // Some code to undo the change.
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(snackBar);
+
+      setState(() {
+      // temporary.removeAt(index);
+      deleteTrip(snapshot.data[index]["id"]);
+      });
+    }
+
+
+  // Future<int> a = insertTripExpense('Trip to dsf', '11/01/2020', '14/01/2021',
+  //     1, 2353.00, 1, 'sdaf', 'asdf', '12/02/2020', 908.23, 0);
+  // Future<int> b = insertTripExpense('Trip to dasf', '11/01/2020', '14/01/2021',
+  //     1, 2345.00, 1, 'jgfed', 'jklo', '12/02/2020', 694.23, 0);
+  // Future<int> c = insertTripExpense('Trip to adsf', '11/01/2020', '14/01/2021',
+  //     1, 1223.00, 1, 'sdaf', 'sdf', '12/02/2020', 0928.23, 0);
 
   int expense = 2200;
   String tripName = 'IIT Bombay';
@@ -78,7 +108,7 @@ class _YourTripState extends State<YourTrip> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        title: Text('Trip Manager'),
+        title: appBarTitle,
         centerTitle: true,
         leading: IconButton(
             icon: Icon(Icons.account_circle),
@@ -89,6 +119,35 @@ class _YourTripState extends State<YourTrip> {
               );
             }),
         actions: <Widget>[
+          new IconButton(icon: actionIcon,onPressed:(){
+            setState(() {
+              if ( this.actionIcon.icon == Icons.search){
+                this.actionIcon = new Icon(Icons.close);
+                this.appBarTitle = new TextField(
+                  style: new TextStyle(
+                    color: Colors.white,
+
+                  ),
+                  onChanged: (text){
+                    setState(() {
+                      searchTitle = text;
+                    });
+                  },
+                  decoration: new InputDecoration(
+                      prefixIcon: new Icon(Icons.search,color: Colors.white),
+                      hintText: "Search...",
+                      hintStyle: new TextStyle(color: Colors.white)
+                  ),
+                );}
+              else {
+                this.actionIcon = new Icon(Icons.search);
+                this.appBarTitle = new Text("Trips");
+              }
+
+
+            });
+          } ,),
+
           Container(
               margin: EdgeInsets.all(10.0),
 //              height: double.maxFinite,
@@ -148,7 +207,7 @@ class _YourTripState extends State<YourTrip> {
             Expanded(
               child: SingleChildScrollView(
                 child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                    stream: Stream.fromFuture(getTripElements()),
+                    stream: Stream.fromFuture(getTripbySearch(searchTitle)),
                     builder: (context,
                         AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
                       if (snapshot.hasData) {
@@ -196,6 +255,13 @@ class _YourTripState extends State<YourTrip> {
                                           label: 'Undo',
                                           onPressed: () {
                                             // Some code to undo the change.
+                                            int k = 0;
+                                            if (snapshot.data[index]['fav'] == 1) {
+                                              k = 0;
+                                            } else {
+                                              k = 1;
+                                            }
+                                            favTrip(snapshot.data[index]["id"], k);
                                           },
                                         ),
                                       );
@@ -218,7 +284,14 @@ class _YourTripState extends State<YourTrip> {
                                         action: SnackBarAction(
                                           label: 'Undo',
                                           onPressed: () {
-                                            // Some code to undo the change.
+                                            int k = snapshot.data[index]["archive"];
+                                            if (k == 0) {
+                                              k = 1;
+                                            } else {
+                                              k = 0;
+                                            }
+                                            archiveTrip(
+                                                snapshot.data[index]["id"], k);
                                           },
                                         ),
                                       );
