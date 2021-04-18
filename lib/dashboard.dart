@@ -155,30 +155,54 @@ class _dashboardState extends State<dashboard> {
              Row(
               children: [
                 Expanded(
-                  child: ListTile(
-                      title: Text('Back Up your Data'),
+                  child: Container(
+                    width: 300,
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.red[500],
+                        ),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(20))),
+                    child: ListTile(
+                      title: Text('Back Up Data'),
                       onTap: () => _onShare(context),
+                    ),
                   ),
                 ),
                 Expanded(
-                    child: ListTile(
-                      title: Text('Import Database'),
-                      onTap: ()async{
-                        FilePickerResult result = await FilePicker.platform.pickFiles();
-                        List<io.File> files = result.paths.map((path) => io.File(path)).toList();
+                    child: Container(
+                      width: 300,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.red[500],
+                          ),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(20))),
+                      child: ListTile(
+                        title: Text('Import Database'),
+                        onTap: ()async{
+                          FilePickerResult result = await FilePicker.platform.pickFiles();
+                          List<io.File> files = result.paths.map((path) => io.File(path)).toList();
 
-                        io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-                        path = pth.join(documentsDirectory.path, "reimbursement1.db");
+                          io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
+                          path = pth.join(documentsDirectory.path, "reimbursement1.db");
 
-                        await deleteDatabase(path);
+                          await deleteDatabase(path);
 
-                        Uint8List data = await files[0].readAsBytes();
-                        List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-                        await io.File(path).writeAsBytes(bytes);
+                          Uint8List data = await files[0].readAsBytes();
+                          List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+                          await io.File(path).writeAsBytes(bytes);
 
-                        io.Directory documentsDirectorya = await getApplicationDocumentsDirectory();
-                        print(documentsDirectorya);
-                      },
+                          io.Directory documentsDirectorya = await getApplicationDocumentsDirectory();
+                          print(documentsDirectorya);
+                        },
+                      ),
                     )
                 )
               ],
