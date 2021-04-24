@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
+import 'package:tripmanager/classes/personal.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
-import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/edit.dart';
 
 import 'package:tripmanager/temp.dart';
@@ -10,18 +10,9 @@ final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
 // tripid:,serial_number:,dep_time: ,dep_date: ,dep_station: ,arr_time: ,arr_date: ,arr_station: ,mot: ,km: ,fare: ,pnr: ,remarks: ,ticket_address: ,receipt_location: ,
 
-class Item2 extends StatefulWidget {
-  Item2(
-      this.tripid,
-      this.serial_number,
-      this.type,
-      this.details,
-      this.amount_paid,
-      this.receipt_details,
-      this.receipt_address,
-      this.receipt_location,
-      this.date,
-      this.callback);
+class Item3 extends StatefulWidget {
+  Item3(this.tripid, this.serial_number, this.type, this.details,
+      this.amount_paid, this.date, this.callback);
   // String sign;
   // double amount;
   // String note;
@@ -32,14 +23,11 @@ class Item2 extends StatefulWidget {
   final String type;
   final String details;
   final double amount_paid;
-  final String receipt_details;
-  final String receipt_address;
-  final String receipt_location;
   @override
-  _Item2State createState() => _Item2State();
+  _Item3State createState() => _Item3State();
 }
 
-class _Item2State extends State<Item2> {
+class _Item3State extends State<Item3> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
@@ -66,39 +54,11 @@ class _Item2State extends State<Item2> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(10),
-                    child: (() {
-                      if (this.widget.type == "Stay") {
-                        return Icon(
-                          Icons.hotel,
-                          color: Colors.indigo,
-                          size: 50,
-                        );
-                      } else if (this.widget.type == "Food") {
-                        return Icon(
-                          Icons.food_bank,
-                          color: Colors.indigo,
-                          size: 50,
-                        );
-                      } else if (this.widget.type == "Insurance") {
-                        return Icon(
-                          Icons.ballot_rounded,
-                          color: Colors.indigo,
-                          size: 50,
-                        );
-                      } else if (this.widget.type == "Visa") {
-                        return Icon(
-                          Icons.wallet_travel,
-                          color: Colors.indigo,
-                          size: 50,
-                        );
-                      } else if (this.widget.type == "Registration Fees") {
-                        return Icon(
-                          Icons.dynamic_form_outlined,
-                          color: Colors.indigo,
-                          size: 50,
-                        );
-                      }
-                    }()),
+                    child: Icon(
+                      Icons.attach_money_rounded,
+                      color: Colors.indigo,
+                      size: 50,
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(right: 10),
@@ -119,10 +79,10 @@ class _Item2State extends State<Item2> {
                               style: TextStyle(
                                   fontSize: 20, color: Colors.deepPurple),
                             ),
-                            Text(
-                              this.widget.details,
-                              style: TextStyle(color: Colors.black87),
-                            ),
+                            // Text(
+                            //   this.widget.details,
+                            //   style: TextStyle(color: Colors.black87),
+                            // ),
                           ],
                         ),
                       ),
@@ -174,35 +134,23 @@ class _Item2State extends State<Item2> {
                                 color: Colors.blue,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment:
+                                // MainAxisAlignment.spaceAround,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        (0.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Receipt Details',
+                                          'Details',
                                           style: TextStyle(
                                               color: Colors.deepPurple,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
                                         ),
-                                        Text(widget.receipt_details),
+                                        Text(widget.details),
                                       ],
                                     ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Receipt Location',
-                                        style: TextStyle(
-                                            color: Colors.deepPurple,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(widget.receipt_location),
-                                    ],
                                   ),
                                 ],
                               ),
@@ -258,21 +206,14 @@ class _Item2State extends State<Item2> {
                                           ),
                                           TextButton(
                                             child: Text('Yes'),
-                                            onPressed: () async {
-                                              Future<int> temp =
-                                                  deleteItemOtherExpense(this
-                                                      .widget
-                                                      .serial_number);
-                                              tripclass temp2 =
-                                                  await getTripById(
-                                                      widget.tripid);
-                                              double total = temp2.total -
-                                                  widget.amount_paid;
-                                              updateAmount(
-                                                  widget.tripid, total);
+                                            onPressed: () {
                                               setState(() {
                                                 print("deleted");
-
+                                                Future<int> temp =
+                                                    deleteItemPersonalExpense(
+                                                        this
+                                                            .widget
+                                                            .serial_number);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
                                                 widget.callback();
@@ -295,11 +236,11 @@ class _Item2State extends State<Item2> {
                                     showDialog(
                                         context: context,
                                         builder: (ct) {
-                                          return editOtherForm(
+                                          return editPersonalForm(
                                               widget.callback,
                                               widget.serial_number,
-                                              ct,
-                                              OtherExpense(
+                                              context,
+                                              PersonalExpense(
                                                   tripid: widget.tripid,
                                                   serial_number:
                                                       widget.serial_number,
@@ -307,18 +248,12 @@ class _Item2State extends State<Item2> {
                                                   details: widget.details,
                                                   amount_paid:
                                                       widget.amount_paid,
-                                                  receipt_details:
-                                                      widget.receipt_details,
-                                                  receipt_address:
-                                                      widget.receipt_address,
-                                                  receipt_location:
-                                                      widget.receipt_location,
                                                   date: widget.date));
                                         });
                                   }),
-                              IconButton(
-                                  icon: Icon(Icons.attachment),
-                                  onPressed: () {}),
+                              // IconButton(
+                              //     icon: Icon(Icons.attachment),
+                              //     onPressed: () {}),
                             ],
                           ),
                         ),

@@ -68,13 +68,13 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 10.0,
                         ),
-                        Text(
-                          "Mohit Shinde",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.white,
-                          ),
-                        ),
+                        // Text(
+                        //   "Mohit Shinde",
+                        //   style: TextStyle(
+                        //     fontSize: 22.0,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 10.0,
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/profileclass.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 import 'dart:async';
 import 'package:tripmanager/database.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -305,23 +306,40 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 10,
             ),
-            SafeArea(
-              child: DropdownButton(items: cardsTile, onChanged:(id){_selected_card = id;},hint: Text('Select Mode of Payment')),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                  // width: MediaQuery.of(context).size.width,
+                  // width: MediaQuery.maybeOf(context),
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  child: DropdownButton(
+                      items: cardsTile,
+                      onChanged: (id) {
+                        _selected_card = id;
+                      },
+                      hint: Container(
+                        width: MediaQuery.of(context).size.width,
+
+                        // margin: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Expanded(child: Text('Select Mode of Payment')),
+                      ))),
             ),
             ElevatedButton(
                 child: Text('Send'),
-                onPressed: () {
+                onPressed: () async {
                   Map<String, dynamic> travelMap = new Map<String, dynamic>();
                   Map<String, dynamic> card = listOfCards[_selected_card];
                   String new_comment =
-                      "Payment made through card which has type: " +
-                          card["type"].toString() +
-                          ", account number: " +
-                          card["account"].toString() +
-                          ", card number: " +
-                          card["number"] +
-                          ";" +
-                          additional_comments;
+                      // "Payment made through card which has type: " +
+                      //     card["type"].toString() +
+                      //     ", account number: " +
+                      //     card["account"].toString() +
+                      //     ", card number: " +
+                      //     card["number"] +
+                      //     ";" +
+                      additional_comments;
                   travelMap['tripid'] = widget.trip_id;
                   var temp = departureDate.toString().split(" ");
 
@@ -357,8 +375,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     travelMap['ticket_address'],
                     travelMap['receipt_location'],
                   );
+                  tripclass temp2 = await getTripById(widget.trip_id);
+                  double total = temp2.total + travelMap['fare'];
+                  updateAmount(widget.trip_id, total);
                   widget.callback();
-                  Navigator.pop(context);
+                  Navigator.of(context).pop();
                 })
           ],
         ));
@@ -563,7 +584,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         receipt_address,
                         receipt_location,
                         dateString);
+                    tripclass temp2 = await getTripById(widget.trip_id);
+                    double total = temp2.total + amount_paid;
+                    updateAmount(widget.trip_id, total);
                     widget.callback();
+
                     Navigator.pop(context);
                   },
                   child: Text('Send')),
@@ -620,6 +645,57 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ]),
             SizedBox(height: 10),
+            Container(
+              child: DropdownButtonFormField(
+                items: [
+                  DropdownMenuItem(
+                    child: Text('Food'),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('Travel'),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('Visiting Fee'),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('Tourist Ticket'),
+                    value: 3,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('Other'),
+                    value: 4,
+                  )
+                ],
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(),
+                  labelText: 'Type of Expense',
+                ),
+                onChanged: (value) {
+                  switch (value) {
+                    case 0:
+                      type = 'Food';
+                      break;
+                    case 1:
+                      type = 'Travel';
+                      break;
+                    case 2:
+                      type = 'Visiting Fee';
+                      break;
+                    case 3:
+                      type = 'Tourist Ticket';
+                      break;
+                    case 4:
+                      type = 'Other';
+                      break;
+                  }
+                },
+              ),
+              // flex: 1,
+            ),
+            SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
@@ -670,15 +746,19 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    setState((){
+    setState(() {
       var i = 0;
       cardsTile = [];
-      while(i < listOfCards.length){
-          cardsTile.add(DropdownMenuItem(
-            value: i,
-            child: Text(listOfCards[i]['number'] + 'Type: ${listOfCards[i]['type']}, AC no : ${listOfCards[i]['acc_number']}'),
-          ));
-          i++;
+      while (i < listOfCards.length) {
+        cardsTile.add(DropdownMenuItem(
+          value: i,
+          child: Container(
+            // width: MediaQuery.of(context).size.width / 2,
+            child: Text(listOfCards[i]['number'] +
+                'Type: ${listOfCards[i]['type']}, AC no : ${listOfCards[i]['acc_number']}'),
+          ),
+        ));
+        i++;
       }
     });
     return Padding(
@@ -730,17 +810,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     Form(
                       child: Column(
                         children: <Widget>[
-                          DropdownButtonFormField(
-                            onChanged: buildFormView,
-                            decoration: InputDecoration(
-                                labelText: 'Enter type of expense'),
-                            items: [
-                              DropdownMenuItem(child: Text('Travel'), value: 0),
-                              DropdownMenuItem(
-                                  child: Text('Other Expenses'), value: 1),
-                              DropdownMenuItem(
-                                  child: Text("Personal"), value: 2)
-                            ],
+                          Container(
+                            padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                            child: DropdownButtonFormField(
+                              onChanged: buildFormView,
+                              decoration: InputDecoration(
+                                  labelText: 'Enter type of expense'),
+                              items: [
+                                DropdownMenuItem(
+                                    child: Text('Travel'), value: 0),
+                                DropdownMenuItem(
+                                    child: Text('Other Expenses'), value: 1),
+                                DropdownMenuItem(
+                                    child: Text("Personal"), value: 2)
+                              ],
+                            ),
                           ),
                         ],
                       ),

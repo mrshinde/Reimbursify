@@ -1,12 +1,16 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/personal.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 import './classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import './classes/otherexpense.dart';
 import './classes/personal.dart';
 
-Widget editTravelForm(int id, BuildContext context, Travel travelinstance) {
+Widget editTravelForm(
+    Function() callback, int id, BuildContext context, Travel travelinstance) {
   Travel dataMap = travelinstance;
   print(dataMap.toMap());
   // getItemById(id).then((value) {
@@ -42,6 +46,7 @@ Widget editTravelForm(int id, BuildContext context, Travel travelinstance) {
   departureTime = dataMap.dep_time;
   departureDate = DateTime.parse(departureDate + ' ' + departureTime);
   fare = dataMap.fare;
+  double ex = dataMap.fare;
   additional_comments = dataMap.remarks;
   km = dataMap.km;
   ticket_no = dataMap.pnr;
@@ -339,7 +344,7 @@ Widget editTravelForm(int id, BuildContext context, Travel travelinstance) {
                       ),
                       ElevatedButton(
                           child: Text('Send'),
-                          onPressed: () {
+                          onPressed: () async {
                             Map<String, dynamic> travelMap =
                                 new Map<String, dynamic>();
                             travelMap['tripid'] = trip_id;
@@ -379,6 +384,11 @@ Widget editTravelForm(int id, BuildContext context, Travel travelinstance) {
                                 travelMap['remarks'],
                                 travelMap['ticket_address'],
                                 travelMap['receipt_location']);
+                            tripclass temp2 = await getTripById(trip_id);
+                            double total = temp2.total + travelMap['fare'] - ex;
+                            print(total);
+                            updateAmount(trip_id, total);
+                            callback();
                             Navigator.pop(context);
                           })
                     ],
@@ -393,12 +403,13 @@ Widget editTravelForm(int id, BuildContext context, Travel travelinstance) {
   );
 }
 
-Widget editOtherForm(int id, BuildContext context) {
+Widget editOtherForm(
+    Function() callback, int id, BuildContext context, OtherExpense expense) {
   print("Navneet's Wish");
-  OtherExpense dataMap;
-  getItemByIdOtherExpense(id).then(
-    (value) => dataMap = value,
-  );
+  OtherExpense dataMap = expense;
+  // getItemByIdOtherExpense(id).then(
+  // (value) => dataMap = value,
+  // );
   var type,
       details,
       amount_paid,
@@ -408,11 +419,12 @@ Widget editOtherForm(int id, BuildContext context) {
       receipt_location;
   var tripid, typeVal, receiptVal;
   tripid = dataMap.tripid;
-  amount_paid = dataMap.amount_paid;
+  amount_paid = dataMap.amount_paid.toString();
+  double ex = dataMap.amount_paid;
   type = dataMap.type;
   details = dataMap.details;
   receipt_details = dataMap.receipt_details;
-  receipt_location = dataMap.receipt_location;
+  receipt_address = dataMap.receipt_location;
   dateString = dataMap.date;
   if (type == 'Food')
     typeVal = 0;
@@ -549,7 +561,7 @@ Widget editOtherForm(int id, BuildContext context) {
                                   labelText: 'Amount Paid',
                                 ),
                                 onChanged: (value) {
-                                  amount_paid = double.parse(value);
+                                  amount_paid = value;
                                 },
                               ),
                               flex: 2,
@@ -630,19 +642,27 @@ Widget editOtherForm(int id, BuildContext context) {
                           ],
                         ),
                         ElevatedButton(
-                            onPressed: () async {
-                              updateOtherExpense(
-                                  id,
-                                  tripid,
-                                  type,
-                                  details,
-                                  amount_paid,
-                                  receipt_details,
-                                  receipt_address,
-                                  receipt_location,
-                                  dateString);
-                            },
-                            child: Text('Send')),
+                          child: Text('Send'),
+                          onPressed: () async {
+                            double amount = double.parse(amount_paid);
+                            updateOtherExpense(
+                                id,
+                                tripid,
+                                type,
+                                details,
+                                amount,
+                                receipt_details,
+                                receipt_address,
+                                receipt_location,
+                                dateString);
+                            tripclass temp2 = await getTripById(tripid);
+                            double total = temp2.total + amount - ex;
+                            print(total);
+                            updateAmount(tripid, total);
+                            callback();
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ],
                     ),
                   )
@@ -656,15 +676,16 @@ Widget editOtherForm(int id, BuildContext context) {
   );
 }
 
-Widget editPersonalForm(int id, BuildContext context) {
-  PersonalExpense dataMap;
-  getItemByIdPersonalExpense(id).then((value) {
-    dataMap = value;
-  });
+Widget editPersonalForm(Function() callback, int id, BuildContext context,
+    PersonalExpense expense) {
+  PersonalExpense dataMap = expense;
+  // getItemByIdPersonalExpense(id).then((value) {
+  //   dataMap = value;
+  // });
   var type, details, amount_paid, dateString;
   var tripid;
   tripid = dataMap.tripid;
-  amount_paid = dataMap.amount_paid;
+  amount_paid = dataMap.amount_paid.toString();
   type = dataMap.type;
   details = dataMap.details;
   dateString = dataMap.date;
@@ -697,7 +718,7 @@ Widget editPersonalForm(int id, BuildContext context) {
                               initialValue: details,
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(),
-                                labelText: 'Title for Expense',
+                                labelText: 'Details',
                               ),
                               onChanged: (value) {
                                 details = value;
@@ -746,6 +767,7 @@ Widget editPersonalForm(int id, BuildContext context) {
                           onPressed: () async {
                             updatePersonalExpense(id, tripid, type, details,
                                 amount_paid, dateString);
+                            callback();
                             Navigator.of(context, rootNavigator: true).pop();
                           },
                           child: Text('Send')),

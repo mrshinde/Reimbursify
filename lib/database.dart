@@ -36,7 +36,7 @@ class DatabaseHelper {
     await db.execute(
         'CREATE TABLE travel (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,dep_time TEXT ,dep_date TEXT,dep_station TEXT, arr_time TEXT, arr_date TEXT,arr_station TEXT,mot TEXT,km REAL,fare REAL,pnr TEXT,remarks TEXT,ticket_address TEXT,receipt_location TEXT)');
     await db.execute(
-        'CREATE TABLE otherexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,receipt_details TEXT,receipt_address TEXT,receipt_location TEXT)');
+        'CREATE TABLE otherexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,receipt_details TEXT,receipt_address TEXT,receipt_location TEXT,date TEXT)');
     await db.execute(
         'CREATE TABLE personalexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,date TEXT)');
     await db.execute(

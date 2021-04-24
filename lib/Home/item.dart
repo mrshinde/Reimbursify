@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/edit.dart';
 
 import '../temp.dart';
@@ -260,28 +261,37 @@ class _ItemState extends State<Item> {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Remarks',
-                                        style: TextStyle(
-                                            color: Colors.deepPurple,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(widget.remarks),
-                                    ],
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.5),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Remarks',
+                                          style: TextStyle(
+                                              color: Colors.deepPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(widget.remarks),
+                                      ],
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Receipt Location',
-                                        style: TextStyle(
-                                            color: Colors.deepPurple,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(widget.ticket_address),
-                                    ],
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Receipt Location',
+                                          style: TextStyle(
+                                              color: Colors.deepPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(widget.ticket_address),
+                                      ],
+                                    ),
                                   ),
                                   // Text('Receipt : ' + widget.receipt_location),
                                 ],
@@ -338,13 +348,21 @@ class _ItemState extends State<Item> {
                                           ),
                                           TextButton(
                                             child: Text('Yes'),
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              Future<int> temp = deleteItem(
+                                                  this.widget.serial_number);
+                                              tripclass temp2 =
+                                                  await getTripById(
+                                                      widget.tripid);
+                                              double total =
+                                                  temp2.total - widget.fare;
+                                              updateAmount(
+                                                  widget.tripid, total);
                                               setState(() {
                                                 print("deleted");
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
-                                                Future<int> temp = deleteItem(
-                                                    this.widget.serial_number);
+
                                                 widget.callback();
                                               });
                                               Navigator.of(context).pop();
@@ -366,6 +384,7 @@ class _ItemState extends State<Item> {
                                         context: context,
                                         builder: (ct) {
                                           return editTravelForm(
+                                              widget.callback,
                                               widget.serial_number,
                                               ct,
                                               Travel(
