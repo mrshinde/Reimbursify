@@ -8,9 +8,6 @@ import 'package:tripmanager/classes/profileclass.dart';
 import 'package:tripmanager/dashboard.dart';
 
 class Profile extends StatefulWidget {
-  final User dummy;
-  Profile(this.dummy);
-
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -26,7 +23,7 @@ class _ProfileState extends State<Profile> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Signup(dummy)),
+              MaterialPageRoute(builder: (context) => Signup()),
             );
           },
           child: Text("Edit"),

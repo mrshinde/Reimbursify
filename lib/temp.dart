@@ -5,6 +5,7 @@ import 'package:tripmanager/Home/item3.dart';
 import 'package:tripmanager/addexpense.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:tripmanager/classes/personal.dart';
+import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/item2.dart';
 // import 'package:tripmanager/Home/item3.dart';
 
@@ -903,7 +904,12 @@ class _TempState extends State<Temp> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: FloatingActionButton.extended(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Homepage()),
+                        );
+                      },
                       elevation: 15,
                       heroTag: "btn1",
                       splashColor: Colors.blue,

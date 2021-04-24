@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/dashboard.dart';
+import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/temp.dart';
 
 import 'database.dart';
@@ -21,7 +22,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Balance Sheet',
-      home: dashboard(),
+      home: Homepage(),
     );
   }
 }

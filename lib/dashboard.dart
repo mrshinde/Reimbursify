@@ -39,9 +39,8 @@ ScrollController _controller;
 
 class _dashboardState extends State<dashboard> {
   int _selectedIndex = 0;
-   String path;
-  List <String> databasePaths = [];
-
+  String path;
+  List<String> databasePaths = [];
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -74,7 +73,7 @@ class _dashboardState extends State<dashboard> {
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Profile(dummy)),
+        MaterialPageRoute(builder: (context) => Profile()),
       );
     }
   }
@@ -84,8 +83,8 @@ class _dashboardState extends State<dashboard> {
       temporary = newList;
     });
   }
-  
-    _onShare(BuildContext context) async {
+
+  _onShare(BuildContext context) async {
     // final RenderBox box = context.findRenderObject() as RenderBox;
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     path = pth.join(documentsDirectory.path, "reimbursement1.db");
@@ -95,16 +94,13 @@ class _dashboardState extends State<dashboard> {
 
     if (databasePaths.isNotEmpty) {
       await Share.shareFiles(databasePaths,
-          text: "reimbursment1.db",
-          subject: "subject");
-          // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+          text: "reimbursment1.db", subject: "subject");
+      // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     } else {
-      await Share.share("reimbursment1.db",
-          subject: "subject");
-          // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+      await Share.share("reimbursment1.db", subject: "subject");
+      // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +114,7 @@ class _dashboardState extends State<dashboard> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile(dummy)),
+                  MaterialPageRoute(builder: (context) => Profile()),
                 );
               }),
           actions: <Widget>[
@@ -151,8 +147,8 @@ class _dashboardState extends State<dashboard> {
             SizedBox(
               height: 5,
             ),
-            
-             Row(
+
+            Row(
               children: [
                 Expanded(
                   child: Container(
@@ -164,8 +160,7 @@ class _dashboardState extends State<dashboard> {
                         border: Border.all(
                           color: Colors.red[500],
                         ),
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(20))),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: ListTile(
                       title: Text('Back Up Data'),
                       onTap: () => _onShare(context),
@@ -174,41 +169,44 @@ class _dashboardState extends State<dashboard> {
                 ),
                 Expanded(
                     child: Container(
-                      width: 300,
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.red[500],
-                          ),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20))),
-                      child: ListTile(
-                        title: Text('Import Database'),
-                        onTap: ()async{
-                          FilePickerResult result = await FilePicker.platform.pickFiles();
-                          List<io.File> files = result.paths.map((path) => io.File(path)).toList();
-
-                          io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-                          path = pth.join(documentsDirectory.path, "reimbursement1.db");
-
-                          await deleteDatabase(path);
-
-                          Uint8List data = await files[0].readAsBytes();
-                          List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-                          await io.File(path).writeAsBytes(bytes);
-
-                          io.Directory documentsDirectorya = await getApplicationDocumentsDirectory();
-                          print(documentsDirectorya);
-                        },
+                  width: 300,
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.red[500],
                       ),
-                    )
-                )
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: ListTile(
+                    title: Text('Import Database'),
+                    onTap: () async {
+                      FilePickerResult result =
+                          await FilePicker.platform.pickFiles();
+                      List<io.File> files =
+                          result.paths.map((path) => io.File(path)).toList();
+
+                      io.Directory documentsDirectory =
+                          await getApplicationDocumentsDirectory();
+                      path = pth.join(
+                          documentsDirectory.path, "reimbursement1.db");
+
+                      await deleteDatabase(path);
+
+                      Uint8List data = await files[0].readAsBytes();
+                      List<int> bytes = data.buffer
+                          .asUint8List(data.offsetInBytes, data.lengthInBytes);
+                      await io.File(path).writeAsBytes(bytes);
+
+                      io.Directory documentsDirectorya =
+                          await getApplicationDocumentsDirectory();
+                      print(documentsDirectorya);
+                    },
+                  ),
+                ))
               ],
             ),
-            
-            
+
             Container(
                 alignment: Alignment.centerLeft,
                 child: Text("Your Recent Trips -",

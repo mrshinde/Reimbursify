@@ -78,7 +78,7 @@ class _YourTripState extends State<YourTrip> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(dummy)),
+                MaterialPageRoute(builder: (context) => Profile()),
               );
             }),
         actions: <Widget>[

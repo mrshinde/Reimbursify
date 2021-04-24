@@ -10,8 +10,6 @@ import 'dart:convert';
 import 'package:tripmanager/classes/itemclass.dart';
 import 'package:tripmanager/Home/newtrip.dart';
 
-
-
 final balance = 206;
 
 class YourTrip extends StatefulWidget {
@@ -38,7 +36,6 @@ String stringfun(String as) {
 }
 
 class _YourTripState extends State<YourTrip> {
-
   Future<String> _counter;
   Icon favicon = Icon(Icons.favorite_border);
   String dropdownValue = 'Select';
@@ -47,7 +44,6 @@ class _YourTripState extends State<YourTrip> {
   Widget appBarTitle = new Text("Trips");
   Icon actionIcon = new Icon(Icons.search);
 
-
   void showInSnackBar(String value) {
     Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(value)));
   }
@@ -55,10 +51,6 @@ class _YourTripState extends State<YourTrip> {
   callback1() {
     setState(() {});
   }
-
-
-
-
 
   // Future<int> a = insertTripExpense('Trip to dsf', '11/01/2020', '14/01/2021',
   //     1, 2353.00, 1, 'sdaf', 'asdf', '12/02/2020', 908.23, 0);
@@ -93,39 +85,37 @@ class _YourTripState extends State<YourTrip> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Profile(dummy)),
+                MaterialPageRoute(builder: (context) => Profile()),
               );
             }),
         actions: <Widget>[
-          new IconButton(icon: actionIcon,onPressed:(){
-            setState(() {
-              if ( this.actionIcon.icon == Icons.search){
-                this.actionIcon = new Icon(Icons.close);
-                this.appBarTitle = new TextField(
-                  style: new TextStyle(
-                    color: Colors.white,
-
-                  ),
-                  onChanged: (text){
-                    setState(() {
-                      searchTitle = text;
-                    });
-                  },
-                  decoration: new InputDecoration(
-                      prefixIcon: new Icon(Icons.search,color: Colors.white),
-                      hintText: "Search...",
-                      hintStyle: new TextStyle(color: Colors.white)
-                  ),
-                );}
-              else {
-                this.actionIcon = new Icon(Icons.search);
-                this.appBarTitle = new Text("Trips");
-              }
-
-
-            });
-          } ,),
-
+          new IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = new Icon(Icons.close);
+                  this.appBarTitle = new TextField(
+                    style: new TextStyle(
+                      color: Colors.white,
+                    ),
+                    onChanged: (text) {
+                      setState(() {
+                        searchTitle = text;
+                      });
+                    },
+                    decoration: new InputDecoration(
+                        prefixIcon: new Icon(Icons.search, color: Colors.white),
+                        hintText: "Search...",
+                        hintStyle: new TextStyle(color: Colors.white)),
+                  );
+                } else {
+                  this.actionIcon = new Icon(Icons.search);
+                  this.appBarTitle = new Text("Trips");
+                }
+              });
+            },
+          ),
           Container(
               margin: EdgeInsets.all(10.0),
 //              height: double.maxFinite,
@@ -234,12 +224,14 @@ class _YourTripState extends State<YourTrip> {
                                           onPressed: () {
                                             // Some code to undo the change.
                                             int k = 0;
-                                            if (snapshot.data[index]['fav'] == 1) {
+                                            if (snapshot.data[index]['fav'] ==
+                                                1) {
                                               k = 0;
                                             } else {
                                               k = 1;
                                             }
-                                            favTrip(snapshot.data[index]["id"], k);
+                                            favTrip(
+                                                snapshot.data[index]["id"], k);
                                           },
                                         ),
                                       );
@@ -262,7 +254,8 @@ class _YourTripState extends State<YourTrip> {
                                         action: SnackBarAction(
                                           label: 'Undo',
                                           onPressed: () {
-                                            int k = snapshot.data[index]["archive"];
+                                            int k =
+                                                snapshot.data[index]["archive"];
                                             if (k == 0) {
                                               k = 1;
                                             } else {
