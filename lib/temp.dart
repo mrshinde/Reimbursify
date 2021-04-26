@@ -7,6 +7,7 @@ import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:tripmanager/classes/personal.dart';
 import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/item2.dart';
+import 'package:tripmanager/createpdf.dart';
 // import 'package:tripmanager/Home/item3.dart';
 
 import 'classes/tripclass.dart';
@@ -905,11 +906,14 @@ class _TempState extends State<Temp> {
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: FloatingActionButton.extended(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Homepage()),
-                        );
+                        createPDF(widget.trip_id);
                       },
+                      // onPressed: () {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(builder: (context) => Homepage()),
+                      //   );
+                      // },
                       elevation: 15,
                       heroTag: "btn1",
                       splashColor: Colors.blue,
@@ -959,52 +963,3 @@ class _TempState extends State<Temp> {
         ));
   }
 }
-
-// else if (isSelected[1] == true) {
-//                                             if (isTravelEmpty == true) {
-//                                               return Column(
-//                                                 children: [
-//                                                   Container(
-//                                                     padding: EdgeInsets.all(16),
-//                                                     child: Text(
-//                                                       'Add a Travel Expense to view here',
-//                                                       style: TextStyle(
-//                                                           fontSize: 20),
-//                                                     ),
-//                                                   ),
-//                                                 ],
-//                                               );
-//                                             } else {
-//                                               return Container();
-//                                             }
-//                                           } else if (isSelected[2] == true) {
-//                                             if (isOtherEmpty == true) {
-//                                               return Column(
-//                                                 children: [
-//                                                   Container(
-//                                                     padding: EdgeInsets.all(16),
-//                                                     child: Text(
-//                                                       'Add a Non Travel expense to view here',
-//                                                       style: TextStyle(
-//                                                           fontSize: 20),
-//                                                     ),
-//                                                   ),
-//                                                 ],
-//                                               );
-//                                             } else {
-//                                               return Container();
-//                                             }
-//                                           } else if (isSelected[3] == true) {
-//                                             return Column(
-//                                               children: [
-//                                                 Container(
-//                                                   padding: EdgeInsets.all(16),
-//                                                   child: Text(
-//                                                     'Add a Personal expense to view here',
-//                                                     style:
-//                                                         TextStyle(fontSize: 20),
-//                                                   ),
-//                                                 ),
-//                                               ],
-//                                             );
-//                                           }
