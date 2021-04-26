@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tripmanager/Home/archive.dart';
+import 'package:tripmanager/trip.dart';
 import 'package:tripmanager/Home/profile.dart';
 // import 'package:tripmanager/classes/profileclass.dart';
 
