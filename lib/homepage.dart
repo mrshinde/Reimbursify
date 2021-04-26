@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:share/share.dart';
 import 'dart:io' as io;
 import 'package:sqflite/sqflite.dart';
+import 'dart:typed_data';
 import 'package:path/path.dart' as pth;
 // import 'package:tripmanager/classes/profileclass.dart';
 
@@ -34,6 +35,31 @@ class _HomepageState extends State<Homepage> {
       await Share.share("reimbursment1.db", subject: "subject");
       // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     }
+  }
+
+  _onImport(BuildContext context) async {
+    FilePickerResult result =
+    await FilePicker.platform.pickFiles(
+      allowedExtensions: ['.db'],
+    );
+    List<io.File> files =
+    result.paths.map((path) => io.File(path)).toList();
+
+    io.Directory documentsDirectory =
+    await getApplicationDocumentsDirectory();
+    path = pth.join(
+        documentsDirectory.path, "reimbursement1.db");
+
+    await deleteDatabase(path);
+
+    Uint8List data = await files[0].readAsBytes();
+    List<int> bytes = data.buffer
+        .asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await io.File(path).writeAsBytes(bytes);
+
+    io.Directory documentsDirectorya =
+    await getApplicationDocumentsDirectory();
+    print(documentsDirectorya);
   }
 
   @override
@@ -155,6 +181,7 @@ class _HomepageState extends State<Homepage> {
                     RaisedButton(
                       color: Colors.purple[200],
 
+
                       onPressed: () {
                         _onShare(context);
                       },
@@ -169,7 +196,9 @@ class _HomepageState extends State<Homepage> {
                     ),
                     RaisedButton(
                       color: Colors.purple[200],
-                      onPressed: () {},
+                      onPressed: () {
+                        _onImport(context);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
