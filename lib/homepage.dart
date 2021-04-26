@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/trip.dart';
 import 'package:tripmanager/Home/profile.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:share/share.dart';
+import 'dart:io' as io;
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as pth;
 // import 'package:tripmanager/classes/profileclass.dart';
 
 class Homepage extends StatefulWidget {
@@ -9,6 +15,27 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  String path;
+  List<String> databasePaths = [];
+
+  _onShare(BuildContext context) async {
+    // final RenderBox box = context.findRenderObject() as RenderBox;
+    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    path = pth.join(documentsDirectory.path, "reimbursement1.db");
+    databasePaths.clear();
+    databasePaths.add(path);
+    print(databasePaths);
+
+    if (databasePaths.isNotEmpty) {
+      await Share.shareFiles(databasePaths,
+          text: "reimbursment1.db", subject: "subject");
+      // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    } else {
+      await Share.share("reimbursment1.db", subject: "subject");
+      // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -127,14 +154,18 @@ class _HomepageState extends State<Homepage> {
                   children: [
                     RaisedButton(
                       color: Colors.purple[200],
-                      onPressed: () {},
+
+                      onPressed: () {
+                        _onShare(context);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Import',
                           style: TextStyle(fontSize: 30),
                         ),
-                      ),
+                      )
+                      ,
                     ),
                     RaisedButton(
                       color: Colors.purple[200],
