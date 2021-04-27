@@ -40,6 +40,7 @@ class _YourTripState extends State<YourTrip> {
   Icon favicon = Icon(Icons.favorite_border);
   String dropdownValue = 'Select';
   String searchTitle = "";
+  int search = 1;
   Future<String> str;
   Widget appBarTitle = new Text("Trips");
   Icon actionIcon = new Icon(Icons.search);
@@ -62,6 +63,9 @@ class _YourTripState extends State<YourTrip> {
   int expense = 2200;
   String tripName = 'IIT Bombay';
   String date = '09/03/2021';
+
+
+
 
   @override
   void initState() {
@@ -101,6 +105,7 @@ class _YourTripState extends State<YourTrip> {
                     ),
                     onChanged: (text) {
                       setState(() {
+                        search = 1;
                         searchTitle = text;
                       });
                     },
@@ -116,30 +121,6 @@ class _YourTripState extends State<YourTrip> {
               });
             },
           ),
-          Container(
-              margin: EdgeInsets.all(10.0),
-//              height: double.maxFinite,
-              child: Center(
-                  child: TextButton(
-                child: Text(
-                  "Sort By",
-                  style: TextStyle(color: Colors.white, fontSize: 18.0),
-                ),
-                onPressed: () {
-                  setState(() {
-                    if (dropdownValue == "Amount") {
-                      // temporary.sort((a, b) => a.amount.compareTo(b.amount));
-                    }
-                    if (dropdownValue == "Title") {
-                      // temporary.sort((a, b) => a.title.compareTo(b.title));
-                    }
-                    if (dropdownValue == "StartDate") {
-                      // temporary.sort((a, b) =>
-                      // stringfun(a.sdate).compareTo(stringfun(b.sdate)));
-                    }
-                  });
-                },
-              ))),
           DropdownButton<String>(
             value: dropdownValue,
             icon: const Icon(Icons.arrow_downward),
@@ -153,9 +134,36 @@ class _YourTripState extends State<YourTrip> {
             onChanged: (String newValue) {
               setState(() {
                 dropdownValue = newValue;
+                if (dropdownValue == "Select") {
+                  search = 1;
+                }
+                if (dropdownValue == "Amount\u{2B06}") {
+                  search = 4;
+                }
+                if (dropdownValue == "Amount\u{2B07}") {
+                  search = 5;
+                }
+                if (dropdownValue == "Title\u{2B06}") {
+                  search = 2;
+                }
+                if (dropdownValue == "Title\u{2B07}") {
+                  search = 3;
+                }
+                if (dropdownValue == "StartDate\u{2B06}") {
+                  search = 6;
+                }
+                if (dropdownValue == "StartDate\u{2B07}") {
+                  search = 7;
+                }
+                if (dropdownValue == "Favourites") {
+                  search = 8;
+                }
+                if (dropdownValue == "Archives") {
+                  search = 9;
+                }
               });
             },
-            items: <String>['Select', 'Amount', 'StartDate', 'Title']
+            items: <String>['Select', 'Amount\u{2B06}', 'Amount\u{2B07}', 'StartDate\u{2B06}', 'StartDate\u{2B07}', 'Title\u{2B06}', 'Title\u{2B07}', 'Favourites', 'Archives']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -175,7 +183,7 @@ class _YourTripState extends State<YourTrip> {
             Expanded(
               child: SingleChildScrollView(
                 child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                    stream: Stream.fromFuture(getTripbySearch(searchTitle)),
+                    stream: Stream.fromFuture(getTripbyAll(searchTitle, search)),
                     builder: (context,
                         AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
                       if (snapshot.hasData) {
