@@ -61,11 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 while (i < snapshot.data.length) {
                   cardsTile.add(DropdownMenuItem(
                     value: i,
-                    child: Container(
-                      // width: MediaQuery.of(context).size.width / 2,
-                      child: Text(snapshot.data[i]['number'] +
+                    child: Text(snapshot.data[i]['number'] +
                           'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
-                    ),
                   ));
                   i++;
                 }
@@ -323,26 +320,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       height: 10,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Container(
-                          // width: MediaQuery.of(context).size.width,
-                          // width: MediaQuery.maybeOf(context),
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          child: DropdownButton(
-                              items: cardsTile,
-                              onChanged: (id) {
-                                _selected_card = id;
-                              },
-                              hint: Container(
-                                width: MediaQuery.of(context).size.width,
-
-                                // margin: EdgeInsets.all(8),
-                                padding: const EdgeInsets.all(8.0),
-                                child: Expanded(
-                                    child: Text('Select Mode of Payment')),
-                              ))),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField(
+                                    items: cardsTile,
+                                    onChanged: (id) {
+                                      _selected_card = id;
+                                    },
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(),
+                                    labelText: 'Select Card',
+                                    ),
+                                    ),
+                                    ),
+                      ],
                     ),
                     ElevatedButton(
                         child: Text('Send'),
@@ -435,11 +427,8 @@ class _MyHomePageState extends State<MyHomePage> {
               while (i < snapshot.data.length) {
                 cardsTile.add(DropdownMenuItem(
                   value: i,
-                  child: Container(
-                    // width: MediaQuery.of(context).size.width / 2,
-                    child: Text(snapshot.data[i]['number'] +
-                        'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
-                  ),
+                  child: Text(snapshot.data[i]['number'] +
+                        ' Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
                 ));
                 i++;
               }
@@ -626,26 +615,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       height: 10,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Container(
-                          // width: MediaQuery.of(context).size.width,
-                          // width: MediaQuery.maybeOf(context),
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          child: DropdownButton(
-                              items: cardsTile,
-                              onChanged: (id) {
-                                _selected_card = id;
-                              },
-                              hint: Container(
-                                width: MediaQuery.of(context).size.width,
-
-                                // margin: EdgeInsets.all(8),
-                                padding: const EdgeInsets.all(8.0),
-                                child: Expanded(
-                                    child: Text('Select Mode of Payment')),
-                              ))),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField(
+                                    items: cardsTile,
+                                    onChanged: (id) {
+                                      _selected_card = id;
+                                    },
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(),
+                                    labelText: 'Select Card',
+                                    ),
+                                    ),
+                                    ),
+                      ],
                     ),
                     ElevatedButton(
                         onPressed: () async {
