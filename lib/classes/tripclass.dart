@@ -1,4 +1,5 @@
 import '../database.dart';
+import 'package:intl/intl.dart';
 
 class tripclass {
   int id;
@@ -113,7 +114,8 @@ Future<List<Map<String, dynamic>>> getTripElements() async {
 
 Future<List<Map<String, dynamic>>> getTripSorted(String as, String ord) async {
   //databaseHelper has been injected in the class
-  List<Map> list = await _databaseHelper.db.rawQuery("Select * from trip ORDER BY $as $ord;");
+  List<Map> list = await _databaseHelper.db
+      .rawQuery("Select * from trip ORDER BY $as $ord;");
   print(list.length);
   if (list.length > 0) {
     return list;
@@ -125,7 +127,8 @@ Future<List<Map<String, dynamic>>> getTripfavarc(String as) async {
   //databaseHelper has been injected in the class
   // .rawQuery("SELECT * FROM trip WHERE title LIKE '%$titl%';");
   int temp = 1;
-  List<Map> list = await _databaseHelper.db.rawQuery("Select * from trip WHERE $as = $temp;");
+  List<Map> list = await _databaseHelper.db
+      .rawQuery("Select * from trip WHERE $as = $temp;");
   print(list.length);
   if (list.length > 0) {
     return list;
@@ -134,36 +137,27 @@ Future<List<Map<String, dynamic>>> getTripfavarc(String as) async {
 }
 
 Future<List<Map<String, dynamic>>> getTripbyAll(String titl, int n) async {
-  if(n==1){
+  if (n == 1) {
     return getTripbySearch(titl);
-  }
-  else if(n==2){
+  } else if (n == 2) {
     return getTripSorted('title', 'DESC');
-  }
-  else if(n==3){
+  } else if (n == 3) {
     print("Check");
     return getTripSorted('title', 'ASC');
-  }
-  else if(n==4){
+  } else if (n == 4) {
     return getTripSorted('total', 'DESC');
-  }
-  else if(n==5){
+  } else if (n == 5) {
     return getTripSorted('total', 'ASC');
-  }
-  else if(n==6){
+  } else if (n == 6) {
     return getTripSorted('start_date', 'DESC');
-  }
-  else if(n==7){
+  } else if (n == 7) {
     return getTripSorted('start_date', 'ASC');
-  }
-  else if(n==8){
+  } else if (n == 8) {
     return getTripfavarc('fav');
-  }
-  else if(n==9){
+  } else if (n == 9) {
     return getTripfavarc('archive');
   }
 }
-
 
 Future<List<Map<String, dynamic>>> getTripbySearch(String titl) async {
   //databaseHelper has been injected in the class
@@ -244,6 +238,19 @@ Future<int> updateAmount(
   //databaseHelper has been injected in the class
   int sn = await _databaseHelper.db
       .rawUpdate('''UPDATE trip SET total = ? WHERE id = ?''', [total, id]);
+
+  return sn;
+}
+
+Future<int> updateLastModified(
+  int id,
+) async {
+  //databaseHelper has been injected in the class
+  DateTime now = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+  int sn = await _databaseHelper.db.rawUpdate(
+      '''UPDATE trip SET last_modified = ? WHERE id = ?''',
+      [formattedDate, id]);
 
   return sn;
 }
