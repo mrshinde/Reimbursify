@@ -378,6 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tripclass temp2 = await getTripById(widget.trip_id);
                   double total = temp2.total + travelMap['fare'];
                   updateAmount(widget.trip_id, total);
+                  updateLastModified(widget.trip_id);
                   widget.callback();
                   Navigator.of(context).pop();
                 })
@@ -587,6 +588,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     tripclass temp2 = await getTripById(widget.trip_id);
                     double total = temp2.total + amount_paid;
                     updateAmount(widget.trip_id, total);
+                    updateLastModified(widget.trip_id);
                     widget.callback();
 
                     Navigator.pop(context);
@@ -720,6 +722,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   insertPersonalExpense(
                       widget.trip_id, type, details, amount_paid, dateString);
+                  updateLastModified(widget.trip_id);
                   Navigator.pop(context);
                 },
                 child: Text('Send')),
