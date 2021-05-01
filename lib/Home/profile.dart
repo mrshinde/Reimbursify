@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/profileclass.dart';
 import 'package:tripmanager/dashboard.dart';
+import 'package:tripmanager/homepage.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _ProfileState extends State<Profile> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => dashboard()),
+                  MaterialPageRoute(builder: (context) => Homepage()),
                 );
               }),
         ),
@@ -135,25 +136,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 10.0,
                         ),
-                        FractionallySizedBox(
-                          widthFactor: 0.9,
-                          child: TextButton(
-                            //color: Colors.white,
-                            //padding: EdgeInsets.all(20.0),
-                            onPressed: () {},
-                            child: Text("My Documents"),
-                            style: TextButton.styleFrom(
-                              textStyle: TextStyle(fontSize: 20.0),
-                              primary: Colors.purple,
-                              backgroundColor: Colors.white,
-                              onSurface: Colors.grey,
-                              padding: EdgeInsets.all(20.0),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
+
                         FractionallySizedBox(
                           widthFactor: 0.9,
                           child: TextButton(
