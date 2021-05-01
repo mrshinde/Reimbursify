@@ -70,11 +70,6 @@ class _YourTripState extends State<YourTrip> {
   @override
   void initState() {
     super.initState();
-    // writing("a", "1");
-    // reading("a");
-    // writing("a", "1");
-    // reading("a");
-    // print('$_counter');
   }
 
   @override
@@ -242,13 +237,6 @@ class _YourTripState extends State<YourTrip> {
                                           );
                                         },
                                       );
-
-
-
-                                      setState(() {
-                                        // temporary.removeAt(index);
-
-                                      });
                                     },
                                     () {
                                       // showInSnackBar("added  removed from Favourites");
