@@ -196,7 +196,10 @@ class _YourTripState extends State<YourTrip> {
                               itemBuilder: (BuildContext ctxt, int index) {
                                 print(snapshot.data[index]);
                                 // return Text('Hi');
-                                if (snapshot.data[index]['archive'] == 0) {
+                                //Having True at this place means That tile will be shown otherwise not
+                                //I can have if and else here to decide to show or not
+                                //So what I want is Archive to be shown when it is arhive ie search is 9 or I am searching string ie search==1
+                                if (snapshot.data[index]['archive'] == 0||search==9) {
                                   return new Trip(
                                     snapshot.data[index]["id"],
                                     snapshot.data[index]["total"],
@@ -204,44 +207,53 @@ class _YourTripState extends State<YourTrip> {
                                     snapshot.data[index]["start_date"],
                                     snapshot.data[index]["end_date"],
                                     () {
-                                      final snackBar = SnackBar(
-                                        content: Text('Item Deleted'),
-                                        action: SnackBarAction(
-                                          label: 'Undo',
-                                          onPressed: () {
-                                            deleteTrip(
-                                                snapshot.data[index]["id"]);
-                                            // Some code to undo the change.
-                                          },
-                                        ),
+                                      showDialog<void>(
+                                        context: context,
+                                        barrierDismissible:
+                                        false, // user must tap button!
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Delete Trip?'),
+                                            content: Text(
+                                                'Do you want to delete the Trip?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('No'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('Yes'),
+                                                onPressed: () async {
+                                                  setState(() {
+                                                    deleteTrip(snapshot.data[index]["id"]);
+                                                    print("deleted");
+                                                    final snackBar = SnackBar(
+                                                      content: Text('Item Deleted'),
+                                                    );
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(snackBar);
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
+
+
 
                                       setState(() {
                                         // temporary.removeAt(index);
-                                        deleteTrip(snapshot.data[index]["id"]);
+
                                       });
                                     },
                                     () {
                                       // showInSnackBar("added  removed from Favourites");
                                       final snackBar = SnackBar(
                                         content: Text('Favourites Modified'),
-                                        action: SnackBarAction(
-                                          label: 'Undo',
-                                          onPressed: () {
-                                            // Some code to undo the change.
-                                            int k = 0;
-                                            if (snapshot.data[index]['fav'] ==
-                                                1) {
-                                              k = 0;
-                                            } else {
-                                              k = 1;
-                                            }
-                                            favTrip(
-                                                snapshot.data[index]["id"], k);
-                                          },
-                                        ),
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
@@ -259,20 +271,6 @@ class _YourTripState extends State<YourTrip> {
                                     () {
                                       final snackBar = SnackBar(
                                         content: Text('Item Archived'),
-                                        action: SnackBarAction(
-                                          label: 'Undo',
-                                          onPressed: () {
-                                            int k =
-                                                snapshot.data[index]["archive"];
-                                            if (k == 0) {
-                                              k = 1;
-                                            } else {
-                                              k = 0;
-                                            }
-                                            archiveTrip(
-                                                snapshot.data[index]["id"], k);
-                                          },
-                                        ),
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
