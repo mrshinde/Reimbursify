@@ -8,21 +8,19 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
 
-
-
-
-
-
-class addTrip extends StatefulWidget {
-  addTrip(this.callback);
+class editTrip extends StatefulWidget {
+  final tripclass tripinstance;
+  editTrip({this.callback, this.tripinstance});
   Function() callback;
   @override
-  _addTripState createState() => _addTripState();
+  _editTripState createState() => _editTripState();
 }
 
-class _addTripState extends State<addTrip> {
+class _editTripState extends State<editTrip> {
+
   Form tripform;
   Form tripDetails;
+  // Future<tripclass> _tripinstance;
   String title;
   var start_date;
   var end_date = "";
@@ -39,7 +37,10 @@ class _addTripState extends State<addTrip> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    title = this.widget.tripinstance.title;
+    start_date = this.widget.tripinstance.start_date;
+    complete = this.widget.tripinstance.complete;
+    note = this.widget.tripinstance.note;
     now = DateTime.now();
   }
 
@@ -64,6 +65,7 @@ class _addTripState extends State<addTrip> {
                         SizedBox(height:10),
                         Expanded(
                           child: TextFormField(
+                            initialValue: title,
                             decoration: InputDecoration(
                               labelText: 'Enter Title',
                               enabledBorder: OutlineInputBorder(),
@@ -82,6 +84,7 @@ class _addTripState extends State<addTrip> {
                               DropdownMenuItem(
                                   child: Text('No'), value: 0),
                             ],
+
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(),
                               labelText: 'Completed',
@@ -98,7 +101,7 @@ class _addTripState extends State<addTrip> {
                             type: DateTimePickerType.date,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100),
-                            initialDate: DateTime.now(),
+                            initialDate: DateTime.parse(start_date),
                             dateLabelText: 'Start Date',
                             onChanged: (value) {
                               start_date = DateTime.parse(value);
@@ -109,6 +112,7 @@ class _addTripState extends State<addTrip> {
                         SizedBox(height:10),
                         Expanded(
                           child: TextFormField(
+                            initialValue: note,
                             decoration: InputDecoration(
                               labelText: 'Notes',
                               enabledBorder: OutlineInputBorder(),
@@ -122,13 +126,12 @@ class _addTripState extends State<addTrip> {
                         SizedBox(height:10),
                         ElevatedButton(
                             onPressed: () {
-                              insertTripExpense(title, DateFormat('yyyy-MM-dd').format(start_date), end_date, complete,
-                                  0, 0, note, budget_head, DateFormat('yyyy-MM-dd – kk:mm').format(now), 0, 0);
-
+                              updateTrip(this.widget.tripinstance.id, title, start_date, this.widget.tripinstance.end_date, complete,
+                                  this.widget.tripinstance.total, this.widget.tripinstance.fav, note, this.widget.tripinstance.budget_head, DateFormat('yyyy-MM-dd – kk:mm').format(now), this.widget.tripinstance.advance, this.widget.tripinstance.archive);
                               this.widget.callback();
                               Navigator.pop(context);
                             },
-                            child: Text('Create Trip')),
+                            child: Text('Update Trip')),
 
                       ],),
                   ),
@@ -141,7 +144,3 @@ class _addTripState extends State<addTrip> {
     );
   }
 }
-
-
-
-
