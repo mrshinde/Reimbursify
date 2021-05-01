@@ -270,6 +270,7 @@ class _Item2State extends State<Item2> {
                                                   widget.amount_paid;
                                               updateAmount(
                                                   widget.tripid, total);
+                                              updateLastModified(widget.tripid);
                                               setState(() {
                                                 print("deleted");
 

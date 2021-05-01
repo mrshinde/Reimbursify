@@ -388,6 +388,7 @@ Widget editTravelForm(
                             double total = temp2.total + travelMap['fare'] - ex;
                             print(total);
                             updateAmount(trip_id, total);
+                            updateLastModified(trip_id);
                             callback();
                             Navigator.pop(context);
                           })
@@ -659,6 +660,7 @@ Widget editOtherForm(
                             double total = temp2.total + amount - ex;
                             print(total);
                             updateAmount(tripid, total);
+                            updateLastModified(tripid);
                             callback();
                             Navigator.of(context).pop();
                           },
@@ -767,6 +769,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                           onPressed: () async {
                             updatePersonalExpense(id, tripid, type, details,
                                 amount_paid, dateString);
+                            updateLastModified(tripid);
                             callback();
                             Navigator.of(context, rootNavigator: true).pop();
                           },

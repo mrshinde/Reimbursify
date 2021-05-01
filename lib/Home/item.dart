@@ -358,6 +358,7 @@ class _ItemState extends State<Item> {
                                                   temp2.total - widget.fare;
                                               updateAmount(
                                                   widget.tripid, total);
+                                              updateLastModified(widget.tripid);
                                               setState(() {
                                                 print("deleted");
                                                 ScaffoldMessenger.of(context)

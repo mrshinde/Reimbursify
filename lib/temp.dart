@@ -19,7 +19,6 @@ import 'package:flutter/scheduler.dart';
 double sum = 0;
 
 bool _value = false;
-bool isfabactive = false;
 
 class Temp extends StatefulWidget {
   Temp(
@@ -884,82 +883,99 @@ class _TempState extends State<Temp> {
         //     BottomNavigationBarItem(icon: Icons.back)
         //   ]
         // ),
-        floatingActionButton: Container(
-          // padding: const EdgeInsets.only(left: 15.0),
-          child: (() {
-            if (isfabactive == false) {
-              return FloatingActionButton(
-                backgroundColor: Colors.green,
-                onPressed: () {
-                  setState(() {
-                    isfabactive = true;
-                  });
-                },
-                child: Icon(Icons.add),
-              );
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 4.0),
-                    child: FloatingActionButton.extended(
-                      onPressed: () {
-                        createPDF(widget.trip_id);
-                      },
-                      // onPressed: () {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => Homepage()),
-                      //   );
-                      // },
-                      elevation: 15,
-                      heroTag: "btn1",
-                      splashColor: Colors.blue,
-                      backgroundColor: Colors.green,
-                      icon: Icon(Icons.picture_as_pdf_rounded),
-                      label: Text("Create Form "),
-                    ),
-                  ),
-                  Container(
-                    // padding: const EdgeInsets.only(top: 4.0),
-                    child: FloatingActionButton.extended(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (ct) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: MyHomePage(widget.trip_id, callback1),
-                              );
-                            });
-                      },
-                      heroTag: "btn2",
-                      elevation: 15,
-                      splashColor: Colors.blue,
-                      backgroundColor: Colors.green,
-                      icon: Icon(Icons.addchart_rounded),
-                      label: Text("Add Expense"),
-                    ),
-                  ),
-                  Container(
-                    // height: 40,
-                    margin: EdgeInsets.only(top: 4),
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.green,
-                      onPressed: () {
-                        setState(() {
-                          isfabactive = false;
+        floatingActionButton: button(this.widget.trip_id, callback1));
+  }
+}
+
+class button extends StatefulWidget {
+  button(this.trip_id, this.callback1);
+  final int trip_id;
+  Function() callback1;
+  bool isfabactive = false;
+  @override
+  _buttonState createState() => _buttonState();
+}
+
+class _buttonState extends State<button> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // padding: const EdgeInsets.only(left: 15.0),
+      child: (() {
+        if (widget.isfabactive == false) {
+          return FloatingActionButton(
+            backgroundColor: Colors.purple,
+            onPressed: () {
+              setState(() {
+                widget.isfabactive = true;
+              });
+            },
+            child: Icon(Icons.add),
+          );
+        } else {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    createPDF(widget.trip_id);
+                  },
+                  // onPressed: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => Homepage()),
+                  //   );
+                  // },
+                  elevation: 15,
+                  heroTag: "btn1",
+                  splashColor: Colors.blue,
+                  backgroundColor: Colors.purple,
+                  icon: Icon(Icons.picture_as_pdf_rounded),
+                  label: Text("Create Form "),
+                ),
+              ),
+              Container(
+                // padding: const EdgeInsets.only(top: 4.0),
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (ct) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: MyHomePage(
+                                this.widget.trip_id, this.widget.callback1),
+                          );
                         });
-                      },
-                      child: Icon(Icons.keyboard_arrow_down_rounded),
-                    ),
-                  ),
-                ],
-              );
-            }
-          }()),
-        ));
+                  },
+                  heroTag: "btn2",
+                  elevation: 15,
+                  splashColor: Colors.blue,
+                  backgroundColor: Colors.purple,
+                  icon: Icon(Icons.addchart_rounded),
+                  label: Text("Add Expense"),
+                ),
+              ),
+              Container(
+                // height: 40,
+                margin: EdgeInsets.only(top: 4),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.purple,
+                  onPressed: () {
+                    setState(() {
+                      widget.isfabactive = false;
+                    });
+                  },
+                  child: Icon(Icons.keyboard_arrow_down_rounded),
+                ),
+              ),
+            ],
+          );
+        }
+      }()),
+    );
   }
 }

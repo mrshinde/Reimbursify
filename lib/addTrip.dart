@@ -8,24 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
 
-class delete_trip extends StatefulWidget {
-  @override
-  _delete_tripState createState() => _delete_tripState();
-}
-
-class _delete_tripState extends State<delete_trip> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 40),
-        child: Dialog(
-
-        ),
-    );
-  }
-}
-
-
 
 class addTrip extends StatefulWidget {
   addTrip(this.callback);
