@@ -61,11 +61,22 @@ class _TripState extends State<Trip> {
               widget.title,
               style: TextStyle(fontSize: 20.0),
             ),
-            leading: Text(
-              widget.amount.toString(),
-              style: TextStyle(fontSize: 27.0, color: Colors.green),
+            // leading: Text(
+            //   widget.amount.toString(),
+            //   style: TextStyle(fontSize: 27.0, color: Colors.green),
+            // ),
+            subtitle: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('\u{20B9} '+
+                    widget.amount.toString(),
+                    style: TextStyle(fontSize: 23.0, color: Colors.green),
+                  ),
+                  Text(widget.start_date),
+                ]
             ),
-            subtitle: Text(widget.start_date + " - " + widget.end_date),
+
             trailing:
                 // Column(
                 //   children: [

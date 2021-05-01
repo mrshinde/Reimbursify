@@ -815,6 +815,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   insertPersonalExpense(
                       widget.trip_id, type, details, amount_paid, dateString);
+                  updateLastModified(widget.trip_id);
                   Navigator.pop(context);
                 },
                 child: Text('Send')),

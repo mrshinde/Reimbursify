@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:tripmanager/classes/personal.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/edit.dart';
 
 import 'package:tripmanager/temp.dart';
@@ -214,6 +215,8 @@ class _Item3State extends State<Item3> {
                                                         this
                                                             .widget
                                                             .serial_number);
+                                                updateLastModified(
+                                                    widget.tripid);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(snackBar);
                                                 widget.callback();
