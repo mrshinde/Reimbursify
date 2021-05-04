@@ -35,7 +35,7 @@ List<DropdownMenuItem> cardsTile = [];
 class _MyHomePageState extends State<MyHomePage> {
   Widget travelform;
   Widget travelDetails;
-  final myFuture = Future.delayed(Duration(seconds: 3), () => 12);
+  final _formKey = GlobalKey<FormState>();
 
   buildFormView(val) {
     if (val == 0) {
@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   i++;
                 }
                 return Form(
+                  key: _formKey,
                     child: Column(
                   children: <Widget>[
                     Row(
@@ -90,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: InputDecoration(
                               labelText: 'Enter Mode of Travel',
                             ),
+                            validator : (value) => value == null ? 'Required Field' : null,
                             onChanged: (value) {
                               switch (value) {
                                 case 0:
@@ -119,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(children: <Widget>[
                       Expanded(
                         child: TextFormField(
+                          validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                           decoration: InputDecoration(
                             labelText: 'From',
                             hintText: 'Enter Departure Station',
@@ -137,6 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Expanded(
                         child: TextFormField(
+                          validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                           decoration: InputDecoration(
                             labelText: 'To',
                             hintText: 'Enter Arrival Station',
@@ -156,6 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(children: <Widget>[
                       Expanded(
                         child: DateTimePicker(
+                          validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                           type: DateTimePickerType.dateTimeSeparate,
                           firstDate: DateTime(1900),
                           lastDate: DateTime(2100),
@@ -174,6 +179,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Expanded(
                         child: DateTimePicker(
+                          validator : (value){
+                            if(value == null || value.isEmpty)
+                              return 'Required Field';
+                            if(arrivalDate != null && departureDate != null)
+                              if(arrivalDate.compareTo(departureDate) < 0)
+                                return 'Arrival Date Time is before Departure';
+                            return null;
+                          },
                           type: DateTimePickerType.dateTimeSeparate,
                           firstDate: DateTime(1900),
                           lastDate: DateTime(2100),
@@ -193,6 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(children: <Widget>[
                       Expanded(
                         child: TextFormField(
+                          validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                           decoration: InputDecoration(
                             labelText: 'Enter PNR/Ticket No',
                             prefixIcon: Icon(Icons.train),
@@ -210,13 +224,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Expanded(
                         child: TextFormField(
+                          validator : (value){
+                            if(value == null || value.isEmpty)
+                              return 'Required Field';
+                            else if(double.tryParse(value) == null)
+                              return 'Not a valid number';
+                            else
+                              return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Enter KM travelled',
                             prefixIcon: Icon(Icons.add_road),
                             enabledBorder: OutlineInputBorder(),
                           ),
                           onChanged: (value) {
-                            km = double.parse(value);
+                            km = double.tryParse(value);
                           },
                         ),
                         flex: 2,
@@ -228,13 +250,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(children: <Widget>[
                       Expanded(
                         child: TextFormField(
+                          validator : (value){
+                            if(value == null || value.isEmpty)
+                              return 'Required Field';
+                            else if(double.tryParse(value) == null)
+                              return 'Not a valid number';
+                            else
+                              return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Enter Fare',
                             prefixIcon: Icon(Icons.money),
                             enabledBorder: OutlineInputBorder(),
                           ),
                           onChanged: (value) {
-                            fare = double.parse(value);
+                            fare = double.tryParse(value);
                           },
                         ),
                         flex: 2,
@@ -263,6 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
+                            validator: (value) => value == null ? 'Required Value' : null,
                             items: [
                               DropdownMenuItem(
                                 child: Text('Local'),
@@ -339,61 +370,63 @@ class _MyHomePageState extends State<MyHomePage> {
                     ElevatedButton(
                         child: Text('Send'),
                         onPressed: () async {
-                          Map<String, dynamic> travelMap =
-                              new Map<String, dynamic>();
-                          Map<String, dynamic> card =
-                              snapshot.data[_selected_card];
-                          String new_comment =
-                              "Payment made through card which has type: " +
-                                  card["type"].toString() +
-                                  ", account number: " +
-                                  card["account"].toString() +
-                                  ", card number: " +
-                                  card["number"] +
-                                  ";" +
-                                  additional_comments;
-                          travelMap['tripid'] = widget.trip_id;
-                          var temp = departureDate.toString().split(" ");
+                          if(_formKey.currentState.validate()){
+                            Map<String, dynamic> travelMap =
+                                new Map<String, dynamic>();
+                            Map<String, dynamic> card =
+                                snapshot.data[_selected_card];
+                            String new_comment =
+                                "Payment made through card which has type: " +
+                                    card["type"].toString() +
+                                    ", account number: " +
+                                    card["account"].toString() +
+                                    ", card number: " +
+                                    card["number"] +
+                                    ";" +
+                                    additional_comments;
+                            travelMap['tripid'] = widget.trip_id;
+                            var temp = departureDate.toString().split(" ");
 
-                          travelMap['dep_time'] = temp[1].split(":")[0] +
-                              ":" +
-                              temp[1].split(":")[1];
-                          travelMap['dep_date'] = temp[0];
-                          travelMap['dep_station'] = departurePlace;
-                          temp = arrivalDate.toString().split(" ");
-                          travelMap['arr_time'] = temp[1].split(":")[0] +
-                              ":" +
-                              temp[1].split(":")[1];
-                          travelMap['arr_date'] = temp[0];
-                          travelMap['arr_station'] = arrivalPlace;
-                          travelMap['mot'] = mode;
-                          travelMap['km'] = km;
-                          travelMap['fare'] = fare;
-                          travelMap['pnr'] = ticket_no;
-                          travelMap['remarks'] = new_comment;
-                          travelMap['receipt_location'] = receiptLocation;
-                          travelMap['ticket_address'] = ticketAddress;
-                          insertTravelExpense(
-                            travelMap['tripid'],
-                            travelMap['dep_time'],
-                            travelMap['dep_date'],
-                            travelMap['dep_station'],
-                            travelMap['arr_time'],
-                            travelMap['arr_date'],
-                            travelMap['arr_station'],
-                            travelMap['mot'],
-                            travelMap['km'],
-                            travelMap['fare'],
-                            travelMap['pnr'],
-                            travelMap['remarks'],
-                            travelMap['ticket_address'],
-                            travelMap['receipt_location'],
-                          );
-                          tripclass temp2 = await getTripById(widget.trip_id);
-                          double total = temp2.total + travelMap['fare'];
-                          updateAmount(widget.trip_id, total);
-                          widget.callback();
-                          Navigator.of(context).pop();
+                            travelMap['dep_time'] = temp[1].split(":")[0] +
+                                ":" +
+                                temp[1].split(":")[1];
+                            travelMap['dep_date'] = temp[0];
+                            travelMap['dep_station'] = departurePlace;
+                            temp = arrivalDate.toString().split(" ");
+                            travelMap['arr_time'] = temp[1].split(":")[0] +
+                                ":" +
+                                temp[1].split(":")[1];
+                            travelMap['arr_date'] = temp[0];
+                            travelMap['arr_station'] = arrivalPlace;
+                            travelMap['mot'] = mode;
+                            travelMap['km'] = km;
+                            travelMap['fare'] = fare;
+                            travelMap['pnr'] = ticket_no;
+                            travelMap['remarks'] = new_comment;
+                            travelMap['receipt_location'] = receiptLocation;
+                            travelMap['ticket_address'] = ticketAddress;
+                            insertTravelExpense(
+                              travelMap['tripid'],
+                              travelMap['dep_time'],
+                              travelMap['dep_date'],
+                              travelMap['dep_station'],
+                              travelMap['arr_time'],
+                              travelMap['arr_date'],
+                              travelMap['arr_station'],
+                              travelMap['mot'],
+                              travelMap['km'],
+                              travelMap['fare'],
+                              travelMap['pnr'],
+                              travelMap['remarks'],
+                              travelMap['ticket_address'],
+                              travelMap['receipt_location'],
+                            );
+                            tripclass temp2 = await getTripById(widget.trip_id);
+                            double total = temp2.total + travelMap['fare'];
+                            updateAmount(widget.trip_id, total);
+                            widget.callback();
+                            Navigator.of(context).pop();
+                          }
                         })
                   ],
                 ));
@@ -433,6 +466,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 i++;
               }
               return Form(
+                key:_formKey,
                 child: Column(
                   children: [
                     SizedBox(
@@ -442,6 +476,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
+                            validator: (value) => (value == null) ? 'Required Field' : null,
                             items: [
                               DropdownMenuItem(
                                 child: Text('Food'),
@@ -496,6 +531,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(children: [
                       Expanded(
                         child: DateTimePicker(
+                          validator: (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                           type: DateTimePickerType.date,
                           firstDate: DateTime(1900),
                           lastDate: DateTime(2100),
@@ -514,6 +550,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            validator: (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(),
                               labelText: 'Name of establishment',
@@ -527,13 +564,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(child: SizedBox(), flex: 1),
                         Expanded(
                           child: TextFormField(
+                            validator: (value) => (value == null || (double.tryParse(value) == null)) ? 'Required Field' : null,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(),
                               labelText: 'Amount Paid',
                             ),
                             onChanged: (value) {
-                              amount_paid = double.parse(value);
-                              print(amount_paid);
+                              amount_paid = double.tryParse(value);
                             },
                           ),
                           flex: 2,
@@ -545,6 +582,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            validator: (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(),
                               labelText: 'Enter Receipt No/ GSTIN if any',
@@ -562,6 +600,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
+                            validator: (value) => (value == null) ? 'Required Field' : null,
                             items: [
                               DropdownMenuItem(
                                 child: Text('Local'),
@@ -633,32 +672,34 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
-                          Map<String, dynamic> card =
-                              snapshot.data[_selected_card];
-                          String new_comment =
-                              "Payment made through card which has type: " +
-                                  card["type"].toString() +
-                                  ", account number: " +
-                                  card["account"].toString() +
-                                  ", card number: " +
-                                  card["number"] +
-                                  ";" +
-                                  receipt_details;
-                          insertOtherExpense(
-                              widget.trip_id,
-                              type,
-                              details,
-                              amount_paid,
-                              new_comment,
-                              receipt_address,
-                              receipt_location,
-                              dateString);
-                          tripclass temp2 = await getTripById(widget.trip_id);
-                          double total = temp2.total + amount_paid;
-                          updateAmount(widget.trip_id, total);
-                          widget.callback();
+                          if(_formKey.currentState.validate()){
+                            Map<String, dynamic> card =
+                                snapshot.data[_selected_card];
+                            String new_comment =
+                                "Payment made through card which has type: " +
+                                    card["type"].toString() +
+                                    ", account number: " +
+                                    card["account"].toString() +
+                                    ", card number: " +
+                                    card["number"] +
+                                    ";" +
+                                    receipt_details;
+                            insertOtherExpense(
+                                widget.trip_id,
+                                type,
+                                details,
+                                amount_paid,
+                                new_comment,
+                                receipt_address,
+                                receipt_location,
+                                dateString);
+                            tripclass temp2 = await getTripById(widget.trip_id);
+                            double total = temp2.total + amount_paid;
+                            updateAmount(widget.trip_id, total);
+                            widget.callback();
 
-                          Navigator.pop(context);
+                            Navigator.pop(context);
+                        }
                         },
                         child: Text('Send')),
                   ],
@@ -687,6 +728,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var tripid = 1;
       setState(() {
         travelDetails = Form(
+          key:_formKey,
             child: Column(
           children: [
             SizedBox(height: 10),
@@ -694,6 +736,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    validator: (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(),
                       labelText: 'Title for Expense',
@@ -710,6 +753,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(children: [
               Expanded(
                 child: DateTimePicker(
+                  validator: (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                   type: DateTimePickerType.date,
                   firstDate: DateTime(1900),
                   lastDate: DateTime(2100),
@@ -726,6 +770,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 10),
             Container(
               child: DropdownButtonFormField(
+                validator: (value) => (value == null) ? 'Required Field' : null,
                 items: [
                   DropdownMenuItem(
                     child: Text('Food'),
@@ -779,12 +824,13 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    validator: (value) => (value == null || (double.tryParse(value) == null)) ? 'Required Field' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(),
                       labelText: 'Amount Paid',
                     ),
                     onChanged: (value) {
-                      amount_paid = double.parse(value);
+                      amount_paid = double.tryParse(value);
                     },
                   ),
                   flex: 2,
@@ -797,10 +843,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  insertPersonalExpense(
-                      widget.trip_id, type, details, amount_paid, dateString);
-                  updateLastModified(widget.trip_id);
-                  Navigator.pop(context);
+                  if(_formKey.currentState.validate()){
+                    insertPersonalExpense(
+                        widget.trip_id, type, details, amount_paid, dateString);
+                    updateLastModified(widget.trip_id);
+                    Navigator.pop(context);
+                  }
                 },
                 child: Text('Send')),
           ],
