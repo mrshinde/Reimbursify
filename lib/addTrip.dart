@@ -64,6 +64,7 @@ class _addTripState extends State<addTrip> {
                         SizedBox(height:10),
                         Expanded(
                           child: TextFormField(
+                            maxLength: 23,
                             decoration: InputDecoration(
                               labelText: 'Enter Title',
                               enabledBorder: OutlineInputBorder(),
@@ -124,7 +125,6 @@ class _addTripState extends State<addTrip> {
                             onPressed: () {
                               insertTripExpense(title, DateFormat('yyyy-MM-dd').format(start_date), end_date, complete,
                                   0, 0, note, budget_head, DateFormat('yyyy-MM-dd – kk:mm').format(now), 0, 0);
-
                               this.widget.callback();
                               Navigator.pop(context);
                             },
