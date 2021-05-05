@@ -23,7 +23,8 @@ Future<File> getImageFileFromAssets(String path) async {
 Future<void> createPDF(int id) async {
   //Creates a new PDF document
   PdfDocument document = PdfDocument();
-
+  // document.pageSettings.margins.all = 50.0;
+  document.compressionLevel = PdfCompressionLevel.best;
   PdfPage page = document.pages.add();
   final dy = await getApplicationDocumentsDirectory();
   final p = dy.path;
@@ -197,9 +198,13 @@ Future<void> createPDF(int id) async {
 // //Gets the height of the PDF grid cell
 //   double height = row2.cells[2].height;
 //Draw the grid in PDF document page
+  int count1 = document.pages.count;
   PdfLayoutResult result = grid.draw(
       page: page, bounds: const Rect.fromLTWH(0, 500, 0, 0)) as PdfLayoutResult;
-
+  int count2 = document.pages.count;
+  double bound = result.bounds.bottom;
+  PdfPage pp = result.page;
+  // if (count2 != count1) {}
   PdfGrid grid2 = PdfGrid();
   grid2.columns.add(count: 4);
   grid2.headers.add(1);
@@ -219,20 +224,35 @@ Future<void> createPDF(int id) async {
     row2.cells[2].value = other_expenses[i]['amount_paid'].toString();
     row2.cells[3].value = other_expenses[i]['receipt_details'];
   }
+  PdfPage page2 = result.page;
+  double bound2 = result.bounds.bottom;
+
+  if (page2.getClientSize().height - bound2 < 95) {
+    bound2 = 0;
+    page2 = document.pages.add();
+  }
 
   File foot1 = await getImageFileFromAssets('foot1.PNG');
   File foot2 = await getImageFileFromAssets('foot2.PNG');
   File foot3 = await getImageFileFromAssets('foot3.PNG');
-  result.page.graphics.drawImage(PdfBitmap(foot1.readAsBytesSync()),
-      Rect.fromLTWH(0, result.bounds.bottom, 500, 40));
-  result.page.graphics.drawImage(PdfBitmap(foot2.readAsBytesSync()),
-      Rect.fromLTWH(0, result.bounds.bottom + 40, 500, 35));
+  page2.graphics.drawImage(PdfBitmap(foot1.readAsBytesSync()),
+      Rect.fromLTWH(0, bound2 + 20, 500, 40));
+  page2.graphics.drawImage(PdfBitmap(foot2.readAsBytesSync()),
+      Rect.fromLTWH(0, bound2 + 40, 500, 35));
 
-  result = grid2.draw(
-      page: result.page,
-      bounds: Rect.fromLTWH(0, result.bounds.bottom + 80, 0, 0));
-  result.page.graphics.drawImage(PdfBitmap(foot3.readAsBytesSync()),
-      Rect.fromLTWH(0, result.bounds.bottom + 20, 500, 250));
+  result = grid2.draw(page: page2, bounds: Rect.fromLTWH(0, bound2 + 80, 0, 0));
+  double bound3 = result.bounds.bottom;
+  PdfPage page3 = result.page;
+  // print(page3.getClientSize());
+  // print(bound3);
+  if (page3.getClientSize().height - bound3 < 270) {
+    bound3 = 0;
+    page3 = document.pages.add();
+  }
+  // PdfPage pdfPage = document.pages[document.pages.count - 1];
+  // page.graphics.drawImage(PdfBitmap(foot3.readAsBytesSync()),Rect.fromLTWH(0,0,page.getClientSize().width,page.getClientSize().height));
+  page3.graphics.drawImage(PdfBitmap(foot3.readAsBytesSync()),
+      Rect.fromLTWH(0, bound3 + 20, 500, 250));
 
   List<int> bytes = document.save();
 // , bounds: const Rect.fromLTWH(0, 0, 0, 0)

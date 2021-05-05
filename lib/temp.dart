@@ -13,6 +13,7 @@ import 'package:tripmanager/createpdf.dart';
 import 'classes/tripclass.dart';
 import 'classes/itemclass.dart';
 import 'package:tripmanager/Home/item.dart';
+import 'package:tripmanager/editTrip.dart';
 import 'classes/travelexpense.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -37,7 +38,9 @@ class _TempState extends State<Temp> {
     });
     // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
-
+  callback2() {
+    setState(() {});
+  }
   double expense = 2200;
   String tripName = 'IIT Bombay';
   String date = '09/03/2021';
@@ -146,7 +149,13 @@ class _TempState extends State<Temp> {
                                       color: Colors.black,
                                     ),
                                     onPressed: () {
-                                      /* TODO: Implement the Button function */
+                                      // setState(() {
+                                        showDialog(
+                                            context: context,
+                                            builder: (ct) {
+                                              return editTrip(callback2, snapshot.data);
+                                            });
+                                      // });
                                     },
                                   ),
                                 ),
