@@ -170,126 +170,133 @@ class _YourTripState extends State<YourTrip> {
       ),
       backgroundColor: Colors.cyan,
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                    stream: Stream.fromFuture(getTripbyAll(searchTitle, search)),
-                    builder: (context,
-                        AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          children: [
-                            ListView.builder(
-                              itemCount: snapshot.data.length,
-                              primary: false,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext ctxt, int index) {
-                                print(snapshot.data[index]);
-                                // return Text('Hi');
-                                //Having True at this place means That tile will be shown otherwise not
-                                //I can have if and else here to decide to show or not
-                                //So what I want is Archive to be shown when it is arhive ie search is 9 or I am searching string ie search==1
-                                if (snapshot.data[index]['archive'] == 0||search==9) {
-                                  return new Trip(
-                                    snapshot.data[index]["id"],
-                                    snapshot.data[index]["total"],
-                                    snapshot.data[index]["title"],
-                                    snapshot.data[index]["start_date"],
-                                    snapshot.data[index]["end_date"],
-                                    () {
-                                      showDialog<void>(
-                                        context: context,
-                                        barrierDismissible:
-                                        false, // user must tap button!
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Delete Trip?'),
-                                            content: Text(
-                                                'Do you want to delete the Trip?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: Text('No'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: Text('Yes'),
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    deleteTrip(snapshot.data[index]["id"]);
-                                                    print("deleted");
-                                                    final snackBar = SnackBar(
-                                                      content: Text('Item Deleted'),
-                                                    );
-                                                    ScaffoldMessenger.of(context)
-                                                        .showSnackBar(snackBar);
-                                                  });
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    () {
-                                      // showInSnackBar("added  removed from Favourites");
-                                      final snackBar = SnackBar(
-                                        content: Text('Favourites Modified'),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-
-                                      setState(() {
-                                        int k = 0;
-                                        if (snapshot.data[index]['fav'] == 1) {
-                                          k = 0;
-                                        } else {
-                                          k = 1;
-                                        }
-                                        favTrip(snapshot.data[index]["id"], k);
-                                      });
-                                    },
-                                    () {
-                                      final snackBar = SnackBar(
-                                        content: Text('Item Archived'),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-
-                                      setState(() {
-                                        int k = snapshot.data[index]["archive"];
-                                        if (k == 0) {
-                                          k = 1;
-                                        } else {
-                                          k = 0;
-                                        }
-                                        archiveTrip(
-                                            snapshot.data[index]["id"], k);
-                                      });
-                                    },
-                                    favfun(snapshot.data[index]["fav"]),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    }),
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Colors.blue, Colors.purple])),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
               ),
-            ),
-          ],
+              Expanded(
+                child: SingleChildScrollView(
+                  child: StreamBuilder<List<Map<dynamic, dynamic>>>(
+                      stream: Stream.fromFuture(getTripbyAll(searchTitle, search)),
+                      builder: (context,
+                          AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            children: [
+                              ListView.builder(
+                                itemCount: snapshot.data.length,
+                                primary: false,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext ctxt, int index) {
+                                  print(snapshot.data[index]);
+                                  // return Text('Hi');
+                                  //Having True at this place means That tile will be shown otherwise not
+                                  //I can have if and else here to decide to show or not
+                                  //So what I want is Archive to be shown when it is arhive ie search is 9 or I am searching string ie search==1
+                                  if (snapshot.data[index]['archive'] == 0||search==9) {
+                                    return new Trip(
+                                      snapshot.data[index]["id"],
+                                      snapshot.data[index]["total"],
+                                      snapshot.data[index]["title"],
+                                      snapshot.data[index]["start_date"],
+                                      snapshot.data[index]["end_date"],
+                                      () {
+                                        showDialog<void>(
+                                          context: context,
+                                          barrierDismissible:
+                                          false, // user must tap button!
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Delete Trip?'),
+                                              content: Text(
+                                                  'Do you want to delete the Trip?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: Text('No'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text('Yes'),
+                                                  onPressed: () async {
+                                                    setState(() {
+                                                      deleteTrip(snapshot.data[index]["id"]);
+                                                      print("deleted");
+                                                      final snackBar = SnackBar(
+                                                        content: Text('Item Deleted'),
+                                                      );
+                                                      ScaffoldMessenger.of(context)
+                                                          .showSnackBar(snackBar);
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      () {
+                                        // showInSnackBar("added  removed from Favourites");
+                                        final snackBar = SnackBar(
+                                          content: Text('Favourites Modified'),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+
+                                        setState(() {
+                                          int k = 0;
+                                          if (snapshot.data[index]['fav'] == 1) {
+                                            k = 0;
+                                          } else {
+                                            k = 1;
+                                          }
+                                          favTrip(snapshot.data[index]["id"], k);
+                                        });
+                                      },
+                                      () {
+                                        final snackBar = SnackBar(
+                                          content: Text('Item Archived'),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+
+                                        setState(() {
+                                          int k = snapshot.data[index]["archive"];
+                                          if (k == 0) {
+                                            k = 1;
+                                          } else {
+                                            k = 0;
+                                          }
+                                          archiveTrip(
+                                              snapshot.data[index]["id"], k);
+                                        });
+                                      },
+                                      favfun(snapshot.data[index]["fav"]),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(

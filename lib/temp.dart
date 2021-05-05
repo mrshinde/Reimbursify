@@ -148,14 +148,14 @@ class _TempState extends State<Temp> {
                                       Icons.edit,
                                       color: Colors.black,
                                     ),
-                                    onPressed: () {
-                                      // setState(() {
+                                    onPressed: () async{
+                                      setState(() {
                                         showDialog(
                                             context: context,
                                             builder: (ct) {
                                               return editTrip(callback2, snapshot.data);
                                             });
-                                      // });
+                                      });
                                     },
                                   ),
                                 ),

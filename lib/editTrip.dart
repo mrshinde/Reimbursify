@@ -11,7 +11,7 @@ import './classes/otherexpense.dart';
 class editTrip extends StatefulWidget {
   editTrip(this.callback, this.tripinstance);
   final tripclass tripinstance;
-  Function() callback;
+  Function callback;
   @override
   _editTripState createState() => _editTripState();
 }
@@ -112,7 +112,6 @@ class _editTripState extends State<editTrip> {
                             lastDate: DateTime(2100),
                             initialDate: DateTime.parse(start_date),
                             dateLabelText: 'Start Date',
-
                             onChanged: (value) {
                               start_date = DateTime.parse(value);
                             },

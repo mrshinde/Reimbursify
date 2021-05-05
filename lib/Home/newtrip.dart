@@ -52,6 +52,10 @@ class _TripState extends State<Trip> {
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
+            boxShadow: [BoxShadow(
+              color: Colors.grey,
+              blurRadius: 5.0,
+            ),],
             border: Border.all(
               color: Colors.red[500],
             ),
