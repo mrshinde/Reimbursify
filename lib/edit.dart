@@ -12,6 +12,7 @@ import './classes/personal.dart';
 Widget editTravelForm(
     Function() callback, int id, BuildContext context, Travel travelinstance) {
   Travel dataMap = travelinstance;
+  final _formKey = GlobalKey<FormState>();
   print(dataMap.toMap());
   // getItemById(id).then((value) {
   // dataMap = value;
@@ -77,12 +78,14 @@ Widget editTravelForm(
               child: Center(
                 child: Column(children: [
                   Form(
+                    key: _formKey,
                       child: Column(
                     children: <Widget>[
                       Row(
                         children: [
                           Expanded(
                             child: DropdownButtonFormField(
+                              validator : (value) => value == null ? 'Required Field' : null,
                               value: mode_val,
                               items: [
                                 DropdownMenuItem(
@@ -130,6 +133,7 @@ Widget editTravelForm(
                       Row(children: <Widget>[
                         Expanded(
                           child: TextFormField(
+                            validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                             initialValue: departurePlace,
                             decoration: InputDecoration(
                               labelText: 'From',
@@ -149,6 +153,7 @@ Widget editTravelForm(
                         ),
                         Expanded(
                           child: TextFormField(
+                            validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                             initialValue: arrivalPlace,
                             decoration: InputDecoration(
                               labelText: 'To',
@@ -169,6 +174,7 @@ Widget editTravelForm(
                       Row(children: <Widget>[
                         Expanded(
                           child: DateTimePicker(
+                            validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                             initialValue: departureDate.toString(),
                             type: DateTimePickerType.dateTimeSeparate,
                             firstDate: DateTime(1900),
@@ -181,14 +187,24 @@ Widget editTravelForm(
                               departureDate = DateTime.parse(value);
                             },
                           ),
-                          flex: 2,
-                        ),
-                        Expanded(
-                          child: SizedBox(),
                           flex: 1,
                         ),
-                        Expanded(
+                      ]),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
                           child: DateTimePicker(
+                            validator : (value){
+                            if(value == null || value.isEmpty)
+                              return 'Required Field';
+                            if(arrivalDate != null && departureDate != null)
+                              if(arrivalDate.compareTo(departureDate) < 0)
+                                return 'Arrival Date Time is before Departure';
+                            return null;
+                          },
                             initialValue: arrivalDate.toString(),
                             type: DateTimePickerType.dateTimeSeparate,
                             firstDate: DateTime(1900),
@@ -201,18 +217,20 @@ Widget editTravelForm(
                               arrivalDate = DateTime.parse(value);
                             },
                           ),
-                          flex: 2,
+                          flex: 1,
                         )
-                      ]),
+                        ],
+                      ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Row(children: <Widget>[
                         Expanded(
                           child: TextFormField(
+                             validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                             initialValue: ticket_no,
                             decoration: InputDecoration(
-                              labelText: 'Enter PNR/Ticket No',
+                              labelText: 'PNR/Ticket No',
                               prefixIcon: Icon(Icons.train),
                               enabledBorder: OutlineInputBorder(),
                             ),
@@ -228,9 +246,17 @@ Widget editTravelForm(
                         ),
                         Expanded(
                           child: TextFormField(
+                            validator : (value){
+                            if(value == null || value.isEmpty)
+                              return 'Required Field';
+                            else if(double.tryParse(value) == null)
+                              return 'Not a valid number';
+                            else
+                              return null;
+                          },
                             initialValue: km.toString(),
                             decoration: InputDecoration(
-                              labelText: 'Enter KM travelled',
+                              labelText: 'KM travelled',
                               prefixIcon: Icon(Icons.add_road),
                               enabledBorder: OutlineInputBorder(),
                             ),
@@ -247,9 +273,17 @@ Widget editTravelForm(
                       Row(children: <Widget>[
                         Expanded(
                           child: TextFormField(
+                            validator : (value){
+                            if(value == null || value.isEmpty)
+                              return 'Required Field';
+                            else if(double.tryParse(value) == null)
+                              return 'Not a valid number';
+                            else
+                              return null;
+                          },
                             initialValue: fare.toString(),
                             decoration: InputDecoration(
-                              labelText: 'Enter Fare',
+                              labelText: 'Fare',
                               prefixIcon: Icon(Icons.money),
                               enabledBorder: OutlineInputBorder(),
                             ),
@@ -267,7 +301,7 @@ Widget editTravelForm(
                           child: TextFormField(
                             initialValue: additional_comments,
                             decoration: InputDecoration(
-                              labelText: 'Additional Remarks',
+                              labelText: 'Remarks',
                               enabledBorder: OutlineInputBorder(),
                             ),
                             onChanged: (value) {
@@ -284,6 +318,7 @@ Widget editTravelForm(
                         children: [
                           Expanded(
                             child: DropdownButtonFormField(
+                              validator: (value) => value == null ? 'Required Value' : null,
                               value: ticket_val,
                               items: [
                                 DropdownMenuItem(
@@ -345,52 +380,54 @@ Widget editTravelForm(
                       ElevatedButton(
                           child: Text('Send'),
                           onPressed: () async {
-                            Map<String, dynamic> travelMap =
-                                new Map<String, dynamic>();
-                            travelMap['tripid'] = trip_id;
-                            var temp = departureDate.toString().split(" ");
+                            if(_formKey.currentState.validate()){
+                              Map<String, dynamic> travelMap =
+                                  new Map<String, dynamic>();
+                              travelMap['tripid'] = trip_id;
+                              var temp = departureDate.toString().split(" ");
 
-                            travelMap['dep_time'] = temp[1].split(":")[0] +
-                                ":" +
-                                temp[1].split(":")[1];
-                            travelMap['dep_date'] = temp[0];
-                            travelMap['dep_station'] = departurePlace;
-                            temp = arrivalDate.toString().split(" ");
-                            travelMap['arr_time'] = temp[1].split(":")[0] +
-                                ":" +
-                                temp[1].split(":")[1];
-                            travelMap['arr_date'] = temp[0];
-                            travelMap['arr_station'] = arrivalPlace;
-                            travelMap['mot'] = mode;
-                            travelMap['km'] = km;
-                            travelMap['fare'] = fare;
-                            travelMap['pnr'] = ticket_no;
-                            travelMap['remarks'] = additional_comments;
-                            travelMap['receipt_location'] = receiptLocation;
-                            travelMap['ticket_address'] = ticketAddress;
-                            updateTravelExpense(
-                                id,
-                                travelMap['tripid'],
-                                travelMap['dep_time'],
-                                travelMap['dep_date'],
-                                travelMap['dep_station'],
-                                travelMap['arr_time'],
-                                travelMap['arr_date'],
-                                travelMap['arr_station'],
-                                travelMap['mot'],
-                                travelMap['km'],
-                                travelMap['fare'],
-                                travelMap['pnr'],
-                                travelMap['remarks'],
-                                travelMap['ticket_address'],
-                                travelMap['receipt_location']);
-                            tripclass temp2 = await getTripById(trip_id);
-                            double total = temp2.total + travelMap['fare'] - ex;
-                            print(total);
-                            updateAmount(trip_id, total);
-                            updateLastModified(trip_id);
-                            callback();
-                            Navigator.pop(context);
+                              travelMap['dep_time'] = temp[1].split(":")[0] +
+                                  ":" +
+                                  temp[1].split(":")[1];
+                              travelMap['dep_date'] = temp[0];
+                              travelMap['dep_station'] = departurePlace;
+                              temp = arrivalDate.toString().split(" ");
+                              travelMap['arr_time'] = temp[1].split(":")[0] +
+                                  ":" +
+                                  temp[1].split(":")[1];
+                              travelMap['arr_date'] = temp[0];
+                              travelMap['arr_station'] = arrivalPlace;
+                              travelMap['mot'] = mode;
+                              travelMap['km'] = km;
+                              travelMap['fare'] = fare;
+                              travelMap['pnr'] = ticket_no;
+                              travelMap['remarks'] = additional_comments;
+                              travelMap['receipt_location'] = receiptLocation;
+                              travelMap['ticket_address'] = ticketAddress;
+                              updateTravelExpense(
+                                  id,
+                                  travelMap['tripid'],
+                                  travelMap['dep_time'],
+                                  travelMap['dep_date'],
+                                  travelMap['dep_station'],
+                                  travelMap['arr_time'],
+                                  travelMap['arr_date'],
+                                  travelMap['arr_station'],
+                                  travelMap['mot'],
+                                  travelMap['km'],
+                                  travelMap['fare'],
+                                  travelMap['pnr'],
+                                  travelMap['remarks'],
+                                  travelMap['ticket_address'],
+                                  travelMap['receipt_location']);
+                              tripclass temp2 = await getTripById(trip_id);
+                              double total = temp2.total + travelMap['fare'] - ex;
+                              print(total);
+                              updateAmount(trip_id, total);
+                              updateLastModified(trip_id);
+                              callback();
+                              Navigator.pop(context);
+                            }
                           })
                     ],
                   ))

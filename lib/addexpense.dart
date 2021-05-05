@@ -8,6 +8,17 @@ import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
 import './classes/personal.dart';
 
+
+Map<String, String> parseComment(String comment){
+  final regex = RegExp(r'^Payment made through card which has type: (.+), account number: (.+), card number: (.+);(.*)$');
+  final match = regex.firstMatch(comment);
+  if(match == null)
+    return null;
+  else{
+    return {'type': match.group(1), 'acc_no': match.group(2), 'number': match.group(3), 'additional_comments': match.group(4)};
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   MyHomePage(this.trip_id, this.callback);
   Function() callback;
@@ -171,13 +182,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             departureDate = DateTime.parse(value);
                           },
                         ),
-                        flex: 2,
-                      ),
-                      Expanded(
-                        child: SizedBox(),
                         flex: 1,
                       ),
-                      Expanded(
+                    ]),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
                         child: DateTimePicker(
                           validator : (value){
                             if(value == null || value.isEmpty)
@@ -197,9 +210,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             arrivalDate = DateTime.parse(value);
                           },
                         ),
-                        flex: 2,
+                        flex: 1,
                       )
-                    ]),
+                      ],
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -208,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: TextFormField(
                           validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                           decoration: InputDecoration(
-                            labelText: 'Enter PNR/Ticket No',
+                            labelText: 'PNR/Ticket No',
                             prefixIcon: Icon(Icons.train),
                             enabledBorder: OutlineInputBorder(),
                           ),
@@ -233,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               return null;
                           },
                           decoration: InputDecoration(
-                            labelText: 'Enter KM travelled',
+                            labelText: 'KM',
                             prefixIcon: Icon(Icons.add_road),
                             enabledBorder: OutlineInputBorder(),
                           ),
@@ -259,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               return null;
                           },
                           decoration: InputDecoration(
-                            labelText: 'Enter Fare',
+                            labelText: 'Fare',
                             prefixIcon: Icon(Icons.money),
                             enabledBorder: OutlineInputBorder(),
                           ),
@@ -276,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Expanded(
                         child: TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'Additional Remarks',
+                            labelText: 'Remarks',
                             enabledBorder: OutlineInputBorder(),
                           ),
                           onChanged: (value) {
@@ -371,6 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text('Send'),
                         onPressed: () async {
                           if(_formKey.currentState.validate()){
+                            print('Hello');
                             Map<String, dynamic> travelMap =
                                 new Map<String, dynamic>();
                             Map<String, dynamic> card =
@@ -379,11 +394,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                 "Payment made through card which has type: " +
                                     card["type"].toString() +
                                     ", account number: " +
-                                    card["account"].toString() +
+                                    card["acc_number"].toString() +
                                     ", card number: " +
                                     card["number"] +
                                     ";" +
-                                    additional_comments;
+                                    ((additional_comments == null) ? '' : additional_comments);
                             travelMap['tripid'] = widget.trip_id;
                             var temp = departureDate.toString().split(" ");
 
@@ -679,11 +694,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                 "Payment made through card which has type: " +
                                     card["type"].toString() +
                                     ", account number: " +
-                                    card["account"].toString() +
+                                    card["acc_number"].toString() +
                                     ", card number: " +
                                     card["number"] +
                                     ";" +
-                                    receipt_details;
+                                    ((receipt_details == null) ? '' : receipt_details);
                             insertOtherExpense(
                                 widget.trip_id,
                                 type,
