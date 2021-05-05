@@ -198,6 +198,7 @@ Future<List<Map<String, dynamic>>> getCards() async {
   List<Map> list = await _databaseHelper.db.rawQuery("Select * from PaymentCard");
   print(list.length);
   if (list.length > 0) {
+    print(list);
     return list;
   }
   return null;
