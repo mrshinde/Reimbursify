@@ -11,7 +11,7 @@ import './classes/otherexpense.dart';
 class editTrip extends StatefulWidget {
   editTrip(this.callback, this.tripinstance);
   final tripclass tripinstance;
-  Function callback;
+  Function() callback;
   @override
   _editTripState createState() => _editTripState();
 }

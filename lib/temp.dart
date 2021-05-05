@@ -153,7 +153,7 @@ class _TempState extends State<Temp> {
                                         showDialog(
                                             context: context,
                                             builder: (ct) {
-                                              return editTrip(callback2, snapshot.data);
+                                              return editTrip(callback1, snapshot.data);
                                             });
                                       });
                                     },
