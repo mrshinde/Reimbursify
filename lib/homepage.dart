@@ -183,7 +183,7 @@ class _HomepageState extends State<Homepage> {
 
 
                       onPressed: () {
-                        _onShare(context);
+                        _onImport(context);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -197,7 +197,7 @@ class _HomepageState extends State<Homepage> {
                     RaisedButton(
                       color: Colors.purple[200],
                       onPressed: () {
-                        _onImport(context);
+                        _onShare(context);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
