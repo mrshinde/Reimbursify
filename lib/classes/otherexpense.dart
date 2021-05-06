@@ -6,6 +6,7 @@ class OtherExpense {
   final String type;
   final String details;
   final double amount_paid;
+  final String currency;
   final String receipt_details;
   final String receipt_address;
   final String receipt_location;
@@ -17,6 +18,7 @@ class OtherExpense {
       this.type,
       this.details,
       this.amount_paid,
+      this.currency,
       this.receipt_details,
       this.receipt_address,
       this.receipt_location,
@@ -29,6 +31,7 @@ class OtherExpense {
     map["type"] = type;
     map["details"] = details;
     map["amount_paid"] = amount_paid;
+    map["currency"] = currency;
     map["receipt_details"] = receipt_details;
     map["receipt_address"] = receipt_address;
     map["receipt_location"] = receipt_location;
@@ -42,6 +45,7 @@ class OtherExpense {
         type: data["type"],
         details: data["details"],
         amount_paid: data["amount_paid"],
+        currency: data["currency"],
         receipt_details: data["receipt_details"],
         receipt_address: data["receipt_address"],
         receipt_location: data["receipt_location"],
@@ -56,6 +60,7 @@ Future<int> insertOtherExpense(
     String type,
     String details,
     double amount_paid,
+    String currency,
     String receipt_details,
     String receipt_address,
     String receipt_location,
@@ -65,6 +70,7 @@ Future<int> insertOtherExpense(
     type: type,
     details: details,
     amount_paid: amount_paid,
+    currency: currency,
     receipt_details: receipt_details,
     receipt_address: receipt_address,
     receipt_location: receipt_location,
@@ -109,6 +115,7 @@ Future<int> updateOtherExpense(
   String type,
   String details,
   double amount_paid,
+  String currency,
   String receipt_details,
   String receipt_address,
   String receipt_location,
@@ -119,6 +126,7 @@ Future<int> updateOtherExpense(
       type: type,
       details: details,
       amount_paid: amount_paid,
+      currency: currency,
       receipt_details: receipt_details,
       receipt_address: receipt_address,
       receipt_location: receipt_location,

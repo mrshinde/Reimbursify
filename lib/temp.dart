@@ -5,6 +5,8 @@ import 'package:tripmanager/Home/item3.dart';
 import 'package:tripmanager/addexpense.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:tripmanager/classes/personal.dart';
+import 'package:tripmanager/createotherpdf.dart';
+import 'package:tripmanager/createsheet.dart';
 import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/item2.dart';
 import 'package:tripmanager/createpdf.dart';
@@ -38,9 +40,11 @@ class _TempState extends State<Temp> {
     });
     // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
+
   callback2() {
     setState(() {});
   }
+
   double expense = 2200;
   String tripName = 'IIT Bombay';
   String date = '09/03/2021';
@@ -148,12 +152,13 @@ class _TempState extends State<Temp> {
                                       Icons.edit,
                                       color: Colors.black,
                                     ),
-                                    onPressed: () async{
+                                    onPressed: () async {
                                       setState(() {
                                         showDialog(
                                             context: context,
                                             builder: (ct) {
-                                              return editTrip(callback1, snapshot.data);
+                                              return editTrip(
+                                                  callback1, snapshot.data);
                                             });
                                       });
                                     },
@@ -930,7 +935,15 @@ class _buttonState extends State<button> {
                 padding: const EdgeInsets.only(bottom: 4.0),
                 child: FloatingActionButton.extended(
                   onPressed: () {
-                    createPDF(widget.trip_id);
+                    showDialog(
+                        context: context,
+                        builder: (ct) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: createpopup(this.widget.trip_id),
+                          );
+                        });
+                    // createPDF(widget.trip_id);
                   },
                   // onPressed: () {
                   //   Navigator.push(
@@ -985,6 +998,267 @@ class _buttonState extends State<button> {
           );
         }
       }()),
+    );
+  }
+}
+
+class createpopup extends StatefulWidget {
+  createpopup(this.tripid);
+  final int tripid;
+  @override
+  _createpopupState createState() => _createpopupState();
+}
+
+class _createpopupState extends State<createpopup> {
+  List<bool> buttons = [true, false];
+  List<bool> buttons2 = [true, false];
+
+  bool check = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // margin: EdgeInsets.fromLTRB(8, 10, 8, 20),
+      margin: EdgeInsets.all(30.0),
+      child: Dialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+        elevation: 16,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Container(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Container(
+                  // width: 0,
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: (() {
+                      if (buttons[0] == true) {
+                        return RaisedButton(
+                          elevation: 5,
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {},
+                          child: Text(
+                            'IIT Ropar Form',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      } else {
+                        return RaisedButton(
+                          elevation: 5,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              side:
+                                  BorderSide(color: Colors.redAccent, width: 2),
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {
+                            setState(() {
+                              buttons[0] = true;
+                              buttons[1] = false;
+                            });
+                          },
+                          child: Text(
+                            'IIT Ropar Form',
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                        );
+                      }
+                    }()),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: (() {
+                      if (buttons[1] == true) {
+                        return RaisedButton(
+                          elevation: 5,
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {},
+                          child: Text(
+                            'Other',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      } else {
+                        return RaisedButton(
+                          elevation: 5,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              side:
+                                  BorderSide(color: Colors.redAccent, width: 2),
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {
+                            setState(() {
+                              buttons[1] = true;
+                              buttons[0] = false;
+                            });
+                          },
+                          child: Text(
+                            'Other',
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                        );
+                      }
+                    }()),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  (() {
+                    if (buttons2[0] == false) {
+                      return Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                                icon: Icon(Icons.radio_button_off),
+                                onPressed: () {
+                                  setState(() {
+                                    buttons2[0] = true;
+                                    buttons2[1] = false;
+                                  });
+                                }),
+                          ),
+                          Container(
+                            child: Text('Pdf'),
+                          )
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                                icon: Icon(Icons.radio_button_checked),
+                                onPressed: () {
+                                  setState(() {
+                                    // buttons2[1] = true;
+                                    // buttons2[0] = false;
+                                  });
+                                }),
+                          ),
+                          Container(
+                            child: Text('Pdf'),
+                          )
+                        ],
+                      );
+                    }
+                  }()),
+                  (() {
+                    if (buttons2[1] == false) {
+                      return Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                                icon: Icon(Icons.radio_button_off),
+                                onPressed: () {
+                                  setState(() {
+                                    buttons2[1] = true;
+                                    buttons2[0] = false;
+                                  });
+                                }),
+                          ),
+                          Container(
+                            child: Text('xlsx'),
+                          )
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                                icon: Icon(Icons.radio_button_checked),
+                                onPressed: () {
+                                  setState(() {
+                                    // buttons2[1] = true;
+                                    // buttons2[0] = false;
+                                  });
+                                }),
+                          ),
+                          Container(
+                            child: Text('xlsx'),
+                          )
+                        ],
+                      );
+                    }
+                  }())
+                ],
+              ),
+              (() {
+                if (buttons2[0] == true) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: (() {
+                          if (check == true) {
+                            return IconButton(
+                                icon: Icon(Icons.check_box_outlined),
+                                onPressed: () {
+                                  setState(() {
+                                    check = false;
+                                  });
+                                });
+                          } else {
+                            return IconButton(
+                                icon: Icon(Icons.check_box_outline_blank_sharp),
+                                onPressed: () {
+                                  setState(() {
+                                    check = true;
+                                  });
+                                });
+                          }
+                        }()),
+                      ),
+                      Container(
+                        child: Text('Add Attachments'),
+                      )
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              }()),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  onPressed: () async {
+                    if (buttons[0] == true && buttons2[0] == true) {
+                      createPDF(widget.tripid);
+                    } else if (buttons[1] == true && buttons2[0] == true) {
+                      createotherPDF(widget.tripid);
+                    } else if (buttons2[1] == true) {
+                      generateExcel(widget.tripid);
+                    }
+                  },
+                  child: Text(
+                    'Generate',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  elevation: 5,
+                  color: Colors.green,
+                  shape: RoundedRectangleBorder(
+                      // side: BorderSide(color: Colors.redAccent, width: 2),
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
