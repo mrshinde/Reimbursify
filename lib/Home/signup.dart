@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 
 import 'package:tripmanager/classes/profileclass.dart';
 
+import '../homepage.dart';
+
 class Signup extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
@@ -202,8 +204,11 @@ class _ProfileState extends State<Signup> {
                     Uid);
               });
               // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
-
-              Navigator.pop(context, "Your profile has been saved.");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Homepage()),
+              );
+              //Navigator.pop(context, "Your profile has been saved.");
             }),
       ),
     );
