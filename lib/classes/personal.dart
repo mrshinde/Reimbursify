@@ -6,6 +6,7 @@ class PersonalExpense {
   final String type;
   final String details;
   final double amount_paid;
+  final String currency;
   final String date;
 
   PersonalExpense({
@@ -14,6 +15,7 @@ class PersonalExpense {
     this.type,
     this.details,
     this.amount_paid,
+    this.currency,
     this.date,
   });
 
@@ -24,6 +26,7 @@ class PersonalExpense {
     map["type"] = type;
     map["details"] = details;
     map["amount_paid"] = amount_paid;
+    map["currency"] = currency;
     // map["receipt_details"] = receipt_details;
     // map["receipt_address"] = receipt_address;
     map["date"] = date;
@@ -36,6 +39,7 @@ class PersonalExpense {
       type: data["type"],
       details: data["details"],
       amount_paid: data["amount_paid"],
+      currency: data["currency"],
       // receipt_details: data["receipt_details"],
       // receipt_address: data["receipt_address"],
       date: data["date"]);
@@ -44,12 +48,13 @@ class PersonalExpense {
 DatabaseHelper _databaseHelper = Injection.injector.get();
 
 Future<int> insertPersonalExpense(int tripid, String type, String details,
-    double amount_paid, String date) async {
+    double amount_paid, String currency, String date) async {
   final todo = new PersonalExpense(
     tripid: tripid,
     type: type,
     details: details,
     amount_paid: amount_paid,
+    currency: currency,
     date: date,
   );
   //databaseHelper has been injected in the class
@@ -91,6 +96,7 @@ Future<int> updatePersonalExpense(
     String type,
     String details,
     double amount_paid,
+    String currency,
     // String receipt_details,
     // String receipt_address,
     String date) async {
@@ -99,6 +105,7 @@ Future<int> updatePersonalExpense(
     type: type,
     details: details,
     amount_paid: amount_paid,
+    currency: currency,
     date: date,
     // receipt_details: receipt_details,
     // receipt_address: receipt_address,

@@ -416,6 +416,7 @@ Widget editTravelForm(
                                   travelMap['mot'],
                                   travelMap['km'],
                                   travelMap['fare'],
+                                  null,
                                   travelMap['pnr'],
                                   travelMap['remarks'],
                                   travelMap['ticket_address'],
@@ -689,6 +690,7 @@ Widget editOtherForm(
                                 type,
                                 details,
                                 amount,
+                                null,
                                 receipt_details,
                                 receipt_address,
                                 receipt_location,
@@ -805,7 +807,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                       ElevatedButton(
                           onPressed: () async {
                             updatePersonalExpense(id, tripid, type, details,
-                                amount_paid, dateString);
+                                amount_paid, null, dateString);
                             updateLastModified(tripid);
                             callback();
                             Navigator.of(context, rootNavigator: true).pop();

@@ -34,12 +34,21 @@ dependencies:
   share: ^2.0.1
   syncfusion_flutter_pdf: ^19.1.57-beta
   open_file: ^3.0.1
+<<<<<<< HEAD
   #shared_preferences: ^0.5.12
+=======
+  currency_picker: ^2.0.4
+
+>>>>>>> 4c33aaef4e4e9918715fa7458036a73eb8d71fa9
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+<<<<<<< HEAD
   shared_preferences: ^2.0.5
+=======
+  syncfusion_flutter_xlsio: ^19.1.59-beta
+>>>>>>> 4c33aaef4e4e9918715fa7458036a73eb8d71fa9
 
 dev_dependencies:
   flutter_test:
