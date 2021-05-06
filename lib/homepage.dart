@@ -22,44 +22,44 @@ class _HomepageState extends State<Homepage> {
   _onShare(BuildContext context) async {
     // final RenderBox box = context.findRenderObject() as RenderBox;
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    path = pth.join(documentsDirectory.path, "reimbursement1.db");
+    String path_db = pth.join(documentsDirectory.path, "reimbursement1.db");
     databasePaths.clear();
-    databasePaths.add(path);
+    databasePaths.add(path_db);
     print(databasePaths);
 
     if (databasePaths.isNotEmpty) {
-      await Share.shareFiles(databasePaths,
-          text: "reimbursment1.db", subject: "subject");
+      await Share.shareFiles(databasePaths, subject: "subject");
       // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     } else {
       await Share.share("reimbursment1.db", subject: "subject");
       // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     }
   }
+  Future<io.File> moveFile(io.File sourceFile, String newPath) async {
+    try {
+      /// prefer using rename as it is probably faster
+      /// if same directory path
+      return await sourceFile.rename(newPath);
+    } catch (e) {
+      /// if rename fails, copy the source file
+      final newFile = await sourceFile.copy(newPath);
+      return newFile;
+    }
+  }
 
   _onImport(BuildContext context) async {
     FilePickerResult result =
     await FilePicker.platform.pickFiles(
-      allowedExtensions: ['.db'],
     );
     List<io.File> files =
     result.paths.map((path) => io.File(path)).toList();
 
     io.Directory documentsDirectory =
     await getApplicationDocumentsDirectory();
-    path = pth.join(
-        documentsDirectory.path, "reimbursement1.db");
 
     await deleteDatabase(path);
 
-    Uint8List data = await files[0].readAsBytes();
-    List<int> bytes = data.buffer
-        .asUint8List(data.offsetInBytes, data.lengthInBytes);
-    await io.File(path).writeAsBytes(bytes);
-
-    io.Directory documentsDirectorya =
-    await getApplicationDocumentsDirectory();
-    print(documentsDirectorya);
+    var file =  await moveFile(files[0],documentsDirectory.path+"/"+"reimbursement1.db");
   }
 
   @override
