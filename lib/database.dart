@@ -34,11 +34,11 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        'CREATE TABLE travel (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,dep_time TEXT ,dep_date TEXT,dep_station TEXT, arr_time TEXT, arr_date TEXT,arr_station TEXT,mot TEXT,km REAL,fare REAL,pnr TEXT,remarks TEXT,ticket_address TEXT,receipt_location TEXT)');
+        'CREATE TABLE travel (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,dep_time TEXT ,dep_date TEXT,dep_station TEXT, arr_time TEXT, arr_date TEXT,arr_station TEXT,mot TEXT,km REAL,fare REAL,currency TEXT ,pnr TEXT,remarks TEXT,ticket_address TEXT,receipt_location TEXT)');
     await db.execute(
-        'CREATE TABLE otherexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,receipt_details TEXT,receipt_address TEXT,receipt_location TEXT,date TEXT)');
+        'CREATE TABLE otherexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,currency TEXT,receipt_details TEXT,receipt_address TEXT,receipt_location TEXT,date TEXT)');
     await db.execute(
-        'CREATE TABLE personalexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,date TEXT)');
+        'CREATE TABLE personalexpense (tripid INTEGER,serial_number INTEGER PRIMARY KEY AUTOINCREMENT,type TEXT,details TEXT,amount_paid REAL,currency TEXT,date TEXT)');
     await db.execute(
         'CREATE TABLE trip (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, start_date TEXT, end_date TEXT, complete INTEGER, total REAL, fav INTEGER, note TEXT, budget_head TEXT, last_modified TEXT, advance REAL, archive INTEGER)');
     await db.execute(

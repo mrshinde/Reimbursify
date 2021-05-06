@@ -12,6 +12,7 @@ class Travel {
   final String mot;
   final double km;
   final double fare;
+  final String currency;
   final String pnr;
   final String remarks;
   final String ticket_address;
@@ -29,6 +30,7 @@ class Travel {
       this.mot,
       this.km,
       this.fare,
+      this.currency,
       this.pnr,
       this.remarks,
       this.ticket_address,
@@ -47,6 +49,7 @@ class Travel {
     map["mot"] = mot;
     map["km"] = km;
     map["fare"] = fare;
+    map["currency"] = currency;
     map["pnr"] = pnr;
     map["remarks"] = remarks;
     map["ticket_address"] = ticket_address;
@@ -66,6 +69,7 @@ class Travel {
         mot: data['mot'],
         km: data['km'],
         fare: data['fare'],
+        currency: data['currency'],
         pnr: data['pnr'],
         remarks: data['remarks'],
         ticket_address: data['ticket_address'],
@@ -86,6 +90,7 @@ Future<int> insertTravelExpense(
     String mot,
     dynamic km,
     dynamic fare,
+    String currency,
     String pnr,
     String remarks,
     String ticket_address,
@@ -101,6 +106,7 @@ Future<int> insertTravelExpense(
     mot: mot,
     km: km,
     fare: fare,
+    currency: currency,
     pnr: pnr,
     remarks: remarks,
     ticket_address: ticket_address,
@@ -151,6 +157,7 @@ Future<int> updateTravelExpense(
     String mot,
     double km,
     double fare,
+    String currency,
     String pnr,
     String remarks,
     String ticket_address,
@@ -166,6 +173,7 @@ Future<int> updateTravelExpense(
     mot: mot,
     km: km,
     fare: fare,
+    currency: currency,
     pnr: pnr,
     remarks: remarks,
     ticket_address: ticket_address,

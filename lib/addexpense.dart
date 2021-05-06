@@ -4,6 +4,7 @@ import 'package:tripmanager/classes/tripclass.dart';
 import 'dart:async';
 import 'package:date_time_picker/date_time_picker.dart';
 import './classes/travelexpense.dart';
+import 'package:currency_picker/currency_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
 import './classes/personal.dart';
@@ -42,6 +43,8 @@ class MyHomePage extends StatefulWidget {
 int _selected_card;
 Future<List<Map<String, dynamic>>> listOfCards;
 List<DropdownMenuItem> cardsTile = [];
+BuildContext ct;
+String currency;
 
 class _MyHomePageState extends State<MyHomePage> {
   Widget travelform;
@@ -62,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mode,
           ticketAddress;
       setState(() {
+        currency = 'INR';
         travelDetails = FutureBuilder(
             future: listOfCards,
             builder: (BuildContext context,
@@ -238,6 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Expanded(
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           validator : (value){
                             if(value == null || value.isEmpty)
                               return 'Required Field';
@@ -261,9 +266,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    Row(children: <Widget>[
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            child: Text('Select Currency'),
+                            onPressed: (){
+                              showCurrencyPicker(
+                                context: ct,
+                                showFlag: true,
+                                showCurrencyName: false,
+                                favorite: [currency],
+                                showCurrencyCode: true,
+                                onSelect: (Currency curr) {
+                                    currency = curr.code;
+                                },
+                              );
+                            },
+                          ),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: SizedBox(),
+                        flex: 1,
+                      ),
                       Expanded(
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           validator : (value){
                             if(value == null || value.isEmpty)
                               return 'Required Field';
@@ -283,10 +312,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         flex: 2,
                       ),
-                      Expanded(
-                        child: SizedBox(),
-                        flex: 1,
-                      ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Row(
+                      children: <Widget>[
                       Expanded(
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -297,7 +329,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             additional_comments = value;
                           },
                         ),
-                        flex: 2,
+                        flex: 1,
                       )
                     ]),
                     SizedBox(
@@ -416,6 +448,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             travelMap['mot'] = mode;
                             travelMap['km'] = km;
                             travelMap['fare'] = fare;
+                            travelMap['currency'] = (currency == null) ?  'INR' : currency;
                             travelMap['pnr'] = ticket_no;
                             travelMap['remarks'] = new_comment;
                             travelMap['receipt_location'] = receiptLocation;
@@ -431,6 +464,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               travelMap['mot'],
                               travelMap['km'],
                               travelMap['fare'],
+                              travelMap['currency'],
                               travelMap['pnr'],
                               travelMap['remarks'],
                               travelMap['ticket_address'],
@@ -574,10 +608,33 @@ class _MyHomePageState extends State<MyHomePage> {
                               details = value;
                             },
                           ),
-                          flex: 2,
+                          flex: 1,
                         ),
-                        Expanded(child: SizedBox(), flex: 1),
-                        Expanded(
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                     Row(
+                       children: [
+                         Expanded(
+                          child: ElevatedButton(
+                            child: Text('Select Currency'),
+                            onPressed: (){
+                              showCurrencyPicker(
+                                context: ct,
+                                showFlag: true,
+                                showCurrencyName: false,
+                                favorite: [currency],
+                                showCurrencyCode: true,
+                                onSelect: (Currency curr) {
+                                    currency = curr.code;
+                                },
+                              );
+                            },
+                          ),
+                        flex: 2,
+                      ),
+                         Expanded(child: SizedBox(), flex: 1),
+                         Expanded(
                           child: TextFormField(
                             validator: (value) => (value == null || (double.tryParse(value) == null)) ? 'Required Field' : null,
                             decoration: InputDecoration(
@@ -590,8 +647,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           flex: 2,
                         ),
-                      ],
-                    ),
+                       ],
+                     ),
                     SizedBox(height: 10),
                     Row(
                       children: [
@@ -704,6 +761,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 type,
                                 details,
                                 amount_paid,
+                                currency,
                                 new_comment,
                                 receipt_address,
                                 receipt_location,
@@ -838,7 +896,30 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: [
                 Expanded(
+                    child: ElevatedButton(
+                      child: Text('Select Currency'),
+                      onPressed: (){
+                        showCurrencyPicker(
+                          context: ct,
+                          showFlag: true,
+                          showCurrencyName: false,
+                          favorite: [currency],
+                          showCurrencyCode: true,
+                          onSelect: (Currency curr) {
+                              currency = curr.code;
+                          },
+                        );
+                      },
+                    ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: SizedBox(),
+                  flex: 1,
+                ),
+                Expanded(
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     validator: (value) => (value == null || (double.tryParse(value) == null)) ? 'Required Field' : null,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(),
@@ -860,7 +941,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   if(_formKey.currentState.validate()){
                     insertPersonalExpense(
-                        widget.trip_id, type, details, amount_paid, dateString);
+                        widget.trip_id, type, details, amount_paid, currency, dateString);
                     updateLastModified(widget.trip_id);
                     Navigator.pop(context);
                   }
@@ -881,6 +962,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ct = context;
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
