@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tripmanager/Home/firstsignup.dart';
 import 'package:tripmanager/Home/signup.dart';
 import 'package:tripmanager/dashboard.dart';
 import 'package:tripmanager/homepage.dart';
@@ -8,7 +9,10 @@ import 'package:tripmanager/temp.dart';
 import 'database.dart';
 Future<bool> isLoggedIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final log =prefs.getBool("loggedIn")?? false;
+  if(prefs.getBool("loggedIn")==null){
+    prefs.setBool("loggedIn", false);
+  }
+  final log =prefs.getBool("loggedIn");
   prefs.setBool("loggedIn", true);
   return log;
 }
@@ -24,34 +28,34 @@ void main() async {
 
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+//class MyApp extends StatefulWidget {
+//   @override
+//   _MyAppState createState() => _MyAppState();
+// }
 
-class _MyAppState extends State<MyApp> {
-  Future<bool> isLoggedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool("loggedIn");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Balance Sheet',
-        home: FutureBuilder(
-          future: isLoggedIn(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.hasData) {
-              return snapshot.data ? Homepage() : Signup();
-            }
-            return Signup(); // noop, this builder is called again when the future completes
-          },
-        )          //Homepage(),
-    );
-  }
-}
+//class _MyAppState extends State<MyApp> {
+//   Future<bool> isLoggedIn() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     return prefs.getBool("loggedIn");
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         title: 'Balance Sheet',
+//         home: FutureBuilder(
+//           future: isLoggedIn(),
+//           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+//             if (snapshot.hasData) {
+//               return snapshot.data ? Homepage() : Signup();
+//             }
+//             return Signup(); // noop, this builder is called again when the future completes
+//           },
+//         )          //Homepage(),
+//     );
+//   }
+// }
 class MyApp1 extends StatefulWidget {
   @override
   _MyApp1State createState() => _MyApp1State();
@@ -80,7 +84,7 @@ class _MyApp2State extends State<MyApp2> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Balance Sheet',
-        home: Signup(),
+        home: FirstSignup(),
     );
   }
 }
