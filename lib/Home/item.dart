@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tripmanager/Home/attachments.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
 import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/edit.dart';
@@ -413,7 +414,19 @@ class _ItemState extends State<Item> {
                                   }),
                               IconButton(
                                   icon: Icon(Icons.attachment),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (ct) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: attachments(
+                                                this.widget.receipt_location,
+                                                this.widget.serial_number,
+                                                this.widget.callback),
+                                          );
+                                        });
+                                  }),
                             ],
                           ),
                         ),

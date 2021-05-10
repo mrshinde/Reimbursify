@@ -35,6 +35,7 @@ class _HomepageState extends State<Homepage> {
       // sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     }
   }
+
   Future<io.File> moveFile(io.File sourceFile, String newPath) async {
     try {
       /// prefer using rename as it is probably faster
@@ -48,18 +49,18 @@ class _HomepageState extends State<Homepage> {
   }
 
   _onImport(BuildContext context) async {
-    FilePickerResult result =
-    await FilePicker.platform.pickFiles(
-    );
-    List<io.File> files =
-    result.paths.map((path) => io.File(path)).toList();
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      List<io.File> files = result.paths.map((path) => io.File(path)).toList();
 
-    io.Directory documentsDirectory =
-    await getApplicationDocumentsDirectory();
+      io.Directory documentsDirectory =
+          await getApplicationDocumentsDirectory();
 
-    await deleteDatabase(path);
+      await deleteDatabase(path);
 
-    var file =  await moveFile(files[0],documentsDirectory.path+"/"+"reimbursement1.db");
+      var file = await moveFile(
+          files[0], documentsDirectory.path + "/" + "reimbursement1.db");
+    }
   }
 
   @override
@@ -180,8 +181,6 @@ class _HomepageState extends State<Homepage> {
                   children: [
                     RaisedButton(
                       color: Colors.purple[200],
-
-
                       onPressed: () {
                         _onImport(context);
                       },
@@ -191,8 +190,7 @@ class _HomepageState extends State<Homepage> {
                           'Import',
                           style: TextStyle(fontSize: 30),
                         ),
-                      )
-                      ,
+                      ),
                     ),
                     RaisedButton(
                       color: Colors.purple[200],

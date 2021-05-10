@@ -14,7 +14,7 @@ import 'dart:io';
 
 //Local imports
 
-Future<void> generateExcel(int tripid) async {
+Future<bool> generateExcel(int tripid) async {
   //Creating a workbook.
   final Workbook workbook = Workbook();
   //Accessing via index
@@ -194,4 +194,5 @@ Future<void> generateExcel(int tripid) async {
 
 // Open the Excel document in mobile
   OpenFile.open('$path/Output.xlsx');
+  return true;
 }

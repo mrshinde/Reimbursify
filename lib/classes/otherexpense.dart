@@ -138,3 +138,12 @@ Future<int> updateOtherExpense(
   print(sn);
   return sn;
 }
+
+Future<int> updateaddress(String add, int id) async {
+  //databaseHelper has been injected in the class
+  int sn = await _databaseHelper.db.rawUpdate(
+      '''UPDATE OtherExpense SET receipt_location = ? WHERE serial_number = ?''',
+      [add, id]);
+
+  return sn;
+}

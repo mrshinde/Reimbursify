@@ -1012,7 +1012,7 @@ class createpopup extends StatefulWidget {
 class _createpopupState extends State<createpopup> {
   List<bool> buttons = [true, false];
   List<bool> buttons2 = [true, false];
-
+  bool iscreatepdfcompleted = false;
   bool check = false;
   @override
   Widget build(BuildContext context) {
@@ -1234,31 +1234,67 @@ class _createpopupState extends State<createpopup> {
               }()),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: RaisedButton(
-                  onPressed: () async {
-                    if (buttons[0] == true && buttons2[0] == true) {
-                      createPDF(widget.tripid);
-                    } else if (buttons[1] == true && buttons2[0] == true) {
-                      createotherPDF(widget.tripid);
-                    } else if (buttons2[1] == true) {
-                      generateExcel(widget.tripid);
-                    }
-                  },
-                  child: Text(
-                    'Generate',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  elevation: 5,
-                  color: Colors.green,
-                  shape: RoundedRectangleBorder(
-                      // side: BorderSide(color: Colors.redAccent, width: 2),
-                      borderRadius: BorderRadius.circular(5)),
-                ),
+                child: (() {
+                  if (iscreatepdfcompleted == false) {
+                    return RaisedButton(
+                      onPressed: () async {
+                        setState(() {
+                          iscreatepdfcompleted = true;
+                        });
+                        Future<bool> tt;
+                        print("hihihaha");
+                        print(tt);
+                        if (buttons[0] == true && buttons2[0] == true) {
+                          await createPDF(widget.tripid);
+                        } else if (buttons[1] == true && buttons2[0] == true) {
+                          await createotherPDF(widget.tripid);
+                        } else if (buttons2[1] == true) {
+                          await generateExcel(widget.tripid);
+                        }
+                        print("huihuihui");
+                        print(tt);
+                        // if()
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Generate',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      elevation: 5,
+                      color: Colors.green,
+                      shape: RoundedRectangleBorder(
+                          // side: BorderSide(color: Colors.redAccent, width: 2),
+                          borderRadius: BorderRadius.circular(5)),
+                    );
+                  } else {
+                    return RaisedButton(
+                      onPressed: () {},
+                      child: Container(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(),
+                      ),
+                      disabledColor: Colors.grey,
+                    );
+                  }
+                }()),
               )
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class progress extends StatefulWidget {
+  @override
+  _progressState createState() => _progressState();
+}
+
+class _progressState extends State<progress> {
+  @override
+  Widget build(BuildContext context) {
+    return CircularProgressIndicator();
   }
 }

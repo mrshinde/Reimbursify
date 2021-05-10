@@ -182,3 +182,12 @@ Future<int> updateTravelExpense(
   return await _databaseHelper.db.update('travel', todo.toMap(),
       where: "serial_number = ?", whereArgs: [id]);
 }
+
+Future<int> updateaddress(String add, int id) async {
+  //databaseHelper has been injected in the class
+  int sn = await _databaseHelper.db.rawUpdate(
+      '''UPDATE travel SET receipt_location = ? WHERE serial_number = ?''',
+      [add, id]);
+
+  return sn;
+}

@@ -4,11 +4,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
+import 'package:tripmanager/classes/profileclass.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
+
+import 'package:tripmanager/classes/tripclass.dart';
 
 Future<File> getImageFileFromAssets(String path) async {
   final byteData = await rootBundle.load('assets/$path');
@@ -20,7 +23,7 @@ Future<File> getImageFileFromAssets(String path) async {
   return file;
 }
 
-Future<void> createPDF(int id) async {
+Future<bool> createPDF(int id) async {
   //Creates a new PDF document
   PdfDocument document = PdfDocument();
   // document.pageSettings.margins.all = 50.0;
@@ -35,18 +38,20 @@ Future<void> createPDF(int id) async {
       PdfBitmap(f.readAsBytesSync()),
       Rect.fromLTWH(0, 0, 70, 70));
   File formpic = await getImageFileFromAssets('formpic.png');
-
+  Profile user_profile = await getProfileById('1');
 // PdfPage pagedocument.pages[0];
-  String name = 'Mohit Rajoria';
-  String Emp_code = 'EB435';
-  String dep = 'CSE';
-  String designation = 'Assistant Professor';
-  String gradepay = 'A+';
+  String name = user_profile.name;
+  String Emp_code = user_profile.id;
+  String dep = user_profile.dep;
+  String designation = user_profile.designation;
+  String gradepay = user_profile.grade_pay;
 
-  String budget_head = '8500';
-  String adv = '2000';
-  String date = '14-04-2021';
-  String account = 'SBI1452369857';
+  tripclass tt = await getTripById(id);
+
+  String budget_head = tt.budget_head;
+  String adv = tt.advance.toString();
+  String date = tt.start_date;
+  String account = user_profile.acc_number;
   File font = await getImageFileFromAssets('KRDEV010.TTF');
 //Draw the text
   String iit = "Hkkjrh; çkS|ksxxdh laLFkku jksiM+";
@@ -258,6 +263,7 @@ Future<void> createPDF(int id) async {
 // , bounds: const Rect.fromLTWH(0, 0, 0, 0)
 //Dispose the document
   document.dispose();
+  print("hihello");
 
   final directory = await getExternalStorageDirectory();
 
@@ -269,7 +275,9 @@ Future<void> createPDF(int id) async {
 
 //Write PDF data
   await file.writeAsBytes(bytes, flush: true);
-
+  print("hihello1");
 //Open the PDF document in mobile
   OpenFile.open('$path/Output.pdf');
+  print("hihello2");
+  return Future.value(true);
 }

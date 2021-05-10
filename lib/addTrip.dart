@@ -8,11 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import './classes/otherexpense.dart';
 
-
-
-
-
-
 class addTrip extends StatefulWidget {
   addTrip(this.callback);
   Function() callback;
@@ -30,9 +25,9 @@ class _addTripState extends State<addTrip> {
   double total;
   int fav;
   String note;
-  String budget_head;
+  String budget_head = '0';
   String last_modified;
-  double advance;
+  double advance = 0;
   int archive;
   DateTime now;
 
@@ -42,7 +37,6 @@ class _addTripState extends State<addTrip> {
     super.initState();
     now = DateTime.now();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,85 +49,95 @@ class _addTripState extends State<addTrip> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Center(
-              child: Column(children: [
-                Container(
-                  height: 400,
-                  child: Form(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height:10),
-                        Expanded(
-                          child: TextFormField(
-                            maxLength: 23,
-                            decoration: InputDecoration(
-                              labelText: 'Enter Title',
-                              enabledBorder: OutlineInputBorder(),
+              child: Column(
+                children: [
+                  Container(
+                    height: 400,
+                    child: Form(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(height: 10),
+                          Expanded(
+                            child: TextFormField(
+                              maxLength: 23,
+                              decoration: InputDecoration(
+                                labelText: 'Enter Title',
+                                enabledBorder: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                title = value;
+                              },
                             ),
-                            onChanged: (value) {
-                              title = value;
-                            },
+                            // flex: 2,
                           ),
-                          // flex: 2,
-                        ),
-                        SizedBox(height:10),
-                        Expanded(
-                          child: DropdownButtonFormField(
-                            items: [
-                              DropdownMenuItem(child: Text('Yes'), value: 1),
-                              DropdownMenuItem(
-                                  child: Text('No'), value: 0),
-                            ],
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Completed',
+                          SizedBox(height: 10),
+                          Expanded(
+                            child: DropdownButtonFormField(
+                              items: [
+                                DropdownMenuItem(child: Text('Yes'), value: 1),
+                                DropdownMenuItem(child: Text('No'), value: 0),
+                              ],
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(),
+                                labelText: 'Completed',
+                              ),
+                              onChanged: (value) {
+                                complete = value;
+                              },
                             ),
-                            onChanged: (value) {
-                              complete = value;
-                            },
                           ),
-                        ),
-
-                        SizedBox(height:10),
-                        Expanded(
-                          child: DateTimePicker(
-                            type: DateTimePickerType.date,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100),
-                            initialDate: DateTime.now(),
-                            dateLabelText: 'Start Date',
-                            onChanged: (value) {
-                              start_date = DateTime.parse(value);
-                            },
-                          ),
-
-                        ),
-                        SizedBox(height:10),
-                        Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Notes',
-                              enabledBorder: OutlineInputBorder(),
+                          SizedBox(height: 10),
+                          Expanded(
+                            child: DateTimePicker(
+                              type: DateTimePickerType.date,
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2100),
+                              initialDate: DateTime.now(),
+                              dateLabelText: 'Start Date',
+                              onChanged: (value) {
+                                start_date = DateTime.parse(value);
+                              },
                             ),
-                            onChanged: (value) {
-                              note = value;
-                            },
                           ),
-                          // flex: 2,
-                        ),
-                        SizedBox(height:10),
-                        ElevatedButton(
-                            onPressed: () {
-                              insertTripExpense(title, DateFormat('yyyy-MM-dd').format(start_date), end_date, complete,
-                                  0, 0, note, budget_head, DateFormat('yyyy-MM-dd – kk:mm').format(now), 0, 0);
-                              this.widget.callback();
-                              Navigator.pop(context);
-                            },
-                            child: Text('Create Trip')),
-
-                      ],),
+                          SizedBox(height: 10),
+                          Expanded(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Notes',
+                                enabledBorder: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                note = value;
+                              },
+                            ),
+                            // flex: 2,
+                          ),
+                          SizedBox(height: 10),
+                          ElevatedButton(
+                              onPressed: () {
+                                insertTripExpense(
+                                    title,
+                                    DateFormat('yyyy-MM-dd').format(start_date),
+                                    end_date,
+                                    complete,
+                                    0,
+                                    0,
+                                    note,
+                                    budget_head,
+                                    DateFormat('yyyy-MM-dd – kk:mm')
+                                        .format(now),
+                                    0,
+                                    0);
+                                this.widget.callback();
+                                Navigator.pop(context);
+                              },
+                              child: Text('Create Trip')),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],),
+                ],
+              ),
             ),
           ),
         ),
@@ -141,7 +145,3 @@ class _addTripState extends State<addTrip> {
     );
   }
 }
-
-
-
-
