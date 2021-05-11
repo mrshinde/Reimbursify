@@ -7,25 +7,25 @@ import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/temp.dart';
 
 import 'database.dart';
+
 Future<bool> isLoggedIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if(prefs.getBool("loggedIn")==null){
+  if (prefs.getBool("loggedIn") == null) {
     prefs.setBool("loggedIn", false);
   }
-  final log =prefs.getBool("loggedIn");
+  final log = prefs.getBool("loggedIn");
   prefs.setBool("loggedIn", true);
   return log;
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Injection.initInjection();
-  if(await isLoggedIn()){
+  if (await isLoggedIn()) {
     runApp(MyApp1());
-  }
-  else{
+  } else {
     runApp(MyApp2());
   }
-
 }
 
 //class MyApp extends StatefulWidget {
@@ -60,31 +60,30 @@ class MyApp1 extends StatefulWidget {
   @override
   _MyApp1State createState() => _MyApp1State();
 }
-class _MyApp1State extends State<MyApp1> {
 
+class _MyApp1State extends State<MyApp1> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Balance Sheet',
-        home: Homepage(),
+      debugShowCheckedModeBanner: false,
+      title: 'Balance Sheet',
+      home: Homepage(),
     );
   }
 }
-
 
 class MyApp2 extends StatefulWidget {
   @override
   _MyApp2State createState() => _MyApp2State();
 }
-class _MyApp2State extends State<MyApp2> {
 
+class _MyApp2State extends State<MyApp2> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Balance Sheet',
-        home: FirstSignup(),
+      debugShowCheckedModeBanner: false,
+      title: 'Balance Sheet',
+      home: LogInInfo(),
     );
   }
 }

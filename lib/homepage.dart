@@ -57,6 +57,7 @@ class _HomepageState extends State<Homepage> {
           await getApplicationDocumentsDirectory();
 
       // await deleteDatabase(path);
+      // await deleteDatabase(documentsDirectory.path);
 
       var file = await moveFile(
           files[0], documentsDirectory.path + "/" + "reimbursement1.db");

@@ -13,6 +13,7 @@ class Mycards extends StatefulWidget {
   @override
   _mycardstate createState() => _mycardstate();
 }
+
 class _mycardstate extends State<Mycards> {
   String type = "Debit Card";
   String cardnumber = "348492034";
@@ -21,14 +22,14 @@ class _mycardstate extends State<Mycards> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Editcards()),
             );
           },
-          child: Text("Add card"),
+          label: Text("Add card"),
           backgroundColor: Colors.deepPurple,
         ),
         appBar: AppBar(
@@ -55,104 +56,116 @@ class _mycardstate extends State<Mycards> {
                     width: double.infinity,
                     height: double.infinity,
                     child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                      stream: Stream.fromFuture(getCards()),
-                      builder: (context, AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
-                        if(snapshot.hasData) {
-                          return SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  itemBuilder: (BuildContext ctxt, int index) {
-                                    print(snapshot.data[index]);
-                                    // return Text('Hi');
+                        stream: Stream.fromFuture(getCards()),
+                        builder: (context,
+                            AsyncSnapshot<List<Map<dynamic, dynamic>>>
+                                snapshot) {
+                          if (snapshot.hasData) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ListView.builder(
+                                    itemCount: snapshot.data.length,
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext ctxt, int index) {
+                                      print(snapshot.data[index]);
+                                      // return Text('Hi');
 
                                       return Container(
-                                              padding: EdgeInsets.all(10),
-                                              margin: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                    color: Colors.red[500],
-                                                  ),
-                                                  borderRadius: BorderRadius.all(Radius.circular(20))),
-                                              child: ListTile(
-                                                isThreeLine: true,
-                                                leading:Text(
-                                                    snapshot.data[index]["type"],
+                                        padding: EdgeInsets.all(10),
+                                        margin: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: Colors.red[500],
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20))),
+                                        child: ListTile(
+                                          isThreeLine: true,
+                                          leading: Text(
+                                            snapshot.data[index]["type"],
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          title: Text(
+                                            snapshot.data[index]["number"],
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          subtitle: Column(
+                                            children: [
+                                              Text(
+                                                snapshot.data[index]
+                                                    ["acc_number"],
                                                 style: TextStyle(
                                                   fontSize: 20,
-                                                ) ,
-                                                ) ,
-                                                title: Text(snapshot.data[index]["number"],
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                  ) ,
-                                                ),
-                                                subtitle:Column(
-                                                  children: [
-                                                    Text(snapshot.data[index]["acc_number"],
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                      ) ,
-                                                    ),
-                                                    IconButton(
-                                                      icon: const Icon(Icons.delete),
-                                                      onPressed: () {
-                                                        showDialog<void>(
-                                                          context: context,
-                                                          barrierDismissible:
-                                                          false, // user must tap button!
-                                                          builder: (BuildContext context) {
-                                                            return AlertDialog(
-                                                              title: Text('Delete Card?'),
-                                                              content: Text(
-                                                                  'Do you want to delete the card?'),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  child: Text('No'),
-                                                                  onPressed: () {
-                                                                    Navigator.of(context).pop();
-                                                                  },
-                                                                ),
-                                                                TextButton(
-                                                                  child: Text('Yes'),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      print("deleted");
-                                                                      deleteCard(snapshot.data[index]["number"]);
-                                                                    });
-                                                                    Navigator.of(context).pop();
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            );
-                                                          },
-                                                        );
-
-                                                      },
-                                                    )
-                                                  ],
                                                 ),
                                               ),
-                                            );
-
-                                  },
-                                )
-
-                              ],
-                            ),
-                          );
-                        }
-                        else{
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      }
-                    )),
+                                              IconButton(
+                                                icon: const Icon(Icons.delete),
+                                                onPressed: () {
+                                                  showDialog<void>(
+                                                    context: context,
+                                                    barrierDismissible:
+                                                        false, // user must tap button!
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                            'Delete Card?'),
+                                                        content: Text(
+                                                            'Do you want to delete the card?'),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: Text('No'),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: Text('Yes'),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                print(
+                                                                    "deleted");
+                                                                deleteCard(snapshot
+                                                                            .data[
+                                                                        index]
+                                                                    ["number"]);
+                                                              });
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        })),
               ),
             )
           ],
