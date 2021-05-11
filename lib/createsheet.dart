@@ -6,11 +6,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
+import 'package:tripmanager/classes/reimbursements.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 
 //Local imports
 
@@ -186,13 +189,31 @@ Future<bool> generateExcel(int tripid) async {
 // Get directory path
   final path = directory.path;
 
-// Create an empty file to write Excel data
-  File file = File('$path/Output.xlsx');
+  tripclass tt = await getTripById(tripid);
 
-// Write Excel data
+  DateTime dd = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) + tt.title;
+//Create an empty file to write PDF data
+  File file = File('$path/' + formattedDate + '.xlsx');
+
+//Write PDF data
   await file.writeAsBytes(bytes, flush: true);
+  print("hihello1");
+  await addreimbursement(
+      tripid,
+      tt.title,
+      'xlsx',
+      '$path/' + formattedDate + '.xlsx',
+      DateFormat('yyyy-MM-dd – kk:mm').format(dd));
+//Open the PDF document in mobile
+  OpenFile.open('$path/' + formattedDate + '.xlsx');
+// Create an empty file to write Excel data
+//   File file = File('$path/Output.xlsx');
 
-// Open the Excel document in mobile
-  OpenFile.open('$path/Output.xlsx');
+// // Write Excel data
+//   await file.writeAsBytes(bytes, flush: true);
+
+// // Open the Excel document in mobile
+//   OpenFile.open('$path/Output.xlsx');
   return true;
 }

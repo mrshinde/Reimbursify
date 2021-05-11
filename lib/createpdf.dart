@@ -5,11 +5,13 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:tripmanager/classes/profileclass.dart';
+import 'package:tripmanager/classes/reimbursements.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:tripmanager/classes/tripclass.dart';
 
@@ -270,14 +272,22 @@ Future<bool> createPDF(int id) async {
 //Get directory path
   final path = directory.path;
 
+  DateTime dd = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) + tt.title;
 //Create an empty file to write PDF data
-  File file = File('$path/Output.pdf');
+  File file = File('$path/' + formattedDate + '.pdf');
 
 //Write PDF data
   await file.writeAsBytes(bytes, flush: true);
   print("hihello1");
+  await addreimbursement(
+      id,
+      tt.title,
+      'iitrpr-pdf',
+      '$path/' + formattedDate + '.pdf',
+      DateFormat('yyyy-MM-dd – kk:mm').format(dd));
 //Open the PDF document in mobile
-  OpenFile.open('$path/Output.pdf');
+  OpenFile.open('$path/' + formattedDate + '.pdf');
   print("hihello2");
   return Future.value(true);
 }

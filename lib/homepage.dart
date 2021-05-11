@@ -8,6 +8,7 @@ import 'dart:io' as io;
 import 'package:sqflite/sqflite.dart';
 import 'dart:typed_data';
 import 'package:path/path.dart' as pth;
+import 'package:tripmanager/viewreimbursements.dart';
 // import 'package:tripmanager/classes/profileclass.dart';
 
 class Homepage extends StatefulWidget {
@@ -137,7 +138,12 @@ class _HomepageState extends State<Homepage> {
                       ),
                       Card(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Forms()),
+                            );
+                          },
                           child: Column(
                             children: [
                               Icon(
