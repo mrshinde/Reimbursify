@@ -62,6 +62,10 @@ class _HomepageState extends State<Homepage> {
 
       var file = await moveFile(
           files[0], documentsDirectory.path + "/" + "reimbursement1.db");
+
+      // open the database
+      Database _db = await openDatabase(documentsDirectory.path + "/" + "reimbursement1.db");
+
     }
   }
 
