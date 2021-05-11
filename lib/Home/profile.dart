@@ -21,14 +21,14 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Signup()),
             );
           },
-          child: Text("Edit"),
+          label: Text("Edit"),
           backgroundColor: Colors.deepPurple,
         ),
         appBar: AppBar(
@@ -87,77 +87,84 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 40.0,
                         ),
-                        FractionallySizedBox(
-                          widthFactor: 0.9,
-                          child: TextButton(
-                            //color: Colors.white,
-                            //padding: EdgeInsets.all(20.0),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => userinfo()),
-                              );
-                            },
-                            child: Text("User Info"),
-                            style: TextButton.styleFrom(
-                              textStyle: TextStyle(fontSize: 20.0),
-                              primary: Colors.purple,
-                              backgroundColor: Colors.white,
-                              onSurface: Colors.grey,
-                              padding: EdgeInsets.all(20.0),
-                            ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => userinfo()),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 0),
+                            child: Container(
+                                height: 60,
+                                margin: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(8),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.purple,
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  ' User Info',
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white),
+                                ))),
                           ),
                         ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        FractionallySizedBox(
-                          widthFactor: 0.9,
-                          child: TextButton(
-                            //color: Colors.white,
-                            //padding: EdgeInsets.all(20.0),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Mycards()),
-                              );
-                            },
-                            child: Text("My Cards"),
-                            style: TextButton.styleFrom(
-                              textStyle: TextStyle(fontSize: 20.0),
-                              primary: Colors.purple,
-                              backgroundColor: Colors.white,
-                              onSurface: Colors.grey,
-                              padding: EdgeInsets.all(20.0),
-                            ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Mycards()),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 8),
+                            child: Container(
+                                height: 60,
+                                // margin: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(8),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.purple,
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  ' My Cards',
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white),
+                                ))),
                           ),
                         ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-
-                        FractionallySizedBox(
-                          widthFactor: 0.9,
-                          child: TextButton(
-                            //color: Colors.white,
-                            //padding: EdgeInsets.all(20.0),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Forms()),
-                              );
-                            },
-                            child: Text("My Reimbursements"),
-                            style: TextButton.styleFrom(
-                              textStyle: TextStyle(fontSize: 20.0),
-                              primary: Colors.purple,
-                              backgroundColor: Colors.white,
-                              onSurface: Colors.grey,
-                              padding: EdgeInsets.all(20.0),
-                            ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Forms()),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            child: Container(
+                                height: 60,
+                                // margin: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(8),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.purple,
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  ' My Reimbursements',
+                                  style: TextStyle(
+                                      fontSize: 30, color: Colors.white),
+                                ))),
                           ),
                         ),
                       ],
