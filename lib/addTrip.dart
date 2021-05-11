@@ -41,10 +41,10 @@ class _addTripState extends State<addTrip> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 40,),
       child: Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+        insetPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 16,
         child: SafeArea(
           child: SingleChildScrollView(
@@ -52,11 +52,14 @@ class _addTripState extends State<addTrip> {
               child: Column(
                 children: [
                   Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                     height: 400,
                     child: Form(
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 10),
+                          Text("Add Trip", textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontSize: 20),),
+                          Expanded(child: SizedBox(height: 10), flex: 1,),
                           Expanded(
                             child: TextFormField(
                               maxLength: 23,
@@ -68,38 +71,72 @@ class _addTripState extends State<addTrip> {
                                 title = value;
                               },
                             ),
-                            // flex: 2,
+                            flex: 3,
                           ),
-                          SizedBox(height: 10),
+                          Expanded(child: SizedBox(height: 10), flex: 1,),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButtonFormField(
+                                  items: [
+                                    DropdownMenuItem(child: Text('Yes'), value: 1),
+                                    DropdownMenuItem(child: Text('No'), value: 0),
+                                  ],
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(),
+                                    labelText: 'Completed',
+                                  ),
+                                  onChanged: (value) {
+                                    complete = value;
+                                  },
+                                ),
+                                flex: 3,
+                              ),
+                              Expanded(child: SizedBox(width: 10), flex: 1,),
+                              Expanded(
+                                child: DateTimePicker(
+                                  type: DateTimePickerType.date,
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime(2100),
+                                  initialDate: DateTime.now(),
+                                  dateLabelText: 'Start Date',
+                                  onChanged: (value) {
+                                    start_date = DateTime.parse(value);
+                                  },
+                                ),
+                                flex: 3,
+                              ),
+                            ],
+                          ),
+
+
+                          Expanded(child: SizedBox(height: 10), flex: 1,),
                           Expanded(
-                            child: DropdownButtonFormField(
-                              items: [
-                                DropdownMenuItem(child: Text('Yes'), value: 1),
-                                DropdownMenuItem(child: Text('No'), value: 0),
-                              ],
+                            child: TextFormField(
                               decoration: InputDecoration(
+                                labelText: 'Advance',
                                 enabledBorder: OutlineInputBorder(),
-                                labelText: 'Completed',
                               ),
                               onChanged: (value) {
-                                complete = value;
+                                advance = double.parse(value);
                               },
                             ),
+                            flex: 2,
                           ),
-                          SizedBox(height: 10),
+                          Expanded(child: SizedBox(height: 10), flex: 1,),
                           Expanded(
-                            child: DateTimePicker(
-                              type: DateTimePickerType.date,
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
-                              initialDate: DateTime.now(),
-                              dateLabelText: 'Start Date',
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Budget Head',
+                                enabledBorder: OutlineInputBorder(),
+                              ),
                               onChanged: (value) {
-                                start_date = DateTime.parse(value);
+                                budget_head = value;
                               },
                             ),
+                            flex: 2,
                           ),
-                          SizedBox(height: 10),
+                          Expanded(child: SizedBox(height: 10), flex: 1,),
                           Expanded(
                             child: TextFormField(
                               decoration: InputDecoration(
@@ -110,9 +147,9 @@ class _addTripState extends State<addTrip> {
                                 note = value;
                               },
                             ),
-                            // flex: 2,
+                            flex: 2,
                           ),
-                          SizedBox(height: 10),
+                          Expanded(child: SizedBox(height: 10), flex: 1,),
                           ElevatedButton(
                               onPressed: () {
                                 insertTripExpense(
@@ -126,7 +163,7 @@ class _addTripState extends State<addTrip> {
                                     budget_head,
                                     DateFormat('yyyy-MM-dd – kk:mm')
                                         .format(now),
-                                    0,
+                                    advance,
                                     0);
                                 this.widget.callback();
                                 Navigator.pop(context);
