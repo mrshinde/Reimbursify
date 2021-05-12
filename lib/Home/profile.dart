@@ -99,10 +99,24 @@ class _ProfileState extends State<Profile> {
                             padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 0),
                             child: Container(
                                 height: 60,
-                                margin: EdgeInsets.all(8),
+                                margin: EdgeInsets.only(bottom: 8),
                                 padding: EdgeInsets.all(8),
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      offset: Offset(2.0,
+                                          2.0), // shadow direction: bottom right
+                                    )
+                                  ],
+                                  // boxShadow: ,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                   borderRadius: BorderRadius.circular(40),
                                   color: Colors.purple,
                                 ),
@@ -130,6 +144,19 @@ class _ProfileState extends State<Profile> {
                                 padding: EdgeInsets.all(8),
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      offset: Offset(2.0,
+                                          2.0), // shadow direction: bottom right
+                                    )
+                                  ],
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                   borderRadius: BorderRadius.circular(40),
                                   color: Colors.purple,
                                 ),
@@ -156,6 +183,19 @@ class _ProfileState extends State<Profile> {
                                 padding: EdgeInsets.all(8),
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      offset: Offset(2.0,
+                                          2.0), // shadow direction: bottom right
+                                    )
+                                  ],
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                   borderRadius: BorderRadius.circular(40),
                                   color: Colors.purple,
                                 ),

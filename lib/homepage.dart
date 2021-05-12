@@ -64,8 +64,8 @@ class _HomepageState extends State<Homepage> {
           files[0], documentsDirectory.path + "/" + "reimbursement1.db");
 
       // open the database
-      Database _db = await openDatabase(documentsDirectory.path + "/" + "reimbursement1.db");
-
+      Database _db = await openDatabase(
+          documentsDirectory.path + "/" + "reimbursement1.db");
     }
   }
 
@@ -84,7 +84,8 @@ class _HomepageState extends State<Homepage> {
         body: SafeArea(
           child: Column(
             children: [
-              Expanded(
+              Container(
+                height: 500,
                 // padding: const EdgeInsets.all(8.0),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -92,7 +93,7 @@ class _HomepageState extends State<Homepage> {
                     // primary: false,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    maxCrossAxisExtent: 300.0,
+                    maxCrossAxisExtent: 200.0,
                     children: [
                       Card(
                         child: InkWell(
