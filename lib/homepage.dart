@@ -95,6 +95,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            elevation: 10,
+                            color: Colors.purple[200],
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -109,7 +111,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.person,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.black54,
                                   ),
                                   Text(
                                     'Profile',
@@ -124,6 +126,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -135,11 +139,8 @@ class _HomepageState extends State<Homepage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.card_travel,
-                                    size: 100,
-                                    color: Colors.purple,
-                                  ),
+                                  Icon(Icons.card_travel,
+                                      size: 100, color: Colors.black54),
                                   Text(
                                     'My Trips',
                                     style: TextStyle(fontSize: 21),
@@ -157,6 +158,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -171,7 +174,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.picture_as_pdf,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.black54,
                                   ),
                                   Center(
                                     // width: double.infinity,
@@ -189,6 +192,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
                             child: InkWell(
                               onTap: () {},
                               child: Column(
@@ -197,7 +202,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.question_answer,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.black54,
                                   ),
                                   Text(
                                     'FAQ',
@@ -248,7 +253,7 @@ class _HomepageState extends State<Homepage> {
               ),
               Container(
                 height: 50,
-                child: Text('Made with love @IIT Ropar'),
+                child: Text('Made with \u{2764} @ IIT Ropar'),
               ),
             ],
           ),

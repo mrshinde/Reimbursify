@@ -23,7 +23,7 @@ class _ProfileState extends State<Profile> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
-          title: Text('Profile'),
+          title: Text('Profile Section'),
           centerTitle: true,
           leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -51,32 +51,6 @@ class _ProfileState extends State<Profile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          radius: 50.0,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        // Text(
-                        //   "Mohit Shinde",
-                        //   style: TextStyle(
-                        //     fontSize: 22.0,
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          "IIT ROPAR",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40.0,
-                        ),
                         InkWell(
                           onTap: () {
                             Navigator.push(

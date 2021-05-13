@@ -163,7 +163,15 @@ class _mycardstate extends State<Mycards> {
                               ),
                             );
                           } else {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: Container(
+                              child: Text(
+                                'No Cards Added',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 100, color: Colors.black12),
+                              ),
+                            ));
                           }
                         })),
               ),

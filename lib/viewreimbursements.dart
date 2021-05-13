@@ -73,24 +73,18 @@ class _FormsState extends State<Forms> {
                 );
               } else {
                 // isTravelEmpty = true;
-                return Column(
-                  children: [
-                    Container(),
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        child: Center(
-                          child: Text(
-                            'No Entries',
-                            style: TextStyle(
-                              fontSize: 100,
-                              color: Colors.black26,
-                            ),
-                          ),
-                        ),
+                return Center(
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'No Entries',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 100,
+                        color: Colors.black26,
                       ),
                     ),
-                  ],
+                  ),
                 );
               }
             }),

@@ -7,13 +7,13 @@ class Trip extends StatefulWidget {
   final VoidCallback onfav;
   final VoidCallback onArchive;
   Icon favIcon;
-  Trip(this.id, this.amount, this.title, this.start_date, this.end_date,
+  Trip(this.id, this.amount, this.title, this.start_date,
       this.onPressed, this.onfav, this.onArchive, this.favIcon);
   double amount;
   int id;
   String title;
   String start_date;
-  String end_date;
+  // String end_date;
 
   @override
   _TripState createState() => _TripState();
@@ -52,12 +52,14 @@ class _TripState extends State<Trip> {
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: [BoxShadow(
-              color: Colors.grey,
-              blurRadius: 5.0,
-            ),],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5.0,
+              ),
+            ],
             border: Border.all(
-              color: Colors.red[500],
+              color: Colors.purpleAccent,
             ),
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: ListTile(
@@ -73,14 +75,12 @@ class _TripState extends State<Trip> {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('\u{20B9} '+
-                    widget.amount.toString(),
+                  Text(
+                    '\u{20B9} ' + widget.amount.toString(),
                     style: TextStyle(fontSize: 23.0, color: Colors.green),
                   ),
                   Text(widget.start_date),
-                ]
-            ),
-
+                ]),
             trailing:
                 // Column(
                 //   children: [
