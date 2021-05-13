@@ -253,7 +253,7 @@ class _HomepageState extends State<Homepage> {
               ),
               Container(
                 height: 50,
-                child: Text('Made with love @IIT Ropar'),
+                child: Text('Made with \u{2764} @ IIT Ropar'),
               ),
             ],
           ),
