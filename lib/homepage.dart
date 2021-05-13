@@ -111,7 +111,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.person,
                                     size: 100,
-                                    color: Colors.deepPurpleAccent,
+                                    color: Colors.black54,
                                   ),
                                   Text(
                                     'Profile',
@@ -139,11 +139,8 @@ class _HomepageState extends State<Homepage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.card_travel,
-                                    size: 100,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
+                                  Icon(Icons.card_travel,
+                                      size: 100, color: Colors.black54),
                                   Text(
                                     'My Trips',
                                     style: TextStyle(fontSize: 21),
@@ -177,7 +174,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.picture_as_pdf,
                                     size: 100,
-                                    color: Colors.deepPurpleAccent,
+                                    color: Colors.black54,
                                   ),
                                   Center(
                                     // width: double.infinity,
@@ -205,7 +202,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.question_answer,
                                     size: 100,
-                                    color: Colors.deepPurpleAccent,
+                                    color: Colors.black54,
                                   ),
                                   Text(
                                     'FAQ',

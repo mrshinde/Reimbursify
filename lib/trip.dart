@@ -64,9 +64,6 @@ class _YourTripState extends State<YourTrip> {
   String tripName = 'IIT Bombay';
   String date = '09/03/2021';
 
-
-
-
   @override
   void initState() {
     super.initState();
@@ -76,7 +73,7 @@ class _YourTripState extends State<YourTrip> {
   Widget build(BuildContext ct) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.deepPurple,
         title: appBarTitle,
         centerTitle: true,
         leading: IconButton(
@@ -118,14 +115,15 @@ class _YourTripState extends State<YourTrip> {
           ),
           DropdownButton<String>(
             value: dropdownValue,
-            icon: const Icon(Icons.arrow_downward),
+            icon: const Icon(
+              Icons.arrow_downward,
+              color: Colors.white,
+            ),
             iconSize: 24,
             elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
-            ),
+            style: const TextStyle(color: Colors.yellow),
+            dropdownColor: Colors.blueAccent,
+            underline: Container(height: 2, color: Colors.amber),
             onChanged: (String newValue) {
               setState(() {
                 dropdownValue = newValue;
@@ -158,8 +156,17 @@ class _YourTripState extends State<YourTrip> {
                 }
               });
             },
-            items: <String>['Select', 'Amount\u{2B06}', 'Amount\u{2B07}', 'StartDate\u{2B06}', 'StartDate\u{2B07}', 'Title\u{2B06}', 'Title\u{2B07}', 'Favourites', 'Archives']
-                .map<DropdownMenuItem<String>>((String value) {
+            items: <String>[
+              'Select',
+              'Amount\u{2B06}',
+              'Amount\u{2B07}',
+              'StartDate\u{2B06}',
+              'StartDate\u{2B07}',
+              'Title\u{2B06}',
+              'Title\u{2B07}',
+              'Favourites',
+              'Archives'
+            ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -168,14 +175,9 @@ class _YourTripState extends State<YourTrip> {
           )
         ],
       ),
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.purple[100],
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.blue, Colors.purple])),
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -184,12 +186,14 @@ class _YourTripState extends State<YourTrip> {
               Expanded(
                 child: SingleChildScrollView(
                   child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                      stream: Stream.fromFuture(getTripbyAll(searchTitle, search)),
+                      stream:
+                          Stream.fromFuture(getTripbyAll(searchTitle, search)),
                       builder: (context,
                           AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
                         if (snapshot.hasData) {
                           return Column(
                             children: [
+                              Container(),
                               ListView.builder(
                                 itemCount: snapshot.data.length,
                                 primary: false,
@@ -200,7 +204,8 @@ class _YourTripState extends State<YourTrip> {
                                   //Having True at this place means That tile will be shown otherwise not
                                   //I can have if and else here to decide to show or not
                                   //So what I want is Archive to be shown when it is arhive ie search is 9 or I am searching string ie search==1
-                                  if (snapshot.data[index]['archive'] == 0||search==9) {
+                                  if (snapshot.data[index]['archive'] == 0 ||
+                                      search == 9) {
                                     return new Trip(
                                       snapshot.data[index]["id"],
                                       snapshot.data[index]["total"],
@@ -211,7 +216,7 @@ class _YourTripState extends State<YourTrip> {
                                         showDialog<void>(
                                           context: context,
                                           barrierDismissible:
-                                          false, // user must tap button!
+                                              false, // user must tap button!
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text('Delete Trip?'),
@@ -228,13 +233,17 @@ class _YourTripState extends State<YourTrip> {
                                                   child: Text('Yes'),
                                                   onPressed: () async {
                                                     setState(() {
-                                                      deleteTrip(snapshot.data[index]["id"]);
+                                                      deleteTrip(snapshot
+                                                          .data[index]["id"]);
                                                       print("deleted");
                                                       final snackBar = SnackBar(
-                                                        content: Text('Item Deleted'),
+                                                        content: Text(
+                                                            'Item Deleted'),
                                                       );
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar(snackBar);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
                                                     });
                                                     Navigator.of(context).pop();
                                                   },
@@ -254,12 +263,14 @@ class _YourTripState extends State<YourTrip> {
 
                                         setState(() {
                                           int k = 0;
-                                          if (snapshot.data[index]['fav'] == 1) {
+                                          if (snapshot.data[index]['fav'] ==
+                                              1) {
                                             k = 0;
                                           } else {
                                             k = 1;
                                           }
-                                          favTrip(snapshot.data[index]["id"], k);
+                                          favTrip(
+                                              snapshot.data[index]["id"], k);
                                         });
                                       },
                                       () {
@@ -270,7 +281,8 @@ class _YourTripState extends State<YourTrip> {
                                             .showSnackBar(snackBar);
 
                                         setState(() {
-                                          int k = snapshot.data[index]["archive"];
+                                          int k =
+                                              snapshot.data[index]["archive"];
                                           if (k == 0) {
                                             k = 1;
                                           } else {
@@ -290,7 +302,19 @@ class _YourTripState extends State<YourTrip> {
                             ],
                           );
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Text(
+                                'No Trips Added',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 100,
+                                  color: Colors.black26,
+                                ),
+                              ),
+                            ),
+                          );
                         }
                       }),
                 ),
@@ -309,7 +333,7 @@ class _YourTripState extends State<YourTrip> {
         },
         elevation: 15,
         splashColor: Colors.blue,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.purple,
         icon: Icon(Icons.addchart_rounded),
         label: Text("Add Trip"),
       ),
