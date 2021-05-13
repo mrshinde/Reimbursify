@@ -8,6 +8,7 @@ import 'dart:io' as io;
 import 'package:sqflite/sqflite.dart';
 import 'dart:typed_data';
 import 'package:path/path.dart' as pth;
+import 'database.dart';
 import 'package:tripmanager/viewreimbursements.dart';
 // import 'package:tripmanager/classes/profileclass.dart';
 
@@ -64,13 +65,14 @@ class _HomepageState extends State<Homepage> {
           files[0], documentsDirectory.path + "/" + "reimbursement1.db");
 
       // open the database
-      Database _db = await openDatabase(
-          documentsDirectory.path + "/" + "reimbursement1.db");
+      await Injection.initInjection();
+      // Database _db = await openDatabase(
+      //     documentsDirectory.path + "/" + "reimbursement1.db");
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext coxntext) {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.purple[50],
