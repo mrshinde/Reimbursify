@@ -21,16 +21,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Signup()),
-            );
-          },
-          label: Text("Edit"),
-          backgroundColor: Colors.deepPurple,
-        ),
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
           title: Text('Profile'),
@@ -115,7 +105,7 @@ class _ProfileState extends State<Profile> {
                                   // boxShadow: ,
                                   border: Border.all(
                                     color: Colors.white,
-                                    width: 4,
+                                    width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(40),
                                   color: Colors.purple,
@@ -124,7 +114,7 @@ class _ProfileState extends State<Profile> {
                                     child: Text(
                                   ' User Info',
                                   style: TextStyle(
-                                      fontSize: 30, color: Colors.white),
+                                      fontSize: 20, color: Colors.white),
                                 ))),
                           ),
                         ),
@@ -155,7 +145,7 @@ class _ProfileState extends State<Profile> {
                                   ],
                                   border: Border.all(
                                     color: Colors.white,
-                                    width: 4,
+                                    width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(40),
                                   color: Colors.purple,
@@ -164,7 +154,7 @@ class _ProfileState extends State<Profile> {
                                     child: Text(
                                   ' My Cards',
                                   style: TextStyle(
-                                      fontSize: 30, color: Colors.white),
+                                      fontSize: 20, color: Colors.white),
                                 ))),
                           ),
                         ),
@@ -194,7 +184,7 @@ class _ProfileState extends State<Profile> {
                                   ],
                                   border: Border.all(
                                     color: Colors.white,
-                                    width: 4,
+                                    width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(40),
                                   color: Colors.purple,
@@ -203,7 +193,7 @@ class _ProfileState extends State<Profile> {
                                     child: Text(
                                   ' My Reimbursements',
                                   style: TextStyle(
-                                      fontSize: 30, color: Colors.white),
+                                      fontSize: 20, color: Colors.white),
                                 ))),
                           ),
                         ),
