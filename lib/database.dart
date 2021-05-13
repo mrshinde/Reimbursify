@@ -48,6 +48,9 @@ class DatabaseHelper {
     await db.execute(
         'CREATE TABLE reimbursements(serial_number INTEGER PRIMARY KEY AUTOINCREMENT,tripid INTEGER,title TEXT, type TEXT, file_name TEXT, date TEXT)');
     await db.execute(
+      'INSERT INTO PaymentCard (type, number, acc_number) VALUES(\'Cash\', \'\', \'\')'
+    );
+    await db.execute(
         'INSERT INTO profile (uid , name , id , dep  ,designation , grade_pay , acc_number , ifsc_code ,google ) VALUES(\'1\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\'  )');
   }
 }

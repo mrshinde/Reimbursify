@@ -6,8 +6,10 @@ import 'package:tripmanager/classes/tripclass.dart';
 import './classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:currency_picker/currency_picker.dart';
 import './classes/otherexpense.dart';
 import './classes/personal.dart';
+
 
 Widget editTravelForm(
     Function() callback, int id, BuildContext context, Travel travelinstance) {
@@ -25,7 +27,9 @@ Widget editTravelForm(
       km,
       fare,
       ticket_no,
+      cardInfo,
       additional_comments,
+      currency,
       mode,
       ticketAddress,
       arrivalTime,
@@ -49,10 +53,16 @@ Widget editTravelForm(
   fare = dataMap.fare;
   double ex = dataMap.fare;
   additional_comments = dataMap.remarks;
+  if(additional_comments != null){
+    cardInfo = additional_comments.split(';').first;
+    additional_comments = additional_comments.split(';').last;
+  }
   km = dataMap.km;
   ticket_no = dataMap.pnr;
   var ticket_val;
   ticketAddress = dataMap.ticket_address;
+  currency = (dataMap.currency == null) ? 'INR' : dataMap.currency;
+  print(currency);
   if (ticketAddress == "Local")
     ticket_val = 0;
   else if (ticketAddress == "GMail")
@@ -246,6 +256,7 @@ Widget editTravelForm(
                         ),
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             validator : (value){
                             if(value == null || value.isEmpty)
                               return 'Required Field';
@@ -266,37 +277,62 @@ Widget editTravelForm(
                           ),
                           flex: 2,
                         )
-                      ]),
+                      ]),SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                child: Text('Select Currency'),
+                                onPressed: () {
+                                  showCurrencyPicker(
+                                    context: context,
+                                    showFlag: true,
+                                    showCurrencyName: false,
+                                    favorite: [currency],
+                                    showCurrencyCode: true,
+                                    onSelect: (Currency curr) {
+                                      currency = curr.code;
+                                    },
+                                  );
+                                },
+                              ),
+                              flex: 2,
+                            ),
+                            Expanded(
+                              child: SizedBox(),
+                              flex: 1,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty)
+                                    return 'Required Field';
+                                  else if (double.tryParse(value) == null)
+                                    return 'Not a valid number';
+                                  else
+                                    return null;
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'Fare',
+                                  prefixIcon: Icon(Icons.money),
+                                  enabledBorder: OutlineInputBorder(),
+                                ),
+                                onChanged: (value) {
+                                  fare = double.tryParse(value);
+                                },
+                                initialValue: fare.toString(),
+                              ),
+                              flex: 2,
+                            ),
+                          ],
+                        ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Row(children: <Widget>[
-                        Expanded(
-                          child: TextFormField(
-                            validator : (value){
-                            if(value == null || value.isEmpty)
-                              return 'Required Field';
-                            else if(double.tryParse(value) == null)
-                              return 'Not a valid number';
-                            else
-                              return null;
-                          },
-                            initialValue: fare.toString(),
-                            decoration: InputDecoration(
-                              labelText: 'Fare',
-                              prefixIcon: Icon(Icons.money),
-                              enabledBorder: OutlineInputBorder(),
-                            ),
-                            onChanged: (value) {
-                              fare = double.parse(value);
-                            },
-                          ),
-                          flex: 2,
-                        ),
-                        Expanded(
-                          child: SizedBox(),
-                          flex: 1,
-                        ),
                         Expanded(
                           child: TextFormField(
                             initialValue: additional_comments,
@@ -401,7 +437,10 @@ Widget editTravelForm(
                               travelMap['km'] = km;
                               travelMap['fare'] = fare;
                               travelMap['pnr'] = ticket_no;
-                              travelMap['remarks'] = additional_comments;
+                              if(cardInfo == null)
+                                travelMap['remarks'] = additional_comments;
+                              else
+                                travelMap['remarks'] = cardInfo + ';' + additional_comments;
                               travelMap['receipt_location'] = receiptLocation;
                               travelMap['ticket_address'] = ticketAddress;
                               updateTravelExpense(
@@ -416,7 +455,7 @@ Widget editTravelForm(
                                   travelMap['mot'],
                                   travelMap['km'],
                                   travelMap['fare'],
-                                  null,
+                                  currency,
                                   travelMap['pnr'],
                                   travelMap['remarks'],
                                   travelMap['ticket_address'],
@@ -446,6 +485,7 @@ Widget editOtherForm(
     Function() callback, int id, BuildContext context, OtherExpense expense) {
   print("Navneet's Wish");
   OtherExpense dataMap = expense;
+  final _formKey = GlobalKey<FormState>();
   // getItemByIdOtherExpense(id).then(
   // (value) => dataMap = value,
   // );
@@ -454,15 +494,28 @@ Widget editOtherForm(
       amount_paid,
       dateString,
       receipt_details,
+      currency,
+      cardInfo,
+      additional_comments,
       receipt_address,
       receipt_location;
   var tripid, typeVal, receiptVal;
   tripid = dataMap.tripid;
+  currency = (dataMap.currency == null) ? 'INR' : dataMap.currency;
   amount_paid = dataMap.amount_paid.toString();
   double ex = dataMap.amount_paid;
   type = dataMap.type;
   details = dataMap.details;
   receipt_details = dataMap.receipt_details;
+  if(receipt_details.split(';').length == 3){
+    cardInfo = receipt_details.split(';')[0];
+    additional_comments = receipt_details.split(';')[2];
+    receipt_details = receipt_details.split(';')[1];
+  }
+  else{
+    additional_comments = receipt_details.split(';').last;
+    receipt_details = receipt_details.split(';').first;
+  }
   receipt_address = dataMap.receipt_location;
   dateString = dataMap.date;
   if (type == 'Food')
@@ -498,6 +551,7 @@ Widget editOtherForm(
               child: Center(
                 child: Column(children: [
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         SizedBox(
@@ -528,7 +582,11 @@ Widget editOtherForm(
                                   DropdownMenuItem(
                                     child: Text('Registration Fee'),
                                     value: 4,
-                                  )
+                                  ),
+                                  DropdownMenuItem(
+                                child: Text('Miscellaneous'),
+                                value: 5,
+                              )
                                 ],
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
@@ -551,6 +609,9 @@ Widget editOtherForm(
                                     case 4:
                                       type = 'Registration Fees';
                                       break;
+                                    case 5:
+                                  type = "Miscellaneous";
+                                  break;
                                   }
                                 },
                               ),
@@ -562,6 +623,9 @@ Widget editOtherForm(
                         Row(children: [
                           Expanded(
                             child: DateTimePicker(
+                              validator: (value) => (value == null || value.isEmpty)
+                              ? 'Required Field'
+                              : null,
                               initialValue: dateString,
                               type: DateTimePickerType.date,
                               firstDate: DateTime(1900),
@@ -580,6 +644,10 @@ Widget editOtherForm(
                           children: [
                             Expanded(
                               child: TextFormField(
+                                validator: (value) =>
+                                (value == null || value.isEmpty)
+                                    ? 'Required Field'
+                                    : null,
                                 initialValue: details,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
@@ -591,9 +659,37 @@ Widget editOtherForm(
                               ),
                               flex: 2,
                             ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                child: Text('Select Currency'),
+                                onPressed: () {
+                                  showCurrencyPicker(
+                                    context: context,
+                                    showFlag: true,
+                                    showCurrencyName: false,
+                                    favorite: [currency],
+                                    showCurrencyCode: true,
+                                    onSelect: (Currency curr) {
+                                      currency = curr.code;
+                                    },
+                                  );
+                                },
+                              ),
+                              flex: 2,
+                            ),
                             Expanded(child: SizedBox(), flex: 1),
                             Expanded(
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                validator: (value) => (value == null ||
+                                    (double.tryParse(value) == null))
+                                ? 'Required Field'
+                                : null,
                                 initialValue: amount_paid,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
@@ -607,11 +703,14 @@ Widget editOtherForm(
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
                         Row(
                           children: [
                             Expanded(
                               child: TextFormField(
+                                validator: (value) =>
+                                (value == null || value.isEmpty)
+                                    ? 'Required Field'
+                                    : null,
                                 initialValue: receipt_details,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
@@ -680,28 +779,56 @@ Widget editOtherForm(
                                 )),
                           ],
                         ),
+                        SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            initialValue: additional_comments,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Remarks',
+                            ),
+                            onChanged: (value) {
+                              additional_comments = value;
+                            },
+                          ),
+                          flex: 1,
+                        ),
+                      ],
+                    ),SizedBox(
+                      height: 10,
+                    ),
                         ElevatedButton(
                           child: Text('Send'),
                           onPressed: () async {
-                            double amount = double.parse(amount_paid);
-                            updateOtherExpense(
-                                id,
-                                tripid,
-                                type,
-                                details,
-                                amount,
-                                null,
-                                receipt_details,
-                                receipt_address,
-                                receipt_location,
-                                dateString);
-                            tripclass temp2 = await getTripById(tripid);
-                            double total = temp2.total + amount - ex;
-                            print(total);
-                            updateAmount(tripid, total);
-                            updateLastModified(tripid);
-                            callback();
-                            Navigator.of(context).pop();
+                            if(_formKey.currentState.validate()){
+                              double amount = double.parse(amount_paid);
+                              if(cardInfo == null)
+                                receipt_details = receipt_details + ';' + additional_comments;
+                              else
+                                receipt_details = cardInfo + ';' + receipt_details + ';' + additional_comments;
+                              updateOtherExpense(
+                                  id,
+                                  tripid,
+                                  type,
+                                  details,
+                                  amount,
+                                  currency,
+                                  receipt_details,
+                                  receipt_address,
+                                  receipt_location,
+                                  dateString);
+                              tripclass temp2 = await getTripById(tripid);
+                              double total = temp2.total + amount - ex;
+                              print(total);
+                              updateAmount(tripid, total);
+                              updateLastModified(tripid);
+                              callback();
+                              Navigator.of(context).pop();
+                          }
                           },
                         ),
                       ],
