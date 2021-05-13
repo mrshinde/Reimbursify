@@ -527,6 +527,8 @@ Widget editOtherForm(
   else if (type == 'Stay')
     typeVal = 3;
   else if (type == 'Registration Fees') typeVal = 4;
+  else
+    typeVal = 5;
   if (receipt_address == "Local")
     receiptVal = 0;
   else if (receipt_address == "GMail")
