@@ -95,6 +95,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            elevation: 10,
+                            color: Colors.purple[200],
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -109,7 +111,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.person,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.deepPurpleAccent,
                                   ),
                                   Text(
                                     'Profile',
@@ -124,6 +126,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -138,7 +142,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.card_travel,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.deepPurpleAccent,
                                   ),
                                   Text(
                                     'My Trips',
@@ -157,6 +161,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -171,7 +177,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.picture_as_pdf,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.deepPurpleAccent,
                                   ),
                                   Center(
                                     // width: double.infinity,
@@ -189,6 +195,8 @@ class _HomepageState extends State<Homepage> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: MediaQuery.of(context).size.width / 2,
                           child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
                             child: InkWell(
                               onTap: () {},
                               child: Column(
@@ -197,7 +205,7 @@ class _HomepageState extends State<Homepage> {
                                   Icon(
                                     Icons.question_answer,
                                     size: 100,
-                                    color: Colors.purple,
+                                    color: Colors.deepPurpleAccent,
                                   ),
                                   Text(
                                     'FAQ',
