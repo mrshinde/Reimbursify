@@ -423,6 +423,7 @@ class _ItemState extends State<Item> {
                                             child: attachments(
                                                 this.widget.receipt_location,
                                                 this.widget.serial_number,
+                                                this.widget.tripid,
                                                 this.widget.callback),
                                           );
                                         });

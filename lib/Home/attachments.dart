@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 
 class attachments extends StatefulWidget {
-  attachments(this.add, this.serial_number, this.callback);
+  attachments(this.add, this.serial_number, this.tripid, this.callback);
   final String add;
   final int serial_number;
+  final int tripid;
   Function() callback;
   @override
   _attachmentsState createState() => _attachmentsState();
@@ -37,6 +39,7 @@ class _attachmentsState extends State<attachments> {
                           String path = result.paths.first;
                           print(path);
                           await updateaddress(path, this.widget.serial_number);
+                          await updateLastModified(this.widget.tripid);
                           this.widget.callback();
                           Navigator.of(context).pop();
                           setState(() {});
@@ -68,8 +71,11 @@ class _attachmentsState extends State<attachments> {
                               ),
                               IconButton(
                                 icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  updateaddress('', this.widget.serial_number);
+                                onPressed: () async {
+                                  await updateaddress(
+                                      '', this.widget.serial_number);
+                                  await updateLastModified(this.widget.tripid);
+
                                   this.widget.callback();
                                   Navigator.of(context).pop();
                                   setState(() {});
@@ -90,6 +96,8 @@ class _attachmentsState extends State<attachments> {
                                   print(path);
                                   await updateaddress(
                                       path, this.widget.serial_number);
+                                  await updateLastModified(this.widget.tripid);
+
                                   this.widget.callback();
                                   Navigator.of(context).pop();
                                 }

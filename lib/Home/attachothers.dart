@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:tripmanager/classes/otherexpense.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:tripmanager/classes/tripclass.dart';
 
 class attachments2 extends StatefulWidget {
-  attachments2(this.add, this.serial_number, this.callback);
+  attachments2(this.add, this.serial_number, this.tripid, this.callback);
   final String add;
+  final int tripid;
   final int serial_number;
   Function() callback;
   @override
@@ -37,6 +39,8 @@ class _attachments2State extends State<attachments2> {
                           String path = result.paths.first;
                           print(path);
                           await updateaddress(path, this.widget.serial_number);
+                          await updateLastModified(this.widget.tripid);
+
                           this.widget.callback();
                           Navigator.of(context).pop();
                           setState(() {});
@@ -67,8 +71,11 @@ class _attachments2State extends State<attachments2> {
                               ),
                               IconButton(
                                 icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  updateaddress('', this.widget.serial_number);
+                                onPressed: () async {
+                                  await updateaddress(
+                                      '', this.widget.serial_number);
+                                  await updateLastModified(this.widget.tripid);
+
                                   this.widget.callback();
                                   Navigator.of(context).pop();
                                   setState(() {});
@@ -89,6 +96,8 @@ class _attachments2State extends State<attachments2> {
                                   print(path);
                                   await updateaddress(
                                       path, this.widget.serial_number);
+                                  await updateLastModified(this.widget.tripid);
+
                                   this.widget.callback();
                                   Navigator.of(context).pop();
                                   setState(() {});
