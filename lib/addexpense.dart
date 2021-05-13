@@ -512,6 +512,7 @@ class _MyHomePageState extends State<MyHomePage> {
           receipt_location,
           dateOfExpense,
           dateString;
+          currency = 'INR';
           cardsWidget = FutureBuilder(
             future: listOfCards,
             builder: (BuildContext context,
