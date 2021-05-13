@@ -206,7 +206,7 @@ class _YourTripState extends State<YourTrip> {
                                       snapshot.data[index]["total"],
                                       snapshot.data[index]["title"],
                                       snapshot.data[index]["start_date"],
-                                      snapshot.data[index]["end_date"],
+                                      // snapshot.data[index]["end_date"],
                                       () {
                                         showDialog<void>(
                                           context: context,
@@ -290,7 +290,14 @@ class _YourTripState extends State<YourTrip> {
                             ],
                           );
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 200,),
+                              Text("List is Empty", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.green),),
+                            ],
+                          ));
                         }
                       }),
                 ),

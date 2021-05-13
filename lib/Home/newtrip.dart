@@ -7,13 +7,13 @@ class Trip extends StatefulWidget {
   final VoidCallback onfav;
   final VoidCallback onArchive;
   Icon favIcon;
-  Trip(this.id, this.amount, this.title, this.start_date, this.end_date,
+  Trip(this.id, this.amount, this.title, this.start_date,
       this.onPressed, this.onfav, this.onArchive, this.favIcon);
   double amount;
   int id;
   String title;
   String start_date;
-  String end_date;
+  // String end_date;
 
   @override
   _TripState createState() => _TripState();

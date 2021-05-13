@@ -51,7 +51,7 @@ class _editTripState extends State<editTrip> {
       padding: const EdgeInsets.only(top: 40),
 
       child: Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 0),
+        insetPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         elevation: 16,
         child: SafeArea(
@@ -59,10 +59,13 @@ class _editTripState extends State<editTrip> {
             child: Center(
               child: Column(children: [
                 Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   height: 400,
                   child: Form(
                     child: Column(
                       children: <Widget>[
+                        SizedBox(height: 10),
+                        Text("Edit Trip", textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontSize: 20),),
                         SizedBox(height:10),
                         Expanded(
                           child: TextFormField(
