@@ -22,6 +22,7 @@ class _FormsState extends State<Forms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.purple[100],
       appBar: AppBar(
         backgroundColor: Colors.purple,
         leading: IconButton(
@@ -72,17 +73,18 @@ class _FormsState extends State<Forms> {
                 );
               } else {
                 // isTravelEmpty = true;
-                return Column(
-                  children: [
-                    Container(),
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        'No Reimbursements',
-                        style: TextStyle(fontSize: 20),
+                return Center(
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'No Entries',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 100,
+                        color: Colors.black26,
                       ),
                     ),
-                  ],
+                  ),
                 );
               }
             }),

@@ -329,6 +329,7 @@ class _Item2State extends State<Item2> {
                                             child: attachments2(
                                                 this.widget.receipt_address,
                                                 this.widget.serial_number,
+                                                this.widget.tripid,
                                                 this.widget.callback),
                                           );
                                         });

@@ -1,5 +1,6 @@
 // import 'package:tripmanager/Home/home.dart';
 import 'package:tripmanager/Home/mycards.dart';
+import 'package:tripmanager/Home/profile.dart' as p;
 import 'package:tripmanager/Home/userinfo.dart';
 import 'package:tripmanager/classes/profileclass.dart' as profclass;
 import 'package:tripmanager/classes/user.dart';
@@ -206,7 +207,7 @@ class _ProfileState extends State<Signup> {
               // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Homepage()),
+                MaterialPageRoute(builder: (context) => p.Profile()),
               );
               //Navigator.pop(context, "Your profile has been saved.");
             }),

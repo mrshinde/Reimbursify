@@ -77,7 +77,7 @@ class _HomepageState extends State<Homepage> {
       home: Scaffold(
         backgroundColor: Colors.purple[50],
         appBar: AppBar(
-          backgroundColor: Colors.purple,
+          backgroundColor: Colors.deepPurple,
           title: Text(
             'Tripiva',
             style: TextStyle(fontSize: 30),
@@ -87,106 +87,135 @@ class _HomepageState extends State<Homepage> {
           child: Column(
             children: [
               Container(
-                height: 500,
-                // padding: const EdgeInsets.all(8.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.extent(
-                    // primary: false,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    maxCrossAxisExtent: 200.0,
-                    children: [
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Profile()),
-                            );
-                          },
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.person,
-                                size: 100,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: MediaQuery.of(context).size.width / 2,
+                          child: Card(
+                            elevation: 10,
+                            color: Colors.purple[200],
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Profile()),
+                                );
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.person,
+                                    size: 100,
+                                    color: Colors.black54,
+                                  ),
+                                  Text(
+                                    'Profile',
+                                    style: TextStyle(fontSize: 21),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Profile',
-                                style: TextStyle(fontSize: 21),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => YourTrip()),
-                            );
-                          },
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.card_travel,
-                                size: 100,
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: MediaQuery.of(context).size.width / 2,
+                          child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => YourTrip()),
+                                );
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.card_travel,
+                                      size: 100, color: Colors.black54),
+                                  Text(
+                                    'My Trips',
+                                    style: TextStyle(fontSize: 21),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'My Trips',
-                                style: TextStyle(fontSize: 21),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Forms()),
-                            );
-                          },
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.picture_as_pdf,
-                                size: 100,
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: MediaQuery.of(context).size.width / 2,
+                          child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Forms()),
+                                );
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.picture_as_pdf,
+                                    size: 100,
+                                    color: Colors.black54,
+                                  ),
+                                  Center(
+                                    // width: double.infinity,
+                                    child: Text(
+                                      'Reimbursements',
+                                      style: TextStyle(fontSize: 21),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Center(
-                                // width: double.infinity,
-                                child: Text(
-                                  'Reimbursements',
-                                  style: TextStyle(fontSize: 21),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.question_answer,
-                                size: 100,
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: MediaQuery.of(context).size.width / 2,
+                          child: Card(
+                            color: Colors.purple[200],
+                            elevation: 10,
+                            child: InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.question_answer,
+                                    size: 100,
+                                    color: Colors.black54,
+                                  ),
+                                  Text(
+                                    'FAQ',
+                                    style: TextStyle(fontSize: 21),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'FAQ',
-                                style: TextStyle(fontSize: 21),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    )
+                  ],
                 ),
               ),
               Expanded(
