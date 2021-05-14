@@ -62,6 +62,9 @@ class _FaqState extends State<Faq>{
                     ),
                     softWrap: true, ),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
                 ExpandablePanel(
                   header: Text(" How to Sort/Filter Trips?",
                     style: TextStyle(
