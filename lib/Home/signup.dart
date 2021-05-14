@@ -30,7 +30,7 @@ class _ProfileState extends State<Signup> {
   TextEditingController Account_number = TextEditingController();
   TextEditingController Ifsc_code = TextEditingController();
   TextEditingController Google_account = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -58,174 +58,180 @@ class _ProfileState extends State<Signup> {
                 Navigator.pop(context);
               }),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.purple[200], Colors.purple[200]]),
-                ),
+        body: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Expanded(
                 child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //CircleAvatar(
-                          //
-                          //                           radius: 50.0,
-                          //                         ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.purple[200], Colors.purple[200]]),
+                  ),
+                  child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //CircleAvatar(
+                            //
+                            //                           radius: 50.0,
+                            //                         ),
 
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Name,
-                                // initialValue: nm,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  //hintText: 'What do people call you?',
-                                  labelText: 'Name *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Name,
+                                  // initialValue: nm,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    //hintText: 'What do people call you?',
+                                    labelText: 'Name *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
 
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Employee_code,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Employee Code *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Employee_code,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Employee Code *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
 
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Department,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Department *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Department,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Department *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
 
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Designation,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Designation *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Grade_pay,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Grade Pay *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Account_number,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Account Number *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Ifsc_code,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Ifsc Code *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Google_account,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Google Account *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                              )),
-                        ],
-                      ),
-                    )),
-              ),
-            )
-          ],
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Designation,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Designation *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Grade_pay,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Grade Pay *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Account_number,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Account Number *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Ifsc_code,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Ifsc Code *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Google_account,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Google Account *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                )),
+                          ],
+                        ),
+                      )),
+                ),
+              )
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.check),
             onPressed: () {
               setState(() {
                 //deleteProfile(Uid);
-                updateProfile(
-                    Name.text,
-                    Employee_code.text,
-                    Department.text,
-                    Designation.text,
-                    Grade_pay.text,
-                    Account_number.text,
-                    Ifsc_code.text,
-                    Google_account.text,
-                    Uid);
+                if(_formKey.currentState.validate()) {
+                  updateProfile(
+                      Name.text,
+                      Employee_code.text,
+                      Department.text,
+                      Designation.text,
+                      Grade_pay.text,
+                      Account_number.text,
+                      Ifsc_code.text,
+                      Google_account.text,
+                      Uid);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => p.Profile()),
+                    );
+                }
               });
               // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => p.Profile()),
-              );
+
               //Navigator.pop(context, "Your profile has been saved.");
             }),
       ),
