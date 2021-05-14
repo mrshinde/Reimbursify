@@ -903,6 +903,8 @@ class _TempState extends State<Temp> {
                                                               ["amount_paid"],
                                                           snapshot.data[index]
                                                               ["date"],
+                                                          snapshot.data[index]
+                                                              ["currency"],
                                                           callback1,
                                                         );
                                                       },
@@ -1261,42 +1263,7 @@ class _createpopupState extends State<createpopup> {
                   }())
                 ],
               ),
-              (() {
-                if (buttons2[0] == true) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: (() {
-                          if (check == true) {
-                            return IconButton(
-                                icon: Icon(Icons.check_box_outlined),
-                                onPressed: () {
-                                  setState(() {
-                                    check = false;
-                                  });
-                                });
-                          } else {
-                            return IconButton(
-                                icon: Icon(Icons.check_box_outline_blank_sharp),
-                                onPressed: () {
-                                  setState(() {
-                                    check = true;
-                                  });
-                                });
-                          }
-                        }()),
-                      ),
-                      Container(
-                        child: Text('Add Attachments'),
-                      )
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              }()),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: (() {
