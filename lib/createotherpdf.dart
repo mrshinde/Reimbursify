@@ -14,6 +14,22 @@ import 'package:intl/intl.dart';
 
 import 'package:tripmanager/classes/tripclass.dart';
 
+Map<String, String> parseComment(String comment) {
+  final regex = RegExp(
+      r'^Payment made through card which has type: (.+), account number: (.*), card number: (.*);(.*)$');
+  final match = regex.firstMatch(comment);
+  if (match == null)
+    return null;
+  else {
+    return {
+      'type': match.group(1),
+      'acc_no': match.group(2),
+      'number': match.group(3),
+      'additional_comments': match.group(4)
+    };
+  }
+}
+
 Future<File> getImageFileFromAssets(String path) async {
   final byteData = await rootBundle.load('assets/$path');
 
@@ -105,7 +121,8 @@ Future<void> createotherPDF(int id) async {
         ' ' +
         travel_expenses[i]['fare'].toString();
     row2.cells[9].value = travel_expenses[i]['pnr'];
-    row2.cells[10].value = travel_expenses[i]['remarks'];
+    row2.cells[10].value =
+        parseComment(travel_expenses[i]['remarks'])['additional_comments'];
   }
 //Gets the width of the PDF grid cell
 //   double width = row2.cells[2].width;
@@ -138,7 +155,8 @@ Future<void> createotherPDF(int id) async {
     row2.cells[2].value = other_expenses[i]['currency'] +
         ' ' +
         other_expenses[i]['amount_paid'].toString();
-    row2.cells[3].value = other_expenses[i]['receipt_details'];
+    row2.cells[3].value = parseComment(
+        other_expenses[i]['receipt_details'])['additional_comments'];
   }
   PdfPage page2 = result.page;
   double bound2 = result.bounds.bottom;
