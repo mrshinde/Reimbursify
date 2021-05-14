@@ -89,6 +89,8 @@ class _ItemState extends State<Item> {
     }
     if (widget.type == 'Cash') {
       widget.payment_info = 'Cash';
+    } else if (widget.type == 'Other') {
+      widget.payment_info = 'Other';
     } else if (widget.type == null ||
         widget.acc_no == null ||
         widget.numb == null) {
