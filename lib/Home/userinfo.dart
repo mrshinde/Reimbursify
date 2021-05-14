@@ -15,6 +15,7 @@ class userinfo extends StatefulWidget {
 
 class _userinfoState extends State<userinfo> {
   Future<Profile> user_profile;
+  Profile userprof;
   String uid;
   String name;
   String employee_code;
@@ -52,7 +53,7 @@ class _userinfoState extends State<userinfo> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Signup()),
+            MaterialPageRoute(builder: (context) => Signup(userprof)),
           );
         },
         label: Text("Edit"),
@@ -77,6 +78,7 @@ class _userinfoState extends State<userinfo> {
               child: CircularProgressIndicator(),
             );
           } else {
+            userprof = snapshot.data;
             name = snapshot.data.name;
             employee_code = snapshot.data.id;
             department = snapshot.data.dep;

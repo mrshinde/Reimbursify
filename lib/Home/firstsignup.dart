@@ -212,22 +212,36 @@ import '../homepage.dart';
 
 String validatePassword(String value) {
   if (value == null || value.isEmpty) {
-    return "This cannot be empty!";
+    return "Mandatory Field!";
   }
   return null;
 }
 
-class LogInInfo extends StatelessWidget {
+class LogInInfo extends StatefulWidget {
+  @override
+  _LogInInfoState createState() => _LogInInfoState();
+}
+
+class _LogInInfoState extends State<LogInInfo> {
   final String Uid = "1";
-  //TextEditingController Uid = TextEditingController();
+
   TextEditingController Name = TextEditingController();
+
   TextEditingController Employee_code = TextEditingController();
+
   TextEditingController Department = TextEditingController();
+
   TextEditingController Designation = TextEditingController();
+
   TextEditingController Grade_pay = TextEditingController();
+
   TextEditingController Account_number = TextEditingController();
+
   TextEditingController Ifsc_code = TextEditingController();
+
   TextEditingController Google_account = TextEditingController();
+
+  bool _validate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +309,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Name,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Name.text),
+                              errorText: _validate
+                                  ? validatePassword(Name.text)
+                                  : null,
                               filled: true,
                               hoverColor: Colors.white,
                               fillColor: Colors.white30,
@@ -319,7 +335,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Employee_code,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Employee_code.text),
+                              errorText: _validate
+                                  ? validatePassword(Employee_code.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -344,7 +362,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Department,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Department.text),
+                              errorText: _validate
+                                  ? validatePassword(Department.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -369,7 +389,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Designation,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Designation.text),
+                              errorText: _validate
+                                  ? validatePassword(Designation.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -394,7 +416,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Grade_pay,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Grade_pay.text),
+                              errorText: _validate
+                                  ? validatePassword(Grade_pay.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -419,7 +443,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Account_number,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Account_number.text),
+                              errorText: _validate
+                                  ? validatePassword(Account_number.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -444,7 +470,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Ifsc_code,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Ifsc_code.text),
+                              errorText: _validate
+                                  ? validatePassword(Ifsc_code.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -469,7 +497,9 @@ class LogInInfo extends StatelessWidget {
                           TextField(
                             controller: Google_account,
                             decoration: InputDecoration(
-                              errorText: validatePassword(Google_account.text),
+                              errorText: _validate
+                                  ? validatePassword(Google_account.text)
+                                  : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -485,6 +515,9 @@ class LogInInfo extends StatelessWidget {
                       padding: EdgeInsets.all(20.0),
                       child: FlatButton(
                           onPressed: () {
+                            setState(() {
+                              _validate = true;
+                            });
                             if (validatePassword(Google_account.text) == null &&
                                 validatePassword(Name.text) == null &&
                                 validatePassword(Employee_code.text) == null &&
