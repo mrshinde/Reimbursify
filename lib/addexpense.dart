@@ -1013,6 +1013,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                     },
                     child: Text('Send')),
+                SizedBox(height:10),
+                Text("*Personal Expenses will not be added to the Final Total", style: TextStyle(color: Colors.deepPurple),),
               ],
             ));
       });
