@@ -11,13 +11,15 @@ import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/item2.dart';
 import 'package:tripmanager/createpdf.dart';
 // import 'package:tripmanager/Home/item3.dart';
-
+import 'package:intl/intl.dart';
+import 'dart:io';
 import 'classes/tripclass.dart';
 import 'classes/itemclass.dart';
 import 'package:tripmanager/Home/item.dart';
 import 'package:tripmanager/editTrip.dart';
 import 'classes/travelexpense.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:currency_picker/currency_picker.dart';
 
 Future<String> gettotalinstring(int id) async {
   List<Map> l1 = await GetTotal(id);
@@ -54,6 +56,12 @@ Future<String> gettotalinstring(int id) async {
 double sum = 0;
 
 bool _value = false;
+
+// String getCurrency() {
+//   print(Platform.localeName);
+//   var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+//   return format.currencySymbol;
+// }
 
 class Temp extends StatefulWidget {
   Temp(
@@ -100,6 +108,8 @@ class _TempState extends State<Temp> {
 
   @override
   Widget build(BuildContext context) {
+    // CurrencyUtils.currencyToEmoji(Currency(code: 'INR',));
+
     return Scaffold(
         body: SafeArea(
           child: Column(

@@ -61,7 +61,7 @@ class _mycardstate extends State<Mycards> {
                         builder: (context,
                             AsyncSnapshot<List<Map<dynamic, dynamic>>>
                                 snapshot) {
-                          if (snapshot.hasData && snapshot.data.length >= 2) {
+                          if (snapshot.hasData && snapshot.data.length > 2) {
                             return SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
