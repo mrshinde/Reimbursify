@@ -873,7 +873,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             : null,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
-                          labelText: 'Title for Expense',
+                          labelText: 'Details',
                         ),
                         onChanged: (value) {
                           details = value;
