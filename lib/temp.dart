@@ -603,9 +603,10 @@ class _TempState extends State<Temp> {
                                                     ),
 
                                                     Container(
-                                                      child: Image(
-                                                        image: AssetImage(
-                                                            'assets/tick.png'),
+                                                      child: Image.network(
+                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                        height: 30,
+                                                        width: 30,
                                                       ),
                                                     ),
                                                     // if(snapshot.connectionState==ConnectionState.active)
@@ -722,9 +723,10 @@ class _TempState extends State<Temp> {
                                                       },
                                                     ),
                                                     Container(
-                                                      child: Image(
-                                                        image: AssetImage(
-                                                            'assets/tick.png'),
+                                                      child: Image.network(
+                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                        height: 30,
+                                                        width: 30,
                                                       ),
                                                     ),
                                                   ],
@@ -812,9 +814,10 @@ class _TempState extends State<Temp> {
                                                       },
                                                     ),
                                                     Container(
-                                                      child: Image(
-                                                        image: AssetImage(
-                                                            'assets/tick.png'),
+                                                      child: Image.network(
+                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                        height: 30,
+                                                        width: 30,
                                                       ),
                                                     ),
                                                   ],
@@ -905,9 +908,10 @@ class _TempState extends State<Temp> {
                                                       },
                                                     ),
                                                     Container(
-                                                      child: Image(
-                                                        image: AssetImage(
-                                                            'assets/tick.png'),
+                                                      child: Image.network(
+                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                        height: 30,
+                                                        width: 30,
                                                       ),
                                                     ),
                                                   ],
