@@ -38,11 +38,14 @@ class _addTripState extends State<addTrip> {
     super.initState();
     now = DateTime.now();
   }
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40,),
+      padding: const EdgeInsets.only(
+        top: 40,
+      ),
       child: Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -62,12 +65,22 @@ class _addTripState extends State<addTrip> {
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 10),
-                          Text("Adding Trip", textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontSize: 20),),
-                          Expanded(child: SizedBox(height: 10), flex: 1,),
+                          Text(
+                            "Adding Trip",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.blue, fontSize: 20),
+                          ),
+                          Expanded(
+                            child: SizedBox(height: 10),
+                            flex: 1,
+                          ),
                           TextFormField(
                             maxLength: 25,
                             maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                            validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                            validator: (value) =>
+                                (value == null || value.isEmpty)
+                                    ? 'Required Field'
+                                    : null,
                             decoration: InputDecoration(
                               labelText: 'Enter Title',
                               enabledBorder: OutlineInputBorder(),
@@ -76,15 +89,20 @@ class _addTripState extends State<addTrip> {
                               title = value;
                             },
                           ),
-                          Expanded(child: SizedBox(height: 10), flex: 1,),
+                          Expanded(
+                            child: SizedBox(height: 10),
+                            flex: 1,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 child: DropdownButtonFormField(
                                   // value: 1,
                                   items: [
-                                    DropdownMenuItem(child: Text('Yes'), value: 1),
-                                    DropdownMenuItem(child: Text('No'), value: 0),
+                                    DropdownMenuItem(
+                                        child: Text('Yes'), value: 1),
+                                    DropdownMenuItem(
+                                        child: Text('No'), value: 0),
                                   ],
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(),
@@ -99,7 +117,9 @@ class _addTripState extends State<addTrip> {
                                 // flex: 3,
                               ),
                               // Expanded(child: SizedBox(width: 10), flex: 1,),
-                              Expanded(child: SizedBox(height: 10),),
+                              Expanded(
+                                child: SizedBox(height: 10),
+                              ),
                               Expanded(
                                 child: DateTimePicker(
                                   type: DateTimePickerType.date,
@@ -107,7 +127,10 @@ class _addTripState extends State<addTrip> {
                                   lastDate: DateTime(2100),
                                   initialDate: DateTime.now(),
                                   dateLabelText: 'Start Date',
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                   onChanged: (value) {
                                     start_date = DateTime.parse(value);
                                   },
@@ -117,8 +140,9 @@ class _addTripState extends State<addTrip> {
                             ],
                           ),
 
-
-                          Expanded(child: SizedBox(height: 10),),
+                          Expanded(
+                            child: SizedBox(height: 10),
+                          ),
                           // Expanded(child: SizedBox(height: 10), flex: 1,),
                           TextFormField(
                             decoration: InputDecoration(
@@ -130,7 +154,9 @@ class _addTripState extends State<addTrip> {
                             },
                           ),
                           // Expanded(child: SizedBox(height: 10), flex: 1,),
-                          Expanded(child: SizedBox(height: 10),),
+                          Expanded(
+                            child: SizedBox(height: 10),
+                          ),
                           TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Budget Head',
@@ -141,7 +167,9 @@ class _addTripState extends State<addTrip> {
                             },
                           ),
                           // Expanded(child: SizedBox(height: 10), flex: 1,),
-                          Expanded(child: SizedBox(height: 10),),
+                          Expanded(
+                            child: SizedBox(height: 10),
+                          ),
                           TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Notes',
@@ -152,14 +180,16 @@ class _addTripState extends State<addTrip> {
                             },
                           ),
                           // Expanded(child: SizedBox(height: 10), flex: 1,),
-                          Expanded(child: SizedBox(height: 10),),
+                          Expanded(
+                            child: SizedBox(height: 10),
+                          ),
                           ElevatedButton(
                               onPressed: () {
-                                if(_formKey.currentState.validate()){
+                                if (_formKey.currentState.validate()) {
                                   insertTripExpense(
                                       title,
-                                      DateFormat('yyyy-MM-dd').format(
-                                          start_date),
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(start_date),
                                       end_date,
                                       complete,
                                       0,

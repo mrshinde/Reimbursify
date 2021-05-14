@@ -9,7 +9,23 @@ import 'package:tripmanager/temp.dart';
 
 final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
-// tripid:,serial_number:,dep_time: ,dep_date: ,dep_station: ,arr_time: ,arr_date: ,arr_station: ,mot: ,km: ,fare: ,pnr: ,remarks: ,ticket_address: ,receipt_location: ,
+Map<String, String> parseComment(String comment) {
+  final regex = RegExp(
+      r'^Payment made through card which has type: (.+), account number: (.*), card number: (.*);(.*)$');
+  final match = regex.firstMatch(comment);
+  if (match == null)
+    return null;
+  else {
+    return {
+      'type': match.group(1),
+      'acc_no': match.group(2),
+      'number': match.group(3),
+      'additional_comments': match.group(4)
+    };
+  }
+}
+
+// tripid:,serial_number:,dep_time: ,dep_date: ,dep_station: ,arr_time: ,arr_date: ,arr_station: ,mot: ,km: ,fare: ,pnr: ,receipt_details: ,ticket_address: ,receipt_location: ,
 
 class Item2 extends StatefulWidget {
   Item2(
@@ -22,11 +38,13 @@ class Item2 extends StatefulWidget {
       this.receipt_address,
       this.receipt_location,
       this.date,
+      this.currency,
       this.callback);
   // String sign;
   // double amount;
   // String note;
   final String date;
+  final String currency;
   Function() callback;
   final int tripid;
   final int serial_number;
@@ -36,6 +54,11 @@ class Item2 extends StatefulWidget {
   final String receipt_details;
   final String receipt_address;
   final String receipt_location;
+  String type1;
+  String numb;
+  String acc_no;
+  String payment_info;
+  String add_rem;
   @override
   _Item2State createState() => _Item2State();
 }
@@ -44,6 +67,27 @@ class _Item2State extends State<Item2> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
+    if (parseComment(widget.receipt_details) != null) {
+      widget.type1 = parseComment(widget.receipt_details)['type'];
+      widget.acc_no = parseComment(widget.receipt_details)['acc_no'];
+      widget.numb = parseComment(widget.receipt_details)['number'];
+      widget.add_rem =
+          parseComment(widget.receipt_details)['additional_comments'];
+    }
+    if (widget.type1 == 'Cash') {
+      widget.payment_info = 'Cash';
+    } else if (widget.type1 == null ||
+        widget.acc_no == null ||
+        widget.numb == null) {
+      widget.payment_info = 'N.A.';
+    } else {
+      widget.payment_info = 'Payment made through Card Type: ' +
+          widget.type1 +
+          ' with No.: ' +
+          widget.numb +
+          ' associated with account no.: ' +
+          widget.acc_no;
+    }
     return Container(
       // height: 100,
       // color: Colors.white,
@@ -98,6 +142,12 @@ class _Item2State extends State<Item2> {
                           color: Colors.indigo,
                           size: 50,
                         );
+                      } else if (this.widget.type == "Miscellaneous") {
+                        return Icon(
+                          Icons.miscellaneous_services,
+                          color: Colors.indigo,
+                          size: 50,
+                        );
                       }
                     }()),
                   ),
@@ -134,7 +184,9 @@ class _Item2State extends State<Item2> {
                     child: Column(
                       children: [
                         Text(
-                          '₹ ' + this.widget.amount_paid.toString(),
+                          this.widget.currency +
+                              ' ' +
+                              this.widget.amount_paid.toString(),
                           style: TextStyle(fontSize: 20, color: Colors.blue),
                         ),
                         Text(
@@ -174,6 +226,13 @@ class _Item2State extends State<Item2> {
                                 height: 1,
                                 color: Colors.blue,
                               ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 1,
+                                  color: Colors.white,
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -190,7 +249,7 @@ class _Item2State extends State<Item2> {
                                               color: Colors.deepPurple,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Text(widget.receipt_details),
+                                        Text(widget.add_rem),
                                       ],
                                     ),
                                   ),
@@ -213,6 +272,40 @@ class _Item2State extends State<Item2> {
                                   height: 1,
                                   color: Colors.white,
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 1,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          'Payment Mode',
+                                          style: TextStyle(
+                                              color: Colors.deepPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.75,
+                                            child: Text(widget.payment_info)),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ],
                           ),
