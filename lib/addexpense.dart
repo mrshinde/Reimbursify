@@ -857,6 +857,7 @@ class _MyHomePageState extends State<MyHomePage> {
           dateString,
           timeString;
       type = 'Other';
+      currency = 'INR';
       var tripid = 1;
       setState(() {
         travelDetails = Form(
@@ -873,7 +874,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             : null,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
-                          labelText: 'Title for Expense',
+                          labelText: 'Details',
                         ),
                         onChanged: (value) {
                           details = value;
