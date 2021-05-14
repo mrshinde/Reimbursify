@@ -215,7 +215,7 @@ Future<bool> generateExcel(int tripid) async {
   tripclass tt = await getTripById(tripid);
 
   DateTime dd = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) + tt.title;
+  String formattedDate = DateFormat('yyyyMMdd kkmm').format(dd) + tt.title;
 //Create an empty file to write PDF data
   File file = File('$path/' + formattedDate + '.xlsx');
 

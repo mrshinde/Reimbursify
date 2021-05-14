@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Text(snapshot.data[i]['type']);
                   } else {
                     return Text(
-                      'Type: ${snapshot.data[i]['type']}' +
+                      'Type: ${snapshot.data[i]['type']} ' +
                           snapshot.data[i]['number']
                               .substring(snapshot.data[i]['number'].length - 4),
                     );
