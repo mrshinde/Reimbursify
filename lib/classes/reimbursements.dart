@@ -57,12 +57,15 @@ Future<int> addreimbursement(int tripid, String title, String type,
   return sn;
 }
 
-Future<Reimbursements> getItemByIdReimbursements() async {
+Future<List<Map<String, dynamic>>> getItemByIdReimbursements(int id) async {
   //databaseHelper has been injected in the class
-  List<Map> list =
-      await _databaseHelper.db.rawQuery("Select * from reimbursements");
+  List<Map> list = await _databaseHelper.db.rawQuery(
+    "Select * from reimbursements WHERE tripid = ?",
+    [id],
+  );
+  print(list.length);
   if (list.length > 0) {
-    return Reimbursements().fromMap(list[0]);
+    return list;
   }
   return null;
 }

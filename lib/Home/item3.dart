@@ -13,7 +13,7 @@ final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
 class Item3 extends StatefulWidget {
   Item3(this.tripid, this.serial_number, this.type, this.details,
-      this.amount_paid, this.date, this.callback);
+      this.amount_paid, this.date, this.currency, this.callback);
   // String sign;
   // double amount;
   // String note;
@@ -24,6 +24,7 @@ class Item3 extends StatefulWidget {
   final String type;
   final String details;
   final double amount_paid;
+  final String currency;
   @override
   _Item3State createState() => _Item3State();
 }
@@ -94,7 +95,9 @@ class _Item3State extends State<Item3> {
                     child: Column(
                       children: [
                         Text(
-                          '₹ ' + this.widget.amount_paid.toString(),
+                          this.widget.currency +
+                              ' ' +
+                              this.widget.amount_paid.toString(),
                           style: TextStyle(fontSize: 20, color: Colors.blue),
                         ),
                         Text(

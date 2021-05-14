@@ -101,7 +101,9 @@ Future<void> createotherPDF(int id) async {
     row2.cells[5].value = travel_expenses[i]['arr_station'];
     row2.cells[6].value = travel_expenses[i]['mot'];
     row2.cells[7].value = travel_expenses[i]['km'].toString();
-    row2.cells[8].value = travel_expenses[i]['fare'].toString();
+    row2.cells[8].value = travel_expenses[i]['currency'] +
+        ' ' +
+        travel_expenses[i]['fare'].toString();
     row2.cells[9].value = travel_expenses[i]['pnr'];
     row2.cells[10].value = travel_expenses[i]['remarks'];
   }
@@ -133,7 +135,9 @@ Future<void> createotherPDF(int id) async {
     PdfGridRow row2 = grid2.rows.add();
     row2.cells[0].value = (i + 1).toString();
     row2.cells[1].value = other_expenses[i]['details'];
-    row2.cells[2].value = other_expenses[i]['amount_paid'].toString();
+    row2.cells[2].value = other_expenses[i]['currency'] +
+        ' ' +
+        other_expenses[i]['amount_paid'].toString();
     row2.cells[3].value = other_expenses[i]['receipt_details'];
   }
   PdfPage page2 = result.page;
