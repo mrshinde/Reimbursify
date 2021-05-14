@@ -145,7 +145,7 @@ Future<int> deleteItem(int id) async {
       .delete("travel", where: "serial_number = ?", whereArgs: [id]);
 }
 
-Future<int> deleteItembytrip(int id) async {
+Future<int> deleteTravelbyTrip(int id) async {
   return await _databaseHelper.db.delete("travel", where: "tripid = ?", whereArgs: [id]);
 }
 
@@ -194,4 +194,17 @@ Future<int> updateaddress(String add, int id) async {
       [add, id]);
 
   return sn;
+}
+
+Future<List<Map>> GetTotal(
+  int id,
+) async {
+  List<Map> list = await _databaseHelper.db.rawQuery(
+      "SELECT sum(fare) as am, currency FROM travel WHERE tripid = ? GROUP BY currency",
+      [id]);
+  print(list);
+  if (list.length > 0) {
+    return list;
+  }
+  return null;
 }

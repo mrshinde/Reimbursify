@@ -33,14 +33,17 @@ class _editTripState extends State<editTrip> {
   double advance;
   int archive;
   DateTime now;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     // TODO: implement initState
     title = this.widget.tripinstance.title;
-    start_date = this.widget.tripinstance.start_date;
+    start_date = DateTime.parse(this.widget.tripinstance.start_date);
     complete = this.widget.tripinstance.complete;
     note = this.widget.tripinstance.note;
+    budget_head = this.widget.tripinstance.budget_head;
+    advance = this.widget.tripinstance.advance;
     now = DateTime.now();
   }
 
@@ -60,35 +63,36 @@ class _editTripState extends State<editTrip> {
               child: Column(children: [
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-                  height: 400,
+                  height: 600,
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       children: <Widget>[
                         SizedBox(height: 10),
                         Text("Edit Trip", textAlign: TextAlign.center, style: TextStyle(color: Colors.blue, fontSize: 20),),
-                        SizedBox(height:10),
-                        Expanded(
-                          child: TextFormField(
-                            initialValue: title,
-                            maxLength: 23,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please Enter Title';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Enter Title',
-                              enabledBorder: OutlineInputBorder(),
-                            ),
-
-                            onChanged: (value) {
-                              title = value;
-                            },
+                        Expanded(child: SizedBox(height: 10), flex: 1,),
+                        TextFormField(
+                          initialValue: title,
+                          maxLength: 23,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Enter Title';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Enter Title',
+                            enabledBorder: OutlineInputBorder(),
                           ),
-                          // flex: 2,
+
+                          onChanged: (value) {
+                            title = value;
+                          },
                         ),
-                        SizedBox(height:10),
+                        Expanded(child: SizedBox(height: 10),),
+
+                      Row(
+                          children: [
                         Expanded(
                           child: DropdownButtonFormField(
                             items: [
@@ -96,7 +100,7 @@ class _editTripState extends State<editTrip> {
                               DropdownMenuItem(
                                   child: Text('No'), value: 0),
                             ],
-
+                            value: complete,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(),
                               labelText: 'Completed',
@@ -106,14 +110,15 @@ class _editTripState extends State<editTrip> {
                             },
                           ),
                         ),
-
-                        SizedBox(height:10),
+                        Expanded(child: SizedBox(height:10)),
                         Expanded(
                           child: DateTimePicker(
                             type: DateTimePickerType.date,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100),
-                            initialDate: DateTime.parse(start_date),
+                            initialValue: start_date.toString(),
+                            validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                            initialDate: start_date,
                             dateLabelText: 'Start Date',
                             onChanged: (value) {
                               start_date = DateTime.parse(value);
@@ -121,27 +126,67 @@ class _editTripState extends State<editTrip> {
                           ),
 
                         ),
-                        SizedBox(height:10),
-                        Expanded(
-                          child: TextFormField(
-                            initialValue: note,
-                            decoration: InputDecoration(
-                              labelText: 'Notes',
-                              enabledBorder: OutlineInputBorder(),
-                            ),
-                            onChanged: (value) {
-                              note = value;
-                            },
+
+                          ],
+                      ),
+                        Expanded(child: SizedBox(height: 10),),
+                        // Expanded(child: SizedBox(height: 10), flex: 1,),
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: 'Advance',
+                            enabledBorder: OutlineInputBorder(),
                           ),
-                          // flex: 2,
+                          initialValue: advance.toString(),
+                          onChanged: (value) {
+                            advance = double.parse(value);
+                          },
                         ),
-                        SizedBox(height:10),
+
+                        Expanded(child: SizedBox(height: 10),),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Budget Head',
+                            enabledBorder: OutlineInputBorder(),
+                          ),
+                          initialValue: budget_head,
+                          onChanged: (value) {
+                            budget_head = value;
+                          },
+                        ),
+
+                        Expanded(child: SizedBox(height: 10),),
+                        TextFormField(
+                          initialValue: note,
+                          decoration: InputDecoration(
+                            labelText: 'Notes',
+                            enabledBorder: OutlineInputBorder(),
+                          ),
+                          onChanged: (value) {
+                            note = value;
+                          },
+                        ),
+                        Expanded(child: SizedBox(height: 10),),
                         ElevatedButton(
                             onPressed: () {
-                                updateTrip(this.widget.tripinstance.id, title, DateFormat('yyyy-MM-dd').format(start_date), this.widget.tripinstance.end_date, complete,
-                                    this.widget.tripinstance.total, this.widget.tripinstance.fav, note, this.widget.tripinstance.budget_head, DateFormat('yyyy-MM-dd – kk:mm').format(now), this.widget.tripinstance.advance, this.widget.tripinstance.archive);
-                              this.widget.callback();
-                              Navigator.pop(context);
+                              if(_formKey.currentState.validate()) {
+                                updateTrip(
+                                    this.widget.tripinstance.id,
+                                    title,
+                                    DateFormat('yyyy-MM-dd').format(start_date),
+                                    this.widget.tripinstance.end_date,
+                                    complete,
+                                    this.widget.tripinstance.total,
+                                    this.widget.tripinstance.fav,
+                                    note,
+                                    this.widget.tripinstance.budget_head,
+                                    DateFormat('yyyy-MM-dd – kk:mm').format(
+                                        now),
+                                    this.widget.tripinstance.advance,
+                                    this.widget.tripinstance.archive);
+                                this.widget.callback();
+                                Navigator.pop(context);
+                              }
                             },
                             child: Text('Update Trip')),
 

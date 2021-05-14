@@ -17,6 +17,22 @@ import 'package:tripmanager/classes/tripclass.dart';
 
 //Local imports
 
+Map<String, String> parseComment(String comment) {
+  final regex = RegExp(
+      r'^Payment made through card which has type: (.+), account number: (.*), card number: (.*);(.*)$');
+  final match = regex.firstMatch(comment);
+  if (match == null)
+    return null;
+  else {
+    return {
+      'type': match.group(1),
+      'acc_no': match.group(2),
+      'number': match.group(3),
+      'additional_comments': match.group(4)
+    };
+  }
+}
+
 Future<bool> generateExcel(int tripid) async {
   //Creating a workbook.
   final Workbook workbook = Workbook();
@@ -49,6 +65,7 @@ Future<bool> generateExcel(int tripid) async {
   sheet.getRangeByName('A1').rowHeight = 79.73;
   // sheet.getRangeByName('K1').columnWidth = 188.82;
   sheet.getRangeByName('J1').columnWidth = 24.46;
+  sheet.getRangeByName('Q1').columnWidth = 34.46;
   final Range range1 = sheet.getRangeByName('A3:C3');
   final Range range2 = sheet.getRangeByName('D3:F3');
   range2.merge();
@@ -118,9 +135,11 @@ Future<bool> generateExcel(int tripid) async {
       travel_expenses[i]['arr_station'],
       travel_expenses[i]['mot'],
       travel_expenses[i]['km'],
-      travel_expenses[i]['fare'],
+      travel_expenses[i]['currency'] +
+          ' ' +
+          travel_expenses[i]['fare'].toString(),
       travel_expenses[i]['pnr'],
-      travel_expenses[i]['remarks'],
+      parseComment(travel_expenses[i]['remarks'])['additional_comments'],
     ];
     sheet.importList(list, 5 + i, 1, false);
     sheet.getRangeByName('K' + (i + 5).toString()).autoFitColumns();
@@ -167,12 +186,16 @@ Future<bool> generateExcel(int tripid) async {
     final List<Object> list = [
       i + 1,
       other_expenses[i]['details'],
-      other_expenses[i]['amount_paid'],
-      other_expenses[i]['receipt_details']
+      other_expenses[i]['currency'] +
+          ' ' +
+          other_expenses[i]['amount_paid'].toString(),
+      parseComment(other_expenses[i]['receipt_details'])['additional_comments']
     ];
     sheet.importList(list, 5 + i, 14, false);
     sheet.getRangeByName('Q' + (i + 5).toString()).autoFitColumns();
   }
+
+  sheet.autoFitColumn(17);
 
   // final Range range2 = sheet.getRangeByName('D3:F3');
   // final Range range2 = sheet.getRangeByName('D3:F3');
@@ -192,7 +215,7 @@ Future<bool> generateExcel(int tripid) async {
   tripclass tt = await getTripById(tripid);
 
   DateTime dd = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) + tt.title;
+  String formattedDate = DateFormat('yyyyMMdd kkmm').format(dd) + tt.title;
 //Create an empty file to write PDF data
   File file = File('$path/' + formattedDate + '.xlsx');
 

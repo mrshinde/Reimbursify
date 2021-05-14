@@ -11,17 +11,57 @@ import 'package:tripmanager/homepage.dart';
 import 'package:tripmanager/item2.dart';
 import 'package:tripmanager/createpdf.dart';
 // import 'package:tripmanager/Home/item3.dart';
-
+import 'package:intl/intl.dart';
+import 'dart:io';
 import 'classes/tripclass.dart';
 import 'classes/itemclass.dart';
 import 'package:tripmanager/Home/item.dart';
 import 'package:tripmanager/editTrip.dart';
 import 'classes/travelexpense.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:currency_picker/currency_picker.dart';
+
+Future<String> gettotalinstring(int id) async {
+  List<Map> l1 = await GetTotal(id);
+  List<Map> l2 = await GetOtherTotal(id);
+  Map<String, double> m = {};
+
+  for (int i = 0; l1 != null && i < l1.length; i++) {
+    if (m.containsKey(l1[i]['currency']) == true) {
+      m[l1[i]['currency']] += l1[i]['am'];
+    } else {
+      m[l1[i]['currency']] = l1[i]['am'];
+    }
+  }
+  for (int i = 0; l2 != null && i < l2.length; i++) {
+    if (m.containsKey(l2[i]['currency']) == true) {
+      m[l2[i]['currency']] += l2[i]['am'];
+    } else {
+      m[l2[i]['currency']] = l2[i]['am'];
+    }
+  }
+  String out = '';
+  m.forEach((key, value) {
+    out = out + key + " " + value.toString() + " + ";
+  });
+  if (out.length != 0) {
+    out = out.substring(0, out.length - 2);
+  } else {
+    out = ' INR 0.0';
+  }
+  print(out);
+  return out;
+}
 
 double sum = 0;
 
 bool _value = false;
+
+// String getCurrency() {
+//   print(Platform.localeName);
+//   var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+//   return format.currencySymbol;
+// }
 
 class Temp extends StatefulWidget {
   Temp(
@@ -37,6 +77,7 @@ class _TempState extends State<Temp> {
   callback1() {
     setState(() {
       _tripinstance = getTripById(this.widget.trip_id);
+      ex2 = gettotalinstring(this.widget.trip_id);
     });
     // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -45,6 +86,7 @@ class _TempState extends State<Temp> {
     setState(() {});
   }
 
+  Future<String> ex2;
   double expense = 2200;
   String tripName = 'IIT Bombay';
   String date = '09/03/2021';
@@ -59,11 +101,15 @@ class _TempState extends State<Temp> {
   void initState() {
     // SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {}));
     _tripinstance = getTripById(this.widget.trip_id);
+    ex2 = gettotalinstring(this.widget.trip_id);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // CurrencyUtils.currencyToEmoji(Currency(code: 'INR',));
+
     return Scaffold(
         body: SafeArea(
           child: Column(
@@ -77,6 +123,8 @@ class _TempState extends State<Temp> {
                       child: CircularProgressIndicator(),
                     );
                   } else {
+                    // print(ex2);
+                    // print('sdfasg');
                     expense = snapshot.data.total;
                     tripName = snapshot.data.title;
                     date = snapshot.data.start_date;
@@ -95,34 +143,51 @@ class _TempState extends State<Temp> {
                           Container(
                             // color: Colors.red,
                             // width: MediaQuery.of(context).size.width / 3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(15),
-                                  child: Text(
-                                    '₹ ' + expense.toString(),
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(15),
+                                    child: FutureBuilder<String>(
+                                      future: ex2,
+                                      builder: (context, snap) {
+                                        if (snap.hasData) {
+                                          return Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2,
+                                            child: Text(
+                                              snap.data,
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                          );
+                                        } else {
+                                          return Text('INR 0.0');
+                                        }
+                                      },
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, bottom: 10),
-                                  child: Text(
-                                    tripName,
-                                    style: TextStyle(fontSize: 30),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, bottom: 10),
+                                    child: Text(
+                                      tripName,
+                                      style: TextStyle(fontSize: 30),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, bottom: 30),
-                                  child: Text(date),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, bottom: 30),
+                                    child: Text(date),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Spacer(),
@@ -455,6 +520,8 @@ class _TempState extends State<Temp> {
                                                               "ticket_address"],
                                                           snapshot.data[index][
                                                               "receipt_location"],
+                                                          snapshot.data[index]
+                                                              ["currency"],
                                                           callback1,
                                                         );
                                                       },
@@ -538,6 +605,8 @@ class _TempState extends State<Temp> {
                                                               "receipt_address"],
                                                           snapshot.data[index]
                                                               ["date"],
+                                                          snapshot.data[index]
+                                                              ["currency"],
                                                           callback1,
                                                         );
                                                       },
@@ -657,6 +726,8 @@ class _TempState extends State<Temp> {
                                                               "ticket_address"],
                                                           snapshot.data[index][
                                                               "receipt_location"],
+                                                          snapshot.data[index]
+                                                              ["currency"],
                                                           callback1,
                                                         );
                                                       },
@@ -746,6 +817,8 @@ class _TempState extends State<Temp> {
                                                               "receipt_address"],
                                                           snap.data[index]
                                                               ["date"],
+                                                          snap.data[index]
+                                                              ["currency"],
                                                           callback1,
                                                         );
                                                       },
@@ -840,6 +913,8 @@ class _TempState extends State<Temp> {
                                                               ["amount_paid"],
                                                           snapshot.data[index]
                                                               ["date"],
+                                                          snapshot.data[index]
+                                                              ["currency"],
                                                           callback1,
                                                         );
                                                       },
@@ -919,7 +994,9 @@ class _buttonState extends State<button> {
         if (widget.isfabactive == false) {
           return FloatingActionButton(
             backgroundColor: Colors.purple,
-            onPressed: () {
+            onPressed: () async {
+              await gettotalinstring(this.widget.trip_id);
+              // await GetTotal(this.widget.trip_id);
               setState(() {
                 widget.isfabactive = true;
               });
@@ -1196,42 +1273,7 @@ class _createpopupState extends State<createpopup> {
                   }())
                 ],
               ),
-              (() {
-                if (buttons2[0] == true) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: (() {
-                          if (check == true) {
-                            return IconButton(
-                                icon: Icon(Icons.check_box_outlined),
-                                onPressed: () {
-                                  setState(() {
-                                    check = false;
-                                  });
-                                });
-                          } else {
-                            return IconButton(
-                                icon: Icon(Icons.check_box_outline_blank_sharp),
-                                onPressed: () {
-                                  setState(() {
-                                    check = true;
-                                  });
-                                });
-                          }
-                        }()),
-                      ),
-                      Container(
-                        child: Text('Add Attachments'),
-                      )
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              }()),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: (() {

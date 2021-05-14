@@ -105,8 +105,11 @@ Future<List<Map<String, dynamic>>> getElementsOtherExpense(int id) async {
 }
 
 Future<int> deleteItemOtherExpense(int id) async {
-  return await _databaseHelper.db
-      .delete("otherexpense", where: "serial_number = ?", whereArgs: [id]);
+  return await _databaseHelper.db.delete("otherexpense", where: "serial_number = ?", whereArgs: [id]);
+}
+
+Future<int> deleteItemOtherExpensebyTrip(int id) async {
+  return await _databaseHelper.db.delete("otherexpense", where: "tripid = ?", whereArgs: [id]);
 }
 
 Future<int> updateOtherExpense(
@@ -146,4 +149,17 @@ Future<int> updateaddress(String add, int id) async {
       [add, id]);
 
   return sn;
+}
+
+Future<List<Map>> GetOtherTotal(
+  int id,
+) async {
+  List<Map> list = await _databaseHelper.db.rawQuery(
+      "SELECT sum(amount_paid) as am, currency FROM OtherExpense WHERE tripid = ? GROUP BY currency",
+      [id]);
+  print(list);
+  if (list.length > 0) {
+    return list;
+  }
+  return null;
 }

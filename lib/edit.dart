@@ -849,16 +849,18 @@ Widget editOtherForm(
 Widget editPersonalForm(Function() callback, int id, BuildContext context,
     PersonalExpense expense) {
   PersonalExpense dataMap = expense;
+  final _formKey = GlobalKey<FormState>();
   // getItemByIdPersonalExpense(id).then((value) {
   //   dataMap = value;
   // });
-  var type, details, amount_paid, dateString;
+  var type, details, amount_paid, dateString, currency;
   var tripid;
   tripid = dataMap.tripid;
   amount_paid = dataMap.amount_paid.toString();
   type = dataMap.type;
   details = dataMap.details;
   dateString = dataMap.date;
+  currency = (dataMap.currency == null) ? 'INR' : dataMap.currency;
   return Padding(
     padding: const EdgeInsets.only(top: 40),
     child: Dialog(
@@ -878,6 +880,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
               child: Center(
                 child: Column(children: [
                   Form(
+                    key: _formKey,
                       child: Column(
                     children: [
                       SizedBox(height: 10),
@@ -902,6 +905,10 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                       Row(children: [
                         Expanded(
                           child: DateTimePicker(
+                            validator: (value) =>
+                                (value == null || value.isEmpty)
+                                    ? 'Required Field'
+                                    : null,
                             initialValue: dateString,
                             type: DateTimePickerType.date,
                             firstDate: DateTime(1900),
@@ -917,29 +924,55 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                       ]),
                       SizedBox(height: 10),
                       Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              initialValue: amount_paid,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(),
-                                labelText: 'Amount Paid',
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                child: Text('Select Currency'),
+                                onPressed: () {
+                                  showCurrencyPicker(
+                                    context: context,
+                                    showFlag: true,
+                                    showCurrencyName: false,
+                                    favorite: [currency],
+                                    showCurrencyCode: true,
+                                    onSelect: (Currency curr) {
+                                      currency = curr.code;
+                                    },
+                                  );
+                                },
                               ),
-                              onChanged: (value) {
-                                amount_paid = double.parse(value);
-                              },
+                              flex: 2,
                             ),
-                            flex: 2,
-                          ),
-                        ],
-                      ),
+                            Expanded(child: SizedBox(), flex: 1),
+                            Expanded(
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                validator: (value) => (value == null ||
+                                    (double.tryParse(value) == null))
+                                ? 'Required Field'
+                                : null,
+                                initialValue: amount_paid,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(),
+                                  labelText: 'Amount Paid',
+                                ),
+                                onChanged: (value) {
+                                  amount_paid = value;
+                                },
+                              ),
+                              flex: 2,
+                            ),
+                          ],
+                        ),
                       ElevatedButton(
                           onPressed: () async {
-                            updatePersonalExpense(id, tripid, type, details,
-                                amount_paid, null, dateString);
-                            updateLastModified(tripid);
-                            callback();
-                            Navigator.of(context, rootNavigator: true).pop();
+                            if(_formKey.currentState.validate()){
+                              updatePersonalExpense(id, tripid, type, details,
+                                  amount_paid, currency, dateString);
+                              updateLastModified(tripid);
+                              callback();
+                              Navigator.of(context, rootNavigator: true).pop();
+                            }
                           },
                           child: Text('Send')),
                     ],

@@ -61,26 +61,17 @@ class _TripState extends State<Trip> {
             border: Border.all(
               color: Colors.purpleAccent,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+            borderRadius: BorderRadius.all(Radius.circular(25))),
         child: ListTile(
             title: Text(
               widget.title,
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 23.0, color: Colors.deepPurple),
             ),
             // leading: Text(
             //   widget.amount.toString(),
             //   style: TextStyle(fontSize: 27.0, color: Colors.green),
             // ),
-            subtitle: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '\u{20B9} ' + widget.amount.toString(),
-                    style: TextStyle(fontSize: 23.0, color: Colors.green),
-                  ),
-                  Text(widget.start_date),
-                ]),
+            subtitle: Text(widget.start_date),
             trailing:
                 // Column(
                 //   children: [

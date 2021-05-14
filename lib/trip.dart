@@ -3,6 +3,9 @@ import 'package:tripmanager/Home/profile.dart';
 import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/classes/user.dart';
 import 'package:tripmanager/addTrip.dart';
+import 'package:tripmanager/classes/travelexpense.dart';
+import 'package:tripmanager/classes/otherexpense.dart';
+import 'package:tripmanager/classes/personal.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
@@ -132,12 +135,12 @@ class _YourTripState extends State<YourTrip> {
                 if (dropdownValue == "Select") {
                   search = 1;
                 }
-                if (dropdownValue == "Amount\u{2B06}") {
-                  search = 4;
-                }
-                if (dropdownValue == "Amount\u{2B07}") {
-                  search = 5;
-                }
+                // if (dropdownValue == "Amount\u{2B06}") {
+                //   search = 4;
+                // }
+                // if (dropdownValue == "Amount\u{2B07}") {
+                //   search = 5;
+                // }
                 if (dropdownValue == "Title\u{2B06}") {
                   search = 2;
                 }
@@ -158,7 +161,7 @@ class _YourTripState extends State<YourTrip> {
                 }
               });
             },
-            items: <String>['Select', 'Amount\u{2B06}', 'Amount\u{2B07}', 'StartDate\u{2B06}', 'StartDate\u{2B07}', 'Title\u{2B06}', 'Title\u{2B07}', 'Favourites', 'Archives']
+            items: <String>['Select', 'StartDate\u{2B06}', 'StartDate\u{2B07}', 'Title\u{2B06}', 'Title\u{2B07}', 'Favourites', 'Archives']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -205,7 +208,7 @@ class _YourTripState extends State<YourTrip> {
                                       snapshot.data[index]["id"],
                                       snapshot.data[index]["total"],
                                       snapshot.data[index]["title"],
-                                      snapshot.data[index]["start_date"],
+                                      snapshot.data[index] ["start_date"],
                                       // snapshot.data[index]["end_date"],
                                       () {
                                         showDialog<void>(
@@ -229,6 +232,9 @@ class _YourTripState extends State<YourTrip> {
                                                   onPressed: () async {
                                                     setState(() {
                                                       deleteTrip(snapshot.data[index]["id"]);
+                                                      deleteTravelbyTrip(snapshot.data[index]["id"]);
+                                                      deleteItemPersonalExpensebyTrip(snapshot.data[index]["id"]);
+                                                      deleteItemOtherExpensebyTrip(snapshot.data[index]["id"]);
                                                       print("deleted");
                                                       final snackBar = SnackBar(
                                                         content: Text('Item Deleted'),
@@ -264,7 +270,7 @@ class _YourTripState extends State<YourTrip> {
                                       },
                                       () {
                                         final snackBar = SnackBar(
-                                          content: Text('Item Archived'),
+                                          content: Text('Archives Modified'),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);

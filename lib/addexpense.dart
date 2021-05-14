@@ -41,43 +41,53 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget travelform;
   Widget travelDetails;
   final _formKey = GlobalKey<FormState>();
-  
+
   buildFormView(val) {
     cardsWidget = FutureBuilder(
-            future: listOfCards,
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-              if (snapshot.hasData) {
-                rListofCards = snapshot.data;
-                var i = 0;
-                cardsTile = [];
-                while (i < snapshot.data.length) {
-                  cardsTile.add(DropdownMenuItem(
-                    value: i,
-                    child: Text(snapshot.data[i]['number'] +
-                        'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
-                  ));
-                  i++;
-                }
-                return DropdownButtonFormField(
-                  validator: (value) => (value == null) ? 'Required Field' : null,
-                  items: cardsTile,
-                  onChanged: (id) {
-                    _selected_card = id;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(),
-                    labelText: 'Select Card',
-                  ),
-                );
-              } else {
-                return SizedBox(
-                  child: CircularProgressIndicator(),
-                  width: 40,
-                  height: 40,
-                );
-              }
-            });
+        future: listOfCards,
+        builder: (BuildContext context,
+            AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+          if (snapshot.hasData) {
+            rListofCards = snapshot.data;
+            var i = 0;
+            cardsTile = [];
+            while (i < snapshot.data.length) {
+              cardsTile.add(DropdownMenuItem(
+                value: i,
+                child: (() {
+                  if (snapshot.data[i]['type'] == 'Cash' ||
+                      snapshot.data[i]['type'] == 'Other') {
+                    return Text(snapshot.data[i]['type']);
+                  } else {
+                    return Text(
+                      'Type: ${snapshot.data[i]['type']} ' +
+                          snapshot.data[i]['number']
+                              .substring(snapshot.data[i]['number'].length - 4),
+                    );
+                  }
+                }()),
+              ));
+              i++;
+            }
+            return DropdownButtonFormField(
+              validator: (value) => (value == null) ? 'Required Field' : null,
+              items: cardsTile,
+              onChanged: (id) {
+                _selected_card = id;
+              },
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(),
+                labelText: 'Mode of Payment',
+              ),
+            );
+          } else {
+            return SizedBox(
+              child: CircularProgressIndicator(),
+              width: 40,
+              height: 40,
+            );
+          }
+        });
 
     if (val == 0) {
       var arrivalPlace,
@@ -95,413 +105,405 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         currency = 'INR';
         travelDetails = Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonFormField(
-                                items: [
-                                  DropdownMenuItem(
-                                    child: Text('Train'),
-                                    value: 0,
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text('Road'),
-                                    value: 1,
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text('Airplane'),
-                                    value: 2,
-                                  ),
-                                ],
-                                decoration: InputDecoration(
-                                  labelText: 'Enter Mode of Travel',
-                                ),
-                                validator: (value) =>
-                                    value == null ? 'Required Field' : null,
-                                onChanged: (value) {
-                                  switch (value) {
-                                    case 0:
-                                      mode = 'Train';
-                                      break;
-                                    case 1:
-                                      mode = 'Roadways';
-                                      break;
-                                    case 2:
-                                      mode = 'Airways';
-                                  }
-                                },
-                              ),
-                              flex: 1,
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 10,
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) =>
-                                  (value == null || value.isEmpty)
-                                      ? 'Required Field'
-                                      : null,
-                              decoration: InputDecoration(
-                                labelText: 'From',
-                                hintText: 'Enter Departure Station',
-                                prefixIcon: Icon(Icons.location_city),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                departurePlace = value;
-                              },
-                            ),
-                            flex: 2,
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField(
+                        items: [
+                          DropdownMenuItem(
+                            child: Text('Train'),
+                            value: 0,
                           ),
-                          Expanded(
-                            child: SizedBox(),
-                            flex: 1,
+                          DropdownMenuItem(
+                            child: Text('Road'),
+                            value: 1,
                           ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) =>
-                                  (value == null || value.isEmpty)
-                                      ? 'Required Field'
-                                      : null,
-                              decoration: InputDecoration(
-                                labelText: 'To',
-                                hintText: 'Enter Arrival Station',
-                                prefixIcon: Icon(Icons.location_city),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                arrivalPlace = value;
-                              },
-                            ),
-                            flex: 2,
+                          DropdownMenuItem(
+                            child: Text('Airplane'),
+                            value: 2,
+                          ),
+                        ],
+                        decoration: InputDecoration(
+                          labelText: 'Enter Mode of Travel',
+                        ),
+                        validator: (value) =>
+                            value == null ? 'Required Field' : null,
+                        onChanged: (value) {
+                          switch (value) {
+                            case 0:
+                              mode = 'Train';
+                              break;
+                            case 1:
+                              mode = 'Roadways';
+                              break;
+                            case 2:
+                              mode = 'Airways';
+                          }
+                        },
+                      ),
+                      flex: 1,
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 10,
+                      ),
+                    )
+                  ],
+                ),
+                Row(children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Required Field'
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: 'From',
+                        hintText: 'Enter Departure Station',
+                        prefixIcon: Icon(Icons.location_city),
+                        enabledBorder: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        departurePlace = value;
+                      },
+                    ),
+                    flex: 2,
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Required Field'
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: 'To',
+                        hintText: 'Enter Arrival Station',
+                        prefixIcon: Icon(Icons.location_city),
+                        enabledBorder: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        arrivalPlace = value;
+                      },
+                    ),
+                    flex: 2,
+                  )
+                ]),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(children: <Widget>[
+                  Expanded(
+                    child: DateTimePicker(
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Required Field'
+                          : null,
+                      type: DateTimePickerType.dateTimeSeparate,
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                      initialDate: DateTime.now(),
+                      dateLabelText: 'Departure Date',
+                      timeLabelText: 'Time',
+                      onChanged: (value) {
+                        departureDate = DateTime.parse(value);
+                      },
+                    ),
+                    flex: 1,
+                  ),
+                ]),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: DateTimePicker(
+                        validator: (value) {
+                          if (value == null || value.isEmpty)
+                            return 'Required Field';
+                          if (arrivalDate != null &&
+                              departureDate != null) if (arrivalDate
+                                  .compareTo(departureDate) <
+                              0) return 'Arrival Date Time is before Departure';
+                          return null;
+                        },
+                        type: DateTimePickerType.dateTimeSeparate,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100),
+                        initialDate: DateTime.now(),
+                        dateLabelText: 'Arrival Date',
+                        timeLabelText: 'Time',
+                        onChanged: (value) {
+                          arrivalDate = DateTime.parse(value);
+                        },
+                      ),
+                      flex: 1,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Required Field'
+                          : null,
+                      decoration: InputDecoration(
+                        labelText: 'PNR/Ticket No',
+                        prefixIcon: Icon(Icons.train),
+                        enabledBorder: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        ticket_no = value;
+                      },
+                    ),
+                    flex: 2,
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty)
+                          return 'Required Field';
+                        else if (double.tryParse(value) == null)
+                          return 'Not a valid number';
+                        else
+                          return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'KM',
+                        prefixIcon: Icon(Icons.add_road),
+                        enabledBorder: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        km = double.tryParse(value);
+                      },
+                    ),
+                    flex: 2,
+                  )
+                ]),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        child: Text('Select Currency'),
+                        onPressed: () {
+                          showCurrencyPicker(
+                            context: ct,
+                            showFlag: true,
+                            showCurrencyName: false,
+                            favorite: [currency],
+                            showCurrencyCode: true,
+                            onSelect: (Currency curr) {
+                              currency = curr.code;
+                            },
+                          );
+                        },
+                      ),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: SizedBox(),
+                      flex: 1,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty)
+                            return 'Required Field';
+                          else if (double.tryParse(value) == null)
+                            return 'Not a valid number';
+                          else
+                            return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Fare',
+                          prefixIcon: Icon(Icons.money),
+                          enabledBorder: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          fare = double.tryParse(value);
+                        },
+                      ),
+                      flex: 2,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Remarks',
+                        enabledBorder: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        additional_comments = value;
+                      },
+                    ),
+                    flex: 1,
+                  )
+                ]),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField(
+                        validator: (value) =>
+                            value == null ? 'Required Value' : null,
+                        items: [
+                          DropdownMenuItem(
+                            child: Text('Local'),
+                            value: 0,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('GMail'),
+                            value: 1,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Google Drive'),
+                            value: 2,
                           )
-                        ]),
-                        SizedBox(
-                          height: 10.0,
+                        ],
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(),
+                          labelText: 'Where is receipt saved?',
                         ),
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: DateTimePicker(
-                              validator: (value) =>
-                                  (value == null || value.isEmpty)
-                                      ? 'Required Field'
-                                      : null,
-                              type: DateTimePickerType.dateTimeSeparate,
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
-                              initialDate: DateTime.now(),
-                              dateLabelText: 'Departure Date',
-                              timeLabelText: 'Time',
-                              onChanged: (value) {
-                                departureDate = DateTime.parse(value);
-                              },
-                            ),
-                            flex: 1,
-                          ),
-                        ]),
-                        SizedBox(
-                          height: 10.0,
+                        onChanged: (value) {
+                          switch (value) {
+                            case 0:
+                              ticketAddress = 'Local';
+                              break;
+                            case 1:
+                              ticketAddress = 'GMail';
+                              break;
+                            case 2:
+                              ticketAddress = 'Google Drive';
+                          }
+                        },
+                      ),
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            try {
+                              FilePickerResult result = await FilePicker
+                                  .platform
+                                  .pickFiles(type: FileType.any);
+                              receiptLocation = result.files.first.path;
+                            } catch (err) {
+                              receiptLocation = '';
+                            }
+                          },
+                          child: Text('Add Receipt Location'),
                         ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: DateTimePicker(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty)
-                                    return 'Required Field';
-                                  if (arrivalDate != null &&
-                                      departureDate != null) if (arrivalDate
-                                          .compareTo(departureDate) <
-                                      0)
-                                    return 'Arrival Date Time is before Departure';
-                                  return null;
-                                },
-                                type: DateTimePickerType.dateTimeSeparate,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
-                                initialDate: DateTime.now(),
-                                dateLabelText: 'Arrival Date',
-                                timeLabelText: 'Time',
-                                onChanged: (value) {
-                                  arrivalDate = DateTime.parse(value);
-                                },
-                              ),
-                              flex: 1,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) =>
-                                  (value == null || value.isEmpty)
-                                      ? 'Required Field'
-                                      : null,
-                              decoration: InputDecoration(
-                                labelText: 'PNR/Ticket No',
-                                prefixIcon: Icon(Icons.train),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                ticket_no = value;
-                              },
-                            ),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            child: SizedBox(),
-                            flex: 1,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value == null || value.isEmpty)
-                                  return 'Required Field';
-                                else if (double.tryParse(value) == null)
-                                  return 'Not a valid number';
-                                else
-                                  return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: 'KM',
-                                prefixIcon: Icon(Icons.add_road),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                km = double.tryParse(value);
-                              },
-                            ),
-                            flex: 2,
-                          )
-                        ]),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                child: Text('Select Currency'),
-                                onPressed: () {
-                                  showCurrencyPicker(
-                                    context: ct,
-                                    showFlag: true,
-                                    showCurrencyName: false,
-                                    favorite: [currency],
-                                    showCurrencyCode: true,
-                                    onSelect: (Currency curr) {
-                                      currency = curr.code;
-                                    },
-                                  );
-                                },
-                              ),
-                              flex: 2,
-                            ),
-                            Expanded(
-                              child: SizedBox(),
-                              flex: 1,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty)
-                                    return 'Required Field';
-                                  else if (double.tryParse(value) == null)
-                                    return 'Not a valid number';
-                                  else
-                                    return null;
-                                },
-                                decoration: InputDecoration(
-                                  labelText: 'Fare',
-                                  prefixIcon: Icon(Icons.money),
-                                  enabledBorder: OutlineInputBorder(),
-                                ),
-                                onChanged: (value) {
-                                  fare = double.tryParse(value);
-                                },
-                              ),
-                              flex: 2,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Remarks',
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                additional_comments = value;
-                              },
-                            ),
-                            flex: 1,
-                          )
-                        ]),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonFormField(
-                                validator: (value) =>
-                                    value == null ? 'Required Value' : null,
-                                items: [
-                                  DropdownMenuItem(
-                                    child: Text('Local'),
-                                    value: 0,
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text('GMail'),
-                                    value: 1,
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text('Google Drive'),
-                                    value: 2,
-                                  )
-                                ],
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(),
-                                  labelText: 'Where is receipt saved?',
-                                ),
-                                onChanged: (value) {
-                                  switch (value) {
-                                    case 0:
-                                      ticketAddress = 'Local';
-                                      break;
-                                    case 1:
-                                      ticketAddress = 'GMail';
-                                      break;
-                                    case 2:
-                                      ticketAddress = 'Google Drive';
-                                  }
-                                },
-                              ),
-                              flex: 1,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    try {
-                                      FilePickerResult result = await FilePicker
-                                          .platform
-                                          .pickFiles(type: FileType.any);
-                                      receiptLocation = result.files.first.path;
-                                    } catch (err) {
-                                      receiptLocation = '';
-                                    }
-                                  },
-                                  child: Text('Add Receipt Location'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: cardsWidget,
-                            ),
-                          ],
-                        ),
-                        ElevatedButton(
-                            child: Text('Send'),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                print('Hello');
-                                Map<String, dynamic> travelMap =
-                                    new Map<String, dynamic>();
-                                Map<String, dynamic> card =
-                                    rListofCards[_selected_card];
-                                String new_comment =
-                                    "Payment made through card which has type: " +
-                                        card["type"].toString() +
-                                        ", account number: " +
-                                        card["acc_number"].toString() +
-                                        ", card number: " +
-                                        card["number"] +
-                                        ";" +
-                                        ((additional_comments == null)
-                                            ? ''
-                                            : additional_comments);
-                                travelMap['tripid'] = widget.trip_id;
-                                var temp = departureDate.toString().split(" ");
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: cardsWidget,
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                    child: Text('Send'),
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        print('Hello');
+                        Map<String, dynamic> travelMap =
+                            new Map<String, dynamic>();
+                        Map<String, dynamic> card =
+                            rListofCards[_selected_card];
+                        String new_comment =
+                            "Payment made through card which has type: " +
+                                card["type"].toString() +
+                                ", account number: " +
+                                card["acc_number"].toString() +
+                                ", card number: " +
+                                card["number"] +
+                                ";" +
+                                ((additional_comments == null)
+                                    ? ''
+                                    : additional_comments);
+                        travelMap['tripid'] = widget.trip_id;
+                        var temp = departureDate.toString().split(" ");
 
-                                travelMap['dep_time'] = temp[1].split(":")[0] +
-                                    ":" +
-                                    temp[1].split(":")[1];
-                                travelMap['dep_date'] = temp[0];
-                                travelMap['dep_station'] = departurePlace;
-                                temp = arrivalDate.toString().split(" ");
-                                travelMap['arr_time'] = temp[1].split(":")[0] +
-                                    ":" +
-                                    temp[1].split(":")[1];
-                                travelMap['arr_date'] = temp[0];
-                                travelMap['arr_station'] = arrivalPlace;
-                                travelMap['mot'] = mode;
-                                travelMap['km'] = km;
-                                travelMap['fare'] = fare;
-                                travelMap['currency'] =
-                                    (currency == null) ? 'INR' : currency;
-                                travelMap['pnr'] = ticket_no;
-                                travelMap['remarks'] = new_comment;
-                                travelMap['receipt_location'] = receiptLocation;
-                                travelMap['ticket_address'] = ticketAddress;
-                                insertTravelExpense(
-                                  travelMap['tripid'],
-                                  travelMap['dep_time'],
-                                  travelMap['dep_date'],
-                                  travelMap['dep_station'],
-                                  travelMap['arr_time'],
-                                  travelMap['arr_date'],
-                                  travelMap['arr_station'],
-                                  travelMap['mot'],
-                                  travelMap['km'],
-                                  travelMap['fare'],
-                                  travelMap['currency'],
-                                  travelMap['pnr'],
-                                  travelMap['remarks'],
-                                  travelMap['ticket_address'],
-                                  travelMap['receipt_location'],
-                                );
-                                tripclass temp2 =
-                                    await getTripById(widget.trip_id);
-                                double total = temp2.total + travelMap['fare'];
-                                updateAmount(widget.trip_id, total);
-                                widget.callback();
-                                Navigator.of(context).pop();
-                              }
-                            })
-                      ],
-                    ));
+                        travelMap['dep_time'] =
+                            temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                        travelMap['dep_date'] = temp[0];
+                        travelMap['dep_station'] = departurePlace;
+                        temp = arrivalDate.toString().split(" ");
+                        travelMap['arr_time'] =
+                            temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                        travelMap['arr_date'] = temp[0];
+                        travelMap['arr_station'] = arrivalPlace;
+                        travelMap['mot'] = mode;
+                        travelMap['km'] = km;
+                        travelMap['fare'] = fare;
+                        travelMap['currency'] =
+                            (currency == null) ? 'INR' : currency;
+                        travelMap['pnr'] = ticket_no;
+                        travelMap['remarks'] = new_comment;
+                        travelMap['receipt_location'] = receiptLocation;
+                        travelMap['ticket_address'] = ticketAddress;
+                        insertTravelExpense(
+                          travelMap['tripid'],
+                          travelMap['dep_time'],
+                          travelMap['dep_date'],
+                          travelMap['dep_station'],
+                          travelMap['arr_time'],
+                          travelMap['arr_date'],
+                          travelMap['arr_station'],
+                          travelMap['mot'],
+                          travelMap['km'],
+                          travelMap['fare'],
+                          travelMap['currency'],
+                          travelMap['pnr'],
+                          travelMap['remarks'],
+                          travelMap['ticket_address'],
+                          travelMap['receipt_location'],
+                        );
+                        tripclass temp2 = await getTripById(widget.trip_id);
+                        double total = temp2.total + travelMap['fare'];
+                        updateAmount(widget.trip_id, total);
+                        widget.callback();
+                        Navigator.of(context).pop();
+                      }
+                    })
+              ],
+            ));
       });
     } else if (val == 1) {
       var type,
@@ -513,340 +515,336 @@ class _MyHomePageState extends State<MyHomePage> {
           receipt_location,
           dateOfExpense,
           dateString;
-          currency = 'INR';
-          // cardsWidget = FutureBuilder(
-          //   future: listOfCards,
-          //   builder: (BuildContext context,
-          //       AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-          //     if (snapshot.hasData) {
-          //       rListofCards = snapshot.data;
-          //       var i = 0;
-          //       cardsTile = [];
-          //       while (i < snapshot.data.length) {
-          //         cardsTile.add(DropdownMenuItem(
-          //           value: i,
-          //           child: Text(snapshot.data[i]['number'] +
-          //               'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
-          //         ));
-          //         i++;
-          //       }
-          //       return DropdownButtonFormField(
-          //         validator: (value) => (value == null) ? 'Required Field' : null,
-          //         items: cardsTile,
-          //         onChanged: (id) {
-          //           _selected_card = id;
-          //         },
-          //         decoration: InputDecoration(
-          //           enabledBorder: OutlineInputBorder(),
-          //           labelText: 'Select Card',
-          //         ),
-          //       );
-          //     } else {
-          //       return SizedBox(
-          //         child: CircularProgressIndicator(),
-          //         width: 40,
-          //         height: 40,
-          //       );
-          //     }
-          //   });
+      currency = 'INR';
+      // cardsWidget = FutureBuilder(
+      //   future: listOfCards,
+      //   builder: (BuildContext context,
+      //       AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+      //     if (snapshot.hasData) {
+      //       rListofCards = snapshot.data;
+      //       var i = 0;
+      //       cardsTile = [];
+      //       while (i < snapshot.data.length) {
+      //         cardsTile.add(DropdownMenuItem(
+      //           value: i,
+      //           child: Text(snapshot.data[i]['number'] +
+      //               'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
+      //         ));
+      //         i++;
+      //       }
+      //       return DropdownButtonFormField(
+      //         validator: (value) => (value == null) ? 'Required Field' : null,
+      //         items: cardsTile,
+      //         onChanged: (id) {
+      //           _selected_card = id;
+      //         },
+      //         decoration: InputDecoration(
+      //           enabledBorder: OutlineInputBorder(),
+      //           labelText: 'Select Card',
+      //         ),
+      //       );
+      //     } else {
+      //       return SizedBox(
+      //         child: CircularProgressIndicator(),
+      //         width: 40,
+      //         height: 40,
+      //       );
+      //     }
+      //   });
       setState(() {
         travelDetails = Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField(
-                            validator: (value) =>
-                                (value == null) ? 'Required Field' : null,
-                            items: [
-                              DropdownMenuItem(
-                                child: Text('Food'),
-                                value: 0,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Visa'),
-                                value: 1,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Insurance'),
-                                value: 2,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Stay'),
-                                value: 3,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Registration Fee'),
-                                value: 4,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Miscellaneous'),
-                                value: 5,
-                              )
-                            ],
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Type of Expense',
-                            ),
-                            onChanged: (value) {
-                              switch (value) {
-                                case 0:
-                                  type = 'Food';
-                                  break;
-                                case 1:
-                                  type = 'Visa';
-                                  break;
-                                case 2:
-                                  type = 'Insurance';
-                                  break;
-                                case 3:
-                                  type = 'Stay';
-                                  break;
-                                case 4:
-                                  type = 'Registration Fees';
-                                  break;
-                                case 5:
-                                  type = "Miscellaneous";
-                                  break;
-                              }
-                            },
-                          ),
-                          flex: 1,
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButtonFormField(
+                      validator: (value) =>
+                          (value == null) ? 'Required Field' : null,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('Food'),
+                          value: 0,
                         ),
+                        DropdownMenuItem(
+                          child: Text('Visa'),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Insurance'),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Stay'),
+                          value: 3,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Registration Fee'),
+                          value: 4,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Miscellaneous'),
+                          value: 5,
+                        )
                       ],
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Type of Expense',
+                      ),
+                      onChanged: (value) {
+                        switch (value) {
+                          case 0:
+                            type = 'Food';
+                            break;
+                          case 1:
+                            type = 'Visa';
+                            break;
+                          case 2:
+                            type = 'Insurance';
+                            break;
+                          case 3:
+                            type = 'Stay';
+                            break;
+                          case 4:
+                            type = 'Registration Fees';
+                            break;
+                          case 5:
+                            type = "Miscellaneous";
+                            break;
+                        }
+                      },
                     ),
-                    SizedBox(height: 10),
-                    Row(children: [
-                      Expanded(
-                        child: DateTimePicker(
-                          validator: (value) => (value == null || value.isEmpty)
-                              ? 'Required Field'
-                              : null,
-                          type: DateTimePickerType.date,
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2100),
-                          initialDate: DateTime.now(),
-                          dateLabelText: 'Date of Expense',
-                          onChanged: (value) {
-                            dateOfExpense = DateTime.parse(value);
-                            dateString = value;
+                    flex: 1,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(children: [
+                Expanded(
+                  child: DateTimePicker(
+                    validator: (value) => (value == null || value.isEmpty)
+                        ? 'Required Field'
+                        : null,
+                    type: DateTimePickerType.date,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                    initialDate: DateTime.now(),
+                    dateLabelText: 'Date of Expense',
+                    onChanged: (value) {
+                      dateOfExpense = DateTime.parse(value);
+                      dateString = value;
+                    },
+                  ),
+                  flex: 1,
+                )
+              ]),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Required Field'
+                          : null,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Name of establishment',
+                      ),
+                      onChanged: (value) {
+                        details = value;
+                      },
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      child: Text('Select Currency'),
+                      onPressed: () {
+                        showCurrencyPicker(
+                          context: ct,
+                          showFlag: true,
+                          showCurrencyName: false,
+                          favorite: [currency],
+                          showCurrencyCode: true,
+                          onSelect: (Currency curr) {
+                            currency = curr.code;
                           },
+                        );
+                      },
+                    ),
+                    flex: 2,
+                  ),
+                  Expanded(child: SizedBox(), flex: 1),
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      validator: (value) =>
+                          (value == null || (double.tryParse(value) == null))
+                              ? 'Required/Incorrect  Field'
+                              : null,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Amount Paid',
+                      ),
+                      onChanged: (value) {
+                        amount_paid = double.tryParse(value);
+                      },
+                    ),
+                    flex: 2,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Required Field'
+                          : null,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Enter Receipt No/ GSTIN if any',
+                      ),
+                      onChanged: (value) {
+                        receipt_details = value;
+                      },
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButtonFormField(
+                      validator: (value) =>
+                          (value == null) ? 'Required Field' : null,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('Local'),
+                          value: 0,
                         ),
-                        flex: 1,
-                      )
-                    ]),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            validator: (value) =>
-                                (value == null || value.isEmpty)
-                                    ? 'Required Field'
-                                    : null,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Name of establishment',
-                            ),
-                            onChanged: (value) {
-                              details = value;
-                            },
-                          ),
-                          flex: 1,
+                        DropdownMenuItem(
+                          child: Text('GMail'),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text('Google Drive'),
+                          value: 2,
                         ),
                       ],
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Where is the receipt saved?',
+                      ),
+                      onChanged: (value) {
+                        switch (value) {
+                          case 0:
+                            receipt_address = 'Local';
+                            break;
+                          case 1:
+                            receipt_address = 'GMail';
+                            break;
+                          case 2:
+                            receipt_address = 'Google Drive';
+                        }
+                      },
                     ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            child: Text('Select Currency'),
-                            onPressed: () {
-                              showCurrencyPicker(
-                                context: ct,
-                                showFlag: true,
-                                showCurrencyName: false,
-                                favorite: [currency],
-                                showCurrencyCode: true,
-                                onSelect: (Currency curr) {
-                                  currency = curr.code;
-                                },
-                              );
-                            },
-                          ),
-                          flex: 2,
+                    flex: 1,
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            FilePickerResult result = await FilePicker.platform
+                                .pickFiles(type: FileType.any);
+                            receipt_location = result.paths.first;
+                          },
+                          child: Text('Add Receipt Location'),
                         ),
-                        Expanded(child: SizedBox(), flex: 1),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            validator: (value) => (value == null ||
-                                    (double.tryParse(value) == null))
-                                ? 'Required/Incorrect  Field'
-                                : null,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Amount Paid',
-                            ),
-                            onChanged: (value) {
-                              amount_paid = double.tryParse(value);
-                            },
-                          ),
-                          flex: 2,
-                        ),
-                      ],
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Remarks',
+                      ),
+                      onChanged: (value) {
+                        remarks = value;
+                      },
                     ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            validator: (value) =>
-                                (value == null || value.isEmpty)
-                                    ? 'Required Field'
-                                    : null,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Enter Receipt No/ GSTIN if any',
-                            ),
-                            onChanged: (value) {
-                              receipt_details = value;
-                            },
-                          ),
-                          flex: 1,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField(
-                            validator: (value) =>
-                                (value == null) ? 'Required Field' : null,
-                            items: [
-                              DropdownMenuItem(
-                                child: Text('Local'),
-                                value: 0,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('GMail'),
-                                value: 1,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Google Drive'),
-                                value: 2,
-                              ),
-                            ],
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Where is the receipt saved?',
-                            ),
-                            onChanged: (value) {
-                              switch (value) {
-                                case 0:
-                                  receipt_address = 'Local';
-                                  break;
-                                case 1:
-                                  receipt_address = 'GMail';
-                                  break;
-                                case 2:
-                                  receipt_address = 'Google Drive';
-                              }
-                            },
-                          ),
-                          flex: 1,
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  FilePickerResult result = await FilePicker
-                                      .platform
-                                      .pickFiles(type: FileType.any);
-                                  receipt_location = result.paths.first;
-                                },
-                                child: Text('Add Receipt Location'),
-                              ),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Remarks',
-                            ),
-                            onChanged: (value) {
-                              remarks = value;
-                            },
-                          ),
-                          flex: 1,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: cardsWidget,
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            Map<String, dynamic> card =
-                                rListofCards[_selected_card];
-                            if (remarks == null) remarks = '';
-                            String new_comment =
-                                "Payment made through card which has type: " +
-                                    card["type"].toString() +
-                                    ", account number: " +
-                                    card["acc_number"].toString() +
-                                    ", card number: " +
-                                    card["number"] +
-                                    ";" +
-                                    ((receipt_details == null)
-                                        ? ''
-                                        : receipt_details) +
-                                    ";" +
-                                    remarks;
-                            insertOtherExpense(
-                                widget.trip_id,
-                                type,
-                                details,
-                                amount_paid,
-                                currency,
-                                new_comment,
-                                receipt_address,
-                                receipt_location,
-                                dateString);
-                            tripclass temp2 = await getTripById(widget.trip_id);
-                            double total = temp2.total + amount_paid;
-                            updateAmount(widget.trip_id, total);
-                            widget.callback();
+                    flex: 1,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: cardsWidget,
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      Map<String, dynamic> card = rListofCards[_selected_card];
+                      if (remarks == null) remarks = '';
+                      String new_comment =
+                          "Payment made through card which has type: " +
+                              card["type"].toString() +
+                              ", account number: " +
+                              card["acc_number"].toString() +
+                              ", card number: " +
+                              card["number"] +
+                              ";" +
+                              ((receipt_details == null)
+                                  ? ''
+                                  : receipt_details) +
+                              ";" +
+                              remarks;
+                      insertOtherExpense(
+                          widget.trip_id,
+                          type,
+                          details,
+                          amount_paid,
+                          currency,
+                          new_comment,
+                          receipt_address,
+                          receipt_location,
+                          dateString);
+                      tripclass temp2 = await getTripById(widget.trip_id);
+                      double total = temp2.total + amount_paid;
+                      updateAmount(widget.trip_id, total);
+                      widget.callback();
 
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: Text('Send')),
-                  ],
-                ),
-              );
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('Send')),
+            ],
+          ),
+        );
       });
     } else {
       var type,
@@ -857,6 +855,7 @@ class _MyHomePageState extends State<MyHomePage> {
           dateString,
           timeString;
       type = 'Other';
+      currency = 'INR';
       var tripid = 1;
       setState(() {
         travelDetails = Form(
@@ -873,7 +872,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             : null,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
-                          labelText: 'Title for Expense',
+                          labelText: 'Details',
                         ),
                         onChanged: (value) {
                           details = value;

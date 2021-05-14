@@ -485,7 +485,15 @@ class LogInInfo extends StatelessWidget {
                       padding: EdgeInsets.all(20.0),
                       child: FlatButton(
                           onPressed: () {
-                            if(validatePassword(Google_account.text) == null && validatePassword(Name.text) == null && validatePassword(Employee_code.text) == null && validatePassword(Department.text) == null && validatePassword(Designation.text) == null && validatePassword(Grade_pay.text) == null && validatePassword(Account_number.text) == null && validatePassword(Ifsc_code.text) == null && validatePassword(Uid) == null){
+                            if (validatePassword(Google_account.text) == null &&
+                                validatePassword(Name.text) == null &&
+                                validatePassword(Employee_code.text) == null &&
+                                validatePassword(Department.text) == null &&
+                                validatePassword(Designation.text) == null &&
+                                validatePassword(Grade_pay.text) == null &&
+                                validatePassword(Account_number.text) == null &&
+                                validatePassword(Ifsc_code.text) == null &&
+                                validatePassword(Uid) == null) {
                               updateProfile(
                                   Name.text,
                                   Employee_code.text,
@@ -501,7 +509,7 @@ class LogInInfo extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           Homepage()));
-                          }
+                            }
                           },
                           child: Container(
                               decoration: BoxDecoration(
