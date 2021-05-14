@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(),
-                labelText: 'Select Card',
+                labelText: 'Mode of Payment',
               ),
             );
           } else {
