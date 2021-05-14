@@ -1,3 +1,4 @@
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/Home/attachments.dart';
 import 'package:tripmanager/classes/travelexpense.dart';
@@ -5,6 +6,22 @@ import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/edit.dart';
 
 import '../temp.dart';
+
+Map<String, String> parseComment(String comment) {
+  final regex = RegExp(
+      r'^Payment made through card which has type: (.+), account number: (.*), card number: (.*);(.*)$');
+  final match = regex.firstMatch(comment);
+  if (match == null)
+    return null;
+  else {
+    return {
+      'type': match.group(1),
+      'acc_no': match.group(2),
+      'number': match.group(3),
+      'additional_comments': match.group(4)
+    };
+  }
+}
 
 final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
@@ -27,6 +44,7 @@ class Item extends StatefulWidget {
       this.remarks,
       this.ticket_address,
       this.receipt_location,
+      this.currency,
       this.callback);
   // String sign;
   // double amount;
@@ -48,6 +66,12 @@ class Item extends StatefulWidget {
   final String remarks;
   final String ticket_address;
   final String receipt_location;
+  final String currency;
+  String type;
+  String numb;
+  String acc_no;
+  String payment_info;
+  String add_rem;
   @override
   _ItemState createState() => _ItemState();
 }
@@ -56,6 +80,27 @@ class _ItemState extends State<Item> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
+    print(parseComment(widget.remarks));
+    if (parseComment(widget.remarks) != null) {
+      widget.type = parseComment(widget.remarks)['type'];
+      widget.acc_no = parseComment(widget.remarks)['acc_no'];
+      widget.numb = parseComment(widget.remarks)['number'];
+      widget.add_rem = parseComment(widget.remarks)['additional_comments'];
+    }
+    if (widget.type == 'Cash') {
+      widget.payment_info = 'Cash';
+    } else if (widget.type == null ||
+        widget.acc_no == null ||
+        widget.numb == null) {
+      widget.payment_info = 'N.A.';
+    } else {
+      widget.payment_info = 'Payment made through Card Type: ' +
+          widget.type +
+          ' with No.: ' +
+          widget.numb +
+          ' associated with account no.: ' +
+          widget.acc_no;
+    }
     return Container(
       // height: 100,
       // color: Colors.white,
@@ -142,7 +187,9 @@ class _ItemState extends State<Item> {
                     child: Column(
                       children: [
                         Text(
-                          '₹ ' + this.widget.fare.toString(),
+                          this.widget.currency +
+                              ' ' +
+                              this.widget.fare.toString(),
                           style: TextStyle(fontSize: 20, color: Colors.blue),
                         ),
                         Text(
@@ -260,6 +307,40 @@ class _ItemState extends State<Item> {
                                 ),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          'Payment Mode',
+                                          style: TextStyle(
+                                              color: Colors.deepPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.75,
+                                            child: Text(widget.payment_info)),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 1,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,7 +356,8 @@ class _ItemState extends State<Item> {
                                               color: Colors.deepPurple,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Text(widget.remarks),
+                                        Text(widget.add_rem),
+                                        // Text(widget.remarks),
                                       ],
                                     ),
                                   ),

@@ -223,7 +223,8 @@ Future<int> updateTrip(
       advance: advance,
       archive: archive);
   //databaseHelper has been injected in the class
-  int sn = await _databaseHelper.db.update('trip', todo.tomap(), where: "id = ?", whereArgs: [id]);
+  int sn = await _databaseHelper.db
+      .update('trip', todo.tomap(), where: "id = ?", whereArgs: [id]);
   return sn;
 }
 

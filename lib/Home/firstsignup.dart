@@ -211,7 +211,7 @@ import '../homepage.dart';
 // }
 
 String validatePassword(String value) {
-  if (value.isEmpty) {
+  if (value == null || value.isEmpty) {
     return "This cannot be empty!";
   }
   return null;
@@ -485,21 +485,23 @@ class LogInInfo extends StatelessWidget {
                       padding: EdgeInsets.all(20.0),
                       child: FlatButton(
                           onPressed: () {
-                            updateProfile(
-                                Name.text,
-                                Employee_code.text,
-                                Department.text,
-                                Designation.text,
-                                Grade_pay.text,
-                                Account_number.text,
-                                Ifsc_code.text,
-                                Google_account.text,
-                                Uid);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        Homepage()));
+                            if(validatePassword(Google_account.text) == null && validatePassword(Name.text) == null && validatePassword(Employee_code.text) == null && validatePassword(Department.text) == null && validatePassword(Designation.text) == null && validatePassword(Grade_pay.text) == null && validatePassword(Account_number.text) == null && validatePassword(Ifsc_code.text) == null && validatePassword(Uid) == null){
+                              updateProfile(
+                                  Name.text,
+                                  Employee_code.text,
+                                  Department.text,
+                                  Designation.text,
+                                  Grade_pay.text,
+                                  Account_number.text,
+                                  Ifsc_code.text,
+                                  Google_account.text,
+                                  Uid);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Homepage()));
+                          }
                           },
                           child: Container(
                               decoration: BoxDecoration(
