@@ -21,7 +21,7 @@ class _CardState extends State<Editcards> {
   TextEditingController Type = TextEditingController();
   TextEditingController Number = TextEditingController();
   TextEditingController Acc_number = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,61 +50,67 @@ class _CardState extends State<Editcards> {
                     width: double.infinity,
                     height: double.infinity,
                     child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //CircleAvatar(
-                          //
-                          //                           radius: 50.0,
-                          //                         ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //CircleAvatar(
+                            //
+                            //                           radius: 50.0,
+                            //                         ),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  controller: Type,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    //hintText: 'What do people call you?',
+                                    labelText: 'Card Type *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                )),
 
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Type,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  //hintText: 'What do people call you?',
-                                  labelText: 'Card Type *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator: (String value) {},
-                              )),
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  controller: Number,
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Card Number *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                  validator: (value){
+                                    return value.length < 10 ? 'Card Number Should be Greater than 12 Character' : null;
+                                  },
+                                )),
 
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Number,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Card Number *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator: (String value) {},
-                              )),
-
-                          FractionallySizedBox(
-                              widthFactor: 0.9,
-                              child: TextFormField(
-                                controller: Acc_number,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: 'Account Number *',
-                                ),
-                                onSaved: (String value) {
-                                  // This optional block of code can be used to run
-                                  // code when the user saves the form.
-                                },
-                                validator: (String value) {},
-                              )),
-                        ],
+                            FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: Acc_number,
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Account Number *',
+                                  ),
+                                  onSaved: (String value) {
+                                    // This optional block of code can be used to run
+                                    // code when the user saves the form.
+                                  },
+                                )),
+                          ],
+                        ),
                       ),
                     )),
               ),
@@ -116,14 +122,15 @@ class _CardState extends State<Editcards> {
             onPressed: () {
               setState(() {
                 //deleteProfile(Uid);
-                insertCard(Type.text, Number.text, Acc_number.text);
+                if(_formKey.currentState.validate()) {
+                  insertCard(Type.text, Number.text, Acc_number.text);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => p.Profile()));
+                }
               });
               // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => p.Profile()));
             }),
       ),
     );
