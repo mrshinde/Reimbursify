@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tripmanager/Home/faq.dart';
 import 'package:tripmanager/trip.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:path_provider/path_provider.dart';
@@ -195,7 +196,13 @@ class _HomepageState extends State<Homepage> {
                             color: Colors.purple[200],
                             elevation: 10,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Faq()),
+                                );
+                              },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
