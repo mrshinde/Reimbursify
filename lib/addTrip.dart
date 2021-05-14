@@ -136,17 +136,15 @@ class _addTripState extends State<addTrip> {
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
                                   initialDate: DateTime.now(),
-                                  decoration: InputDecoration(
-                                    suffixText: '*',
-                                    suffixStyle: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
+                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                                   dateLabelText: 'Start Date',
-                                  validator: (value) =>
-                                      (value == null || value.isEmpty)
-                                          ? 'Required Field'
-                                          : null,
+                                  // initialValue: DateTime.now().toString(),
+                                  // decoration: InputDecoration(
+                                  //   suffixText: '*',
+                                  //   suffixStyle: TextStyle(
+                                  //     color: Colors.red,
+                                  //   ),
+                                  // ),
                                   onChanged: (value) {
                                     start_date = DateTime.parse(value);
                                   },
