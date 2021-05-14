@@ -48,7 +48,7 @@ class _addTripState extends State<addTrip> {
       ),
       child: Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         elevation: 16,
         child: SafeArea(
           child: SingleChildScrollView(
@@ -84,6 +84,10 @@ class _addTripState extends State<addTrip> {
                             decoration: InputDecoration(
                               labelText: 'Enter Title',
                               enabledBorder: OutlineInputBorder(),
+                              suffixText: '*',
+                              suffixStyle: TextStyle(
+                                color: Colors.red,
+                              ),
                             ),
                             onChanged: (value) {
                               title = value;
@@ -107,9 +111,15 @@ class _addTripState extends State<addTrip> {
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(),
                                     labelText: 'Completed',
+                                    suffixText: '*',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.red,
+
+                                    ),
                                   ),
 
                                   // validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator : (value) => (value == null) ? 'Required Field' : null,
                                   onChanged: (value) {
                                     complete = value;
                                   },
@@ -126,6 +136,12 @@ class _addTripState extends State<addTrip> {
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
                                   initialDate: DateTime.now(),
+                                  decoration: InputDecoration(
+                                    suffixText: '*',
+                                    suffixStyle: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  ),
                                   dateLabelText: 'Start Date',
                                   validator: (value) =>
                                       (value == null || value.isEmpty)
@@ -145,6 +161,7 @@ class _addTripState extends State<addTrip> {
                           ),
                           // Expanded(child: SizedBox(height: 10), flex: 1,),
                           TextFormField(
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               labelText: 'Advance',
                               enabledBorder: OutlineInputBorder(),
