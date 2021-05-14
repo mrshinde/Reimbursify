@@ -857,6 +857,7 @@ class _MyHomePageState extends State<MyHomePage> {
           dateString,
           timeString;
       type = 'Other';
+      currency = 'INR';
       var tripid = 1;
       setState(() {
         travelDetails = Form(
