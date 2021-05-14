@@ -232,7 +232,32 @@ class _HomepageState extends State<Homepage> {
                     RaisedButton(
                       color: Colors.purple[200],
                       onPressed: () {
-                        _onImport(context);
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible:
+                          false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Restart Application after Importing Database File.', style: TextStyle(color: Colors.red),),
+                              content: Text(
+                              ''),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Continue'),
+                                  onPressed: () {
+                                    _onImport(context);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Back'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -245,7 +270,34 @@ class _HomepageState extends State<Homepage> {
                     RaisedButton(
                       color: Colors.purple[200],
                       onPressed: () {
-                        _onShare(context);
+
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible:
+                          false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Continue to Export Database file', style: TextStyle(color: Colors.red),),
+                              content: Text(
+                                  ''),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Continue'),
+                                  onPressed: () {
+                                    _onShare(context);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Back'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
