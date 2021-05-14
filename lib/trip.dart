@@ -270,7 +270,7 @@ class _YourTripState extends State<YourTrip> {
                                       },
                                       () {
                                         final snackBar = SnackBar(
-                                          content: Text('Item Archived'),
+                                          content: Text('Archives Modified'),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
