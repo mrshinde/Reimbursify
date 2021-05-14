@@ -264,6 +264,91 @@ class _FaqState extends State<Faq>{
               SizedBox(
                 height: 10,
               ),
+              ExpandablePanel(
+                header: Text("How to Export the Database file of the Application?",
+                  style: TextStyle(
+                    fontWeight:FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                expanded: Text("To Export Database file, Click on the Export Button on the Dashboard. This will take you to the Sharing page where users can share database files through various mediums like Google Drive or Save Locally, etc.",
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  softWrap: true, ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ExpandablePanel(
+                header: Text("How to add attachments to an expense?",
+                  style: TextStyle(
+                    fontWeight:FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                expanded: Text("Click on the expense card, then click on the clip icon, a dialog will appear asking to add files, here user can add the attachment to the expense",
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  softWrap: true, ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ExpandablePanel(
+                header: Text("How to add attachments to an expense?",
+                  style: TextStyle(
+                    fontWeight:FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                expanded: Text("Click on the expense card, then click on the clip icon, a dialog will appear asking to add files, here user can add the attachment to the expense",
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  softWrap: true, ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ExpandablePanel(
+                header: Text("How to add attachments to an expense?",
+                  style: TextStyle(
+                    fontWeight:FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                expanded: Text("Click on the expense card, then click on the clip icon, a dialog will appear asking to add files, here user can add the attachment to the expense",
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  softWrap: true, ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ExpandablePanel(
+                header: Text("How to add attachments to an expense?",
+                  style: TextStyle(
+                    fontWeight:FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                expanded: Text("Click on the expense card, then click on the clip icon, a dialog will appear asking to add files, here user can add the attachment to the expense",
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                  softWrap: true, ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
 
 
             ],
