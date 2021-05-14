@@ -12,12 +12,15 @@ import 'package:tripmanager/classes/profileclass.dart';
 import '../homepage.dart';
 
 class Signup extends StatefulWidget {
+  final Profile userclass;
+  Signup(this.userclass);
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Signup> {
   String Uid = "1";
+
   //TextEditingController Uid = TextEditingController();
   TextEditingController Name = TextEditingController();
   TextEditingController Employee_code = TextEditingController();
@@ -28,6 +31,19 @@ class _ProfileState extends State<Signup> {
   TextEditingController Ifsc_code = TextEditingController();
   TextEditingController Google_account = TextEditingController();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    Name.text = this.widget.userclass.name;
+    Google_account.text = this.widget.userclass.google;
+    Employee_code.text = this.widget.userclass.id;
+    Ifsc_code.text = this.widget.userclass.ifsc_code;
+    Department.text = this.widget.userclass.dep;
+    Designation.text = this.widget.userclass.designation;
+    Grade_pay.text = this.widget.userclass.grade_pay;
+    Account_number.text = this.widget.userclass.acc_number;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -69,6 +85,7 @@ class _ProfileState extends State<Signup> {
                               widthFactor: 0.9,
                               child: TextFormField(
                                 controller: Name,
+                                // initialValue: nm,
                                 decoration: const InputDecoration(
                                   icon: Icon(Icons.person),
                                   //hintText: 'What do people call you?',
@@ -78,7 +95,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
 
                           FractionallySizedBox(
@@ -93,7 +110,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
 
                           FractionallySizedBox(
@@ -108,7 +125,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
 
                           FractionallySizedBox(
@@ -123,7 +140,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -137,7 +154,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -151,7 +168,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -165,7 +182,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
                           FractionallySizedBox(
                               widthFactor: 0.9,
@@ -179,7 +196,7 @@ class _ProfileState extends State<Signup> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String value) {},
+                                validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
                               )),
                         ],
                       ),
