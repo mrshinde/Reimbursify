@@ -41,22 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget travelform;
   Widget travelDetails;
   final _formKey = GlobalKey<FormState>();
-
+  
   buildFormView(val) {
-    if (val == 0) {
-      var arrivalPlace,
-          receiptLocation = '',
-          arrivalDate,
-          departurePlace,
-          departureDate,
-          km,
-          fare,
-          ticket_no,
-          additional_comments,
-          cardVal,
-          mode,
-          ticketAddress;
-      cardsWidget = FutureBuilder(
+    cardsWidget = FutureBuilder(
             future: listOfCards,
             builder: (BuildContext context,
                 AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
@@ -91,6 +78,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               }
             });
+
+    if (val == 0) {
+      var arrivalPlace,
+          receiptLocation = '',
+          arrivalDate,
+          departurePlace,
+          departureDate,
+          km,
+          fare,
+          ticket_no,
+          additional_comments,
+          cardVal,
+          mode,
+          ticketAddress;
       setState(() {
         currency = 'INR';
         travelDetails = Form(
@@ -513,41 +514,41 @@ class _MyHomePageState extends State<MyHomePage> {
           dateOfExpense,
           dateString;
           currency = 'INR';
-          cardsWidget = FutureBuilder(
-            future: listOfCards,
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-              if (snapshot.hasData) {
-                rListofCards = snapshot.data;
-                var i = 0;
-                cardsTile = [];
-                while (i < snapshot.data.length) {
-                  cardsTile.add(DropdownMenuItem(
-                    value: i,
-                    child: Text(snapshot.data[i]['number'] +
-                        'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
-                  ));
-                  i++;
-                }
-                return DropdownButtonFormField(
-                  validator: (value) => (value == null) ? 'Required Field' : null,
-                  items: cardsTile,
-                  onChanged: (id) {
-                    _selected_card = id;
-                  },
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(),
-                    labelText: 'Select Card',
-                  ),
-                );
-              } else {
-                return SizedBox(
-                  child: CircularProgressIndicator(),
-                  width: 40,
-                  height: 40,
-                );
-              }
-            });
+          // cardsWidget = FutureBuilder(
+          //   future: listOfCards,
+          //   builder: (BuildContext context,
+          //       AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+          //     if (snapshot.hasData) {
+          //       rListofCards = snapshot.data;
+          //       var i = 0;
+          //       cardsTile = [];
+          //       while (i < snapshot.data.length) {
+          //         cardsTile.add(DropdownMenuItem(
+          //           value: i,
+          //           child: Text(snapshot.data[i]['number'] +
+          //               'Type: ${snapshot.data[i]['type']}, AC no : ${snapshot.data[i]['acc_number']}'),
+          //         ));
+          //         i++;
+          //       }
+          //       return DropdownButtonFormField(
+          //         validator: (value) => (value == null) ? 'Required Field' : null,
+          //         items: cardsTile,
+          //         onChanged: (id) {
+          //           _selected_card = id;
+          //         },
+          //         decoration: InputDecoration(
+          //           enabledBorder: OutlineInputBorder(),
+          //           labelText: 'Select Card',
+          //         ),
+          //       );
+          //     } else {
+          //       return SizedBox(
+          //         child: CircularProgressIndicator(),
+          //         width: 40,
+          //         height: 40,
+          //       );
+          //     }
+          //   });
       setState(() {
         travelDetails = Form(
                 key: _formKey,
@@ -687,7 +688,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             keyboardType: TextInputType.number,
                             validator: (value) => (value == null ||
                                     (double.tryParse(value) == null))
-                                ? 'Required Field'
+                                ? 'Required/Incorrect  Field'
                                 : null,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(),
@@ -801,16 +802,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       children: [
                         Expanded(
-                          child: DropdownButtonFormField(
-                            items: cardsTile,
-                            onChanged: (id) {
-                              _selected_card = id;
-                            },
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Select Card',
-                            ),
-                          ),
+                          child: cardsWidget,
                         ),
                       ],
                     ),
