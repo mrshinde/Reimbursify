@@ -145,7 +145,7 @@ Future<int> deleteItem(int id) async {
       .delete("travel", where: "serial_number = ?", whereArgs: [id]);
 }
 
-Future<int> deleteItembytrip(int id) async {
+Future<int> deleteTravelbyTrip(int id) async {
   return await _databaseHelper.db.delete("travel", where: "tripid = ?", whereArgs: [id]);
 }
 

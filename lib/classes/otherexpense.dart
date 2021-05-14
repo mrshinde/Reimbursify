@@ -105,8 +105,11 @@ Future<List<Map<String, dynamic>>> getElementsOtherExpense(int id) async {
 }
 
 Future<int> deleteItemOtherExpense(int id) async {
-  return await _databaseHelper.db
-      .delete("otherexpense", where: "serial_number = ?", whereArgs: [id]);
+  return await _databaseHelper.db.delete("otherexpense", where: "serial_number = ?", whereArgs: [id]);
+}
+
+Future<int> deleteItemOtherExpensebyTrip(int id) async {
+  return await _databaseHelper.db.delete("otherexpense", where: "tripid = ?", whereArgs: [id]);
 }
 
 Future<int> updateOtherExpense(

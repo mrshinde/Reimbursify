@@ -51,7 +51,7 @@ class DatabaseHelper {
       'INSERT INTO PaymentCard (type, number, acc_number) VALUES(\'Cash\', \'\', \'\')'
     );
     await db.execute(
-      'INSERT INTO PaymentCard (type, number, acc_number) VALUES(\'Other\', \'\', \'\')'
+      'INSERT INTO PaymentCard (type, number, acc_number) VALUES(\'Other\', \'---\', \'--\')'
     );
     await db.execute(
         'INSERT INTO profile (uid , name , id , dep  ,designation , grade_pay , acc_number , ifsc_code ,google ) VALUES(\'1\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\',\'--\'  )');

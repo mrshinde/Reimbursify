@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/Home/signup.dart';
 
+
 // import './classes/';'
 // import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
 
@@ -146,6 +147,10 @@ class _userinfoState extends State<userinfo> {
                           ),
                           Center(
                             child: CircleAvatar(
+                              child: Image.asset('assets/iit.png', ),
+
+                              backgroundColor: Colors.transparent,
+                              // backgroundImage: AssetImage('assets/iitrpr.png'),
                               radius: 50.0,
                             ),
                           ),

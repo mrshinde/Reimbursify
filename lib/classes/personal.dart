@@ -93,7 +93,7 @@ Future<int> deleteItemPersonalExpense(int id) async {
 
 Future<int> deleteItemPersonalExpensebyTrip(int id) async {
   return await _databaseHelper.db
-      .delete("personalexpense", where: "serial_number = ?", whereArgs: [id]);
+      .delete("personalexpense", where: "tripid = ?", whereArgs: [id]);
 }
 
 

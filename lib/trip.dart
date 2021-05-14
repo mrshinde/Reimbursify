@@ -3,6 +3,9 @@ import 'package:tripmanager/Home/profile.dart';
 import 'package:tripmanager/classes/tripclass.dart';
 import 'package:tripmanager/classes/user.dart';
 import 'package:tripmanager/addTrip.dart';
+import 'package:tripmanager/classes/travelexpense.dart';
+import 'package:tripmanager/classes/otherexpense.dart';
+import 'package:tripmanager/classes/personal.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
@@ -229,6 +232,9 @@ class _YourTripState extends State<YourTrip> {
                                                   onPressed: () async {
                                                     setState(() {
                                                       deleteTrip(snapshot.data[index]["id"]);
+                                                      deleteTravelbyTrip(snapshot.data[index]["id"]);
+                                                      deleteItemPersonalExpensebyTrip(snapshot.data[index]["id"]);
+                                                      deleteItemOtherExpensebyTrip(snapshot.data[index]["id"]);
                                                       print("deleted");
                                                       final snackBar = SnackBar(
                                                         content: Text('Item Deleted'),
