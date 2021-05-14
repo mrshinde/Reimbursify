@@ -33,10 +33,10 @@ class _FaqState extends State<Faq>{
               children: [
                 ExpandablePanel(
                   header: Text("Where to access my cards?",
-                  style: TextStyle(
-                    fontWeight:FontWeight.bold,
-                    fontSize: 22,
-                  ),
+                    style: TextStyle(
+                      fontWeight:FontWeight.bold,
+                      fontSize: 22,
+                    ),
                   ),
                   //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
                   expanded: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page",
@@ -45,9 +45,9 @@ class _FaqState extends State<Faq>{
                     ),
                     softWrap: true, ),
                 ),
-               SizedBox(
-                 height: 10,
-               ),
+                SizedBox(
+                  height: 10,
+                ),
                 ExpandablePanel(
                   header: Text("How to change my profile(name, google id, account etc)?",
                     style: TextStyle(
@@ -258,6 +258,74 @@ class _FaqState extends State<Faq>{
                   ),
                   //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
                   expanded: Text("Click on the expense card, then click on the clip icon, a dialog will appear asking to add files, here user can add the attachment to the expense",
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                    softWrap: true, ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandablePanel(
+                  header: Text("How to Export and Database file of the Application?",
+                    style: TextStyle(
+                      fontWeight:FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                  //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                  expanded: Text("To Export Database file, Click on the Export Button on the Dashboard. This will take you to the Sharing page where users can share database files through various mediums like Google Drive or Save Locally, etc.",
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                    softWrap: true, ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandablePanel(
+                  header: Text("How to import a Database file to the Application?",
+                    style: TextStyle(
+                      fontWeight:FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                  //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                  expanded: Text("To Import Database file, Users first need to click on the import button on the Dashboard. This will give a dialog box with a message that the application needs to be restarted after the database file is imported. Click on the Continue button and This will direct you to the file picker, here users need to pick the Previously available Database file in local device.Now Restart your application.",
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                    softWrap: true, ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandablePanel(
+                  header: Text("What kind of filled form can a user generate?",
+                    style: TextStyle(
+                      fontWeight:FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                  //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                  expanded: Text("There are two different options for different types of form one for IIT Ropar Employees(with IIT Ropar header) and one is a generalized version for other organizations. The user may choose to import the form in pdf or xlsx format. The user can also choose whether to add attachments to the form in pdf.",
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),
+                    softWrap: true, ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandablePanel(
+                  header: Text("How to generate a form for reimbursement?",
+                    style: TextStyle(
+                      fontWeight:FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                  //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                  expanded: Text("Go to My Trips on the home page. Tap on the trip for which you want to generate the form. Click on the floating action button on that trip’s page, next tap on the ‘create form button’. A dialog box appears where you can select the type(IIT Ropar or Other), format(pdf or  xlsx) and tap on add attachments and then tap on ‘Generate Form’ button to generate the form. Note : This may take a while on some devices.",
                     style: TextStyle(
                       fontSize: 22,
                     ),
