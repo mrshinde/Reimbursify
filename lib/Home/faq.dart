@@ -32,14 +32,14 @@ class _FaqState extends State<Faq>{
             child: Column(
               children: [
                 ExpandablePanel(
-                  header: Text("Who have developed this project?",
+                  header: Text("Who has developed this project?",
                     style: TextStyle(
                       fontWeight:FontWeight.bold,
                       fontSize: 22,
                     ),
                   ),
                   //collapsed: Text("Cards are in profile section, can be accessed by clicking on profile icon on the home page", softWrap: true, maxLines: 2, overflow: TextOverflow.ellipsis,),
-                  expanded: Text("This application has been developed by students of IIT Ropar as part of Development Engineering project under the guidance of Dr. Puneet Goyal.   (Contributors: Aman Dhawan, Mohit Rajoria, Navneet Kumar, Mohit Rajan Shinde)",
+                  expanded: Text("This application has been developed by students of IIT Ropar as part of the Development Engineering project under the guidance of Dr. Puneet Goyal.   (Contributors: Aman Dhawan, Mohit Rajoria, Navneet Kumar, Mohit Rajan Shinde)",
                     style: TextStyle(
                       fontSize: 22,
                     ),
