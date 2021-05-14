@@ -74,9 +74,10 @@ class _Item2State extends State<Item2> {
       widget.add_rem =
           parseComment(widget.receipt_details)['additional_comments'];
     }
+    // print("sdfsdf"+widget.type)
     if (widget.type1 == 'Cash') {
       widget.payment_info = 'Cash';
-    } else if (widget.type == 'Other') {
+    } else if (widget.type1 == 'Other') {
       widget.payment_info = 'Other';
     } else if (widget.type1 == null ||
         widget.acc_no == null ||
