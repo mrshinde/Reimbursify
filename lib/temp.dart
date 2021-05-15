@@ -1032,14 +1032,16 @@ class _TempState extends State<Temp> {
         //     BottomNavigationBarItem(icon: Icons.back)
         //   ]
         // ),
-        floatingActionButton: button(this.widget.trip_id, callback1));
+        floatingActionButton:
+            button(this.widget.trip_id, callback1, isSelected));
   }
 }
 
 class button extends StatefulWidget {
-  button(this.trip_id, this.callback1);
+  button(this.trip_id, this.callback1, this.isSelected);
   final int trip_id;
   Function() callback1;
+  List<bool> isSelected;
   // bool isfabactive = false;
   @override
   _buttonState createState() => _buttonState();
@@ -1059,8 +1061,8 @@ class _buttonState extends State<button> {
                 builder: (ct) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child:
-                        MyHomePage(this.widget.trip_id, this.widget.callback1),
+                    child: MyHomePage(this.widget.trip_id,
+                        this.widget.callback1, this.widget.isSelected),
                   );
                 });
           },

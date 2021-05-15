@@ -10,9 +10,10 @@ import './classes/otherexpense.dart';
 import './classes/personal.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage(this.trip_id, this.callback);
+  MyHomePage(this.trip_id, this.callback, this.isSelected);
   Function() callback;
   final int trip_id;
+  List<bool> isSelected;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -1013,8 +1014,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                     },
                     child: Text('Send')),
-                SizedBox(height:10),
-                Text("*Personal Expenses will not be added to the Final Total", style: TextStyle(color: Colors.deepPurple),),
+                SizedBox(height: 10),
+                Text(
+                  "*Personal Expenses will not be added to the Final Total",
+                  style: TextStyle(color: Colors.deepPurple),
+                ),
               ],
             ));
       });
@@ -1082,31 +1086,45 @@ class _MyHomePageState extends State<MyHomePage> {
                   //     ),
                   //   ],
                   // ),
-                  child: Column(children: [
-                    Form(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-                            child: DropdownButtonFormField(
-                              onChanged: buildFormView,
-                              decoration: InputDecoration(
-                                  labelText: 'Enter type of expense'),
-                              items: [
-                                DropdownMenuItem(
-                                    child: Text('Travel'), value: 0),
-                                DropdownMenuItem(
-                                    child: Text('Other Expenses'), value: 1),
-                                DropdownMenuItem(
-                                    child: Text("Personal"), value: 2)
-                              ],
-                            ),
+                  child: (() {
+                    if (this.widget.isSelected[0] == true) {
+                      return Column(children: [
+                        Form(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                                child: DropdownButtonFormField(
+                                  onChanged: buildFormView,
+                                  decoration: InputDecoration(
+                                      labelText: 'Enter type of expense'),
+                                  items: [
+                                    DropdownMenuItem(
+                                        child: Text('Travel'), value: 0),
+                                    DropdownMenuItem(
+                                        child: Text('Other Expenses'),
+                                        value: 1),
+                                    DropdownMenuItem(
+                                        child: Text("Personal"), value: 2)
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    travelDetails,
-                  ]),
+                        ),
+                        travelDetails,
+                      ]);
+                    } else if (this.widget.isSelected[1] == true) {
+                      buildFormView(0);
+                      return travelDetails;
+                    } else if (this.widget.isSelected[2] == true) {
+                      buildFormView(1);
+                      return travelDetails;
+                    } else {
+                      buildFormView(2);
+                      return travelDetails;
+                    }
+                  }()),
                 ),
               ),
             ),
