@@ -324,10 +324,65 @@ class _LogInInfoState extends State<LogInInfo> {
                     ),
                     Padding(
                       padding: EdgeInsets.all(20.0),
+                      child: FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _validate = true;
+                            });
+                            if (validatePassword(Name.text) == null) {
+                              updateProfile(
+                                  Name.text,
+                                  Employee_code.text,
+                                  Department.text,
+                                  Designation.text,
+                                  Grade_pay.text,
+                                  Account_number.text,
+                                  Ifsc_code.text,
+                                  Google_account.text,
+                                  Uid);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Homepage()));
+                            }
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 5.0,
+                                    ),
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(500.0),
+                                  )),
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  ' Next ',
+                                  style: TextStyle(
+                                      fontSize: 30.0, color: Colors.black),
+                                ),
+                              ))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Text(
+                          '(Optional) You may also add the below information. This is used to generate the reimbursement form',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Employee Code *',
+                            'Employee Code',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -335,9 +390,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Employee_code,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Employee_code.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Employee_code.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -354,7 +409,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Department *',
+                            'Department',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -362,9 +417,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Department,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Department.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Department.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -381,7 +436,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Designation *',
+                            'Designation',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -389,9 +444,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Designation,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Designation.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Designation.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -408,7 +463,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Grade Pay *',
+                            'Grade Pay',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -416,9 +471,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Grade_pay,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Grade_pay.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Grade_pay.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -435,7 +490,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Account Number *',
+                            'Account Number',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -443,9 +498,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Account_number,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Account_number.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Account_number.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -462,7 +517,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'IFSC Code *',
+                            'IFSC Code',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -470,9 +525,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Ifsc_code,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Ifsc_code.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Ifsc_code.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -489,7 +544,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Google Account *',
+                            'Email Account',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
@@ -497,9 +552,9 @@ class _LogInInfoState extends State<LogInInfo> {
                           TextField(
                             controller: Google_account,
                             decoration: InputDecoration(
-                              errorText: _validate
-                                  ? validatePassword(Google_account.text)
-                                  : null,
+                              // errorText: _validate
+                              //     ? validatePassword(Google_account.text)
+                              //     : null,
 
                               filled: true,
                               hoverColor: Colors.white,
@@ -518,15 +573,7 @@ class _LogInInfoState extends State<LogInInfo> {
                             setState(() {
                               _validate = true;
                             });
-                            if (validatePassword(Google_account.text) == null &&
-                                validatePassword(Name.text) == null &&
-                                validatePassword(Employee_code.text) == null &&
-                                validatePassword(Department.text) == null &&
-                                validatePassword(Designation.text) == null &&
-                                validatePassword(Grade_pay.text) == null &&
-                                validatePassword(Account_number.text) == null &&
-                                validatePassword(Ifsc_code.text) == null &&
-                                validatePassword(Uid) == null) {
+                            if (validatePassword(Name.text) == null) {
                               updateProfile(
                                   Name.text,
                                   Employee_code.text,

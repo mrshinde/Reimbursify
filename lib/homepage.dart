@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tripmanager/Home/faq.dart';
+import 'package:tripmanager/classes/profileclass.dart' as p;
 import 'package:tripmanager/trip.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,6 +12,7 @@ import 'dart:typed_data';
 import 'package:path/path.dart' as pth;
 import 'database.dart';
 import 'package:tripmanager/viewreimbursements.dart';
+
 // import 'package:tripmanager/classes/profileclass.dart';
 
 class Homepage extends StatefulWidget {
@@ -21,6 +23,79 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   String path;
   List<String> databasePaths = [];
+  Future<p.Profile> user_profile;
+
+  void initState() {
+    // SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    super.initState();
+    user_profile = p.getProfileById('1');
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  void SelectedItem(BuildContext context, item) {
+    switch (item) {
+      case 'Export':
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Continue to Export Database file',
+                style: TextStyle(color: Colors.red),
+              ),
+              content: Text(''),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Continue'),
+                  onPressed: () {
+                    _onShare(context);
+                  },
+                ),
+                TextButton(
+                  child: Text('Back'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
+        break;
+      case 'Import':
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                'Restart Application after Importing Database File.',
+                style: TextStyle(color: Colors.red),
+              ),
+              content: Text(''),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Continue'),
+                  onPressed: () {
+                    _onImport(context);
+                  },
+                ),
+                TextButton(
+                  child: Text('Back'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        break;
+    }
+  }
 
   _onShare(BuildContext context) async {
     // final RenderBox box = context.findRenderObject() as RenderBox;
@@ -66,7 +141,7 @@ class _HomepageState extends State<Homepage> {
           files[0], documentsDirectory.path + "/" + "reimbursement1.db");
 
       // open the database
-      await Injection.initInjection();
+      // await Injection.initInjection();
       // Database _db = await openDatabase(
       //     documentsDirectory.path + "/" + "reimbursement1.db");
     }
@@ -76,245 +151,277 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext coxntext) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.purple[50],
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: (item) => SelectedItem(context, item),
+              itemBuilder: (BuildContext context) {
+                return {'Import', 'Export'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
+            ),
+          ],
+          // actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
           backgroundColor: Colors.deepPurple,
-          title: Text(
-            'Tripiva',
-            style: TextStyle(fontSize: 30),
+          title: Center(
+            child: FutureBuilder<p.Profile>(
+                future: user_profile,
+                builder:
+                    (BuildContext context, AsyncSnapshot<p.Profile> snapshot) {
+                  if (snapshot.hasData) {
+                    return Text('Welcome ' + snapshot.data.name);
+                  } else {
+                    return Text('Welcome');
+                  }
+                }),
           ),
+          // title: Text(
+          //   'Tripiva',
+          //   style: TextStyle(fontSize: 30),
+          // ),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
-                          child: Card(
-                            elevation: 10,
-                            color: Colors.purple[200],
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Profile()),
-                                );
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.person,
-                                    size: 100,
-                                    color: Colors.black54,
-                                  ),
-                                  Text(
-                                    'Profile',
-                                    style: TextStyle(fontSize: 21),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
-                          child: Card(
-                            color: Colors.purple[200],
-                            elevation: 10,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => YourTrip()),
-                                );
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.card_travel,
-                                      size: 100, color: Colors.black54),
-                                  Text(
-                                    'My Trips',
-                                    style: TextStyle(fontSize: 21),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
-                          child: Card(
-                            color: Colors.purple[200],
-                            elevation: 10,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Forms()),
-                                );
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.picture_as_pdf,
-                                    size: 100,
-                                    color: Colors.black54,
-                                  ),
-                                  Center(
-                                    // width: double.infinity,
-                                    child: Text(
-                                      'Reimbursements',
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Image(image: AssetImage('assets/logo3.png')),
+                Container(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.width / 2,
+                            child: Card(
+                              elevation: 10,
+                              color: Colors.purple[200],
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Profile()),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      size: 100,
+                                      color: Colors.black54,
+                                    ),
+                                    Text(
+                                      'Profile',
                                       style: TextStyle(fontSize: 21),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
-                          child: Card(
-                            color: Colors.purple[200],
-                            elevation: 10,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Faq()),
-                                );
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.question_answer,
-                                    size: 100,
-                                    color: Colors.black54,
-                                  ),
-                                  Text(
-                                    'FAQ',
-                                    style: TextStyle(fontSize: 21),
-                                  ),
-                                ],
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.width / 2,
+                            child: Card(
+                              color: Colors.purple[200],
+                              elevation: 10,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => YourTrip()),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.card_travel,
+                                        size: 100, color: Colors.black54),
+                                    Text(
+                                      'My Trips',
+                                      style: TextStyle(fontSize: 21),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    RaisedButton(
-                      color: Colors.purple[200],
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible:
-                          false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Restart Application after Importing Database File.', style: TextStyle(color: Colors.red),),
-                              content: Text(
-                              ''),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Continue'),
-                                  onPressed: () {
-                                    _onImport(context);
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('Back'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Import',
-                          style: TextStyle(fontSize: 30),
-                        ),
+                        ],
                       ),
-                    ),
-                    RaisedButton(
-                      color: Colors.purple[200],
-                      onPressed: () {
-
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible:
-                          false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Continue to Export Database file', style: TextStyle(color: Colors.red),),
-                              content: Text(
-                                  ''),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Continue'),
-                                  onPressed: () {
-                                    _onShare(context);
-                                  },
+                      Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.width / 2,
+                            child: Card(
+                              color: Colors.purple[200],
+                              elevation: 10,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Forms()),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.picture_as_pdf,
+                                      size: 100,
+                                      color: Colors.black54,
+                                    ),
+                                    Center(
+                                      // width: double.infinity,
+                                      child: Text(
+                                        'Reimbursements',
+                                        style: TextStyle(fontSize: 21),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                TextButton(
-                                  child: Text('Back'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.width / 2,
+                            child: Card(
+                              color: Colors.purple[200],
+                              elevation: 10,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Faq()),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.question_answer,
+                                      size: 100,
+                                      color: Colors.black54,
+                                    ),
+                                    Text(
+                                      'FAQ',
+                                      style: TextStyle(fontSize: 21),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        );
-
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Export',
-                          style: TextStyle(fontSize: 30),
-                        ),
-                      ),
-                    )
-                  ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                height: 50,
-                child: Text('Made with \u{2764} @ IIT Ropar'),
-              ),
-            ],
+                // Expanded(
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //     children: [
+                //       RaisedButton(
+                //         color: Colors.purple[200],
+                //         onPressed: () {
+                // showDialog<void>(
+                //   context: context,
+                //   barrierDismissible: false, // user must tap button!
+                //   builder: (BuildContext context) {
+                //     return AlertDialog(
+                //       title: Text(
+                //         'Restart Application after Importing Database File.',
+                //         style: TextStyle(color: Colors.red),
+                //       ),
+                //       content: Text(''),
+                //       actions: <Widget>[
+                //         TextButton(
+                //           child: Text('Continue'),
+                //           onPressed: () {
+                //             _onImport(context);
+                //           },
+                //         ),
+                //         TextButton(
+                //           child: Text('Back'),
+                //           onPressed: () {
+                //             Navigator.of(context).pop();
+                //           },
+                //         ),
+                //                 ],
+                //               );
+                //             },
+                //           );
+                //         },
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(8.0),
+                //           child: Text(
+                //             'Import',
+                //             style: TextStyle(fontSize: 30),
+                //           ),
+                //         ),
+                //       ),
+                //       RaisedButton(
+                //         color: Colors.purple[200],
+                //         onPressed: () {
+                //           showDialog<void>(
+                //             context: context,
+                //             barrierDismissible: false, // user must tap button!
+                //             builder: (BuildContext context) {
+                //               return AlertDialog(
+                //                 title: Text(
+                //                   'Continue to Export Database file',
+                //                   style: TextStyle(color: Colors.red),
+                //                 ),
+                //                 content: Text(''),
+                //                 actions: <Widget>[
+                //                   TextButton(
+                //                     child: Text('Continue'),
+                //                     onPressed: () {
+                //                       _onShare(context);
+                //                     },
+                //                   ),
+                //                   TextButton(
+                //                     child: Text('Back'),
+                //                     onPressed: () {
+                //                       Navigator.of(context).pop();
+                //                     },
+                //                   ),
+                //                 ],
+                //               );
+                //             },
+                //           );
+                //         },
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(8.0),
+                //           child: Text(
+                //             'Export',
+                //             style: TextStyle(fontSize: 30),
+                //           ),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 30, 8, 8),
+                  child: Container(
+                    height: 50,
+                    child: Text('Made by CSE Department @ IIT Ropar'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

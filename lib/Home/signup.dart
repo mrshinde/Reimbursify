@@ -44,6 +44,7 @@ class _ProfileState extends State<Signup> {
     Account_number.text = this.widget.userclass.acc_number;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -97,7 +98,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
 
                             FractionallySizedBox(
@@ -112,7 +116,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
 
                             FractionallySizedBox(
@@ -127,7 +134,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
 
                             FractionallySizedBox(
@@ -142,7 +152,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
                             FractionallySizedBox(
                                 widthFactor: 0.9,
@@ -156,7 +169,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
                             FractionallySizedBox(
                                 widthFactor: 0.9,
@@ -170,7 +186,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
                             FractionallySizedBox(
                                 widthFactor: 0.9,
@@ -184,7 +203,10 @@ class _ProfileState extends State<Signup> {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
                             FractionallySizedBox(
                                 widthFactor: 0.9,
@@ -192,13 +214,16 @@ class _ProfileState extends State<Signup> {
                                   controller: Google_account,
                                   decoration: const InputDecoration(
                                     icon: Icon(Icons.person),
-                                    labelText: 'Google Account *',
+                                    labelText: 'Email *',
                                   ),
                                   onSaved: (String value) {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
                                   },
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
                                 )),
                           ],
                         ),
@@ -213,7 +238,7 @@ class _ProfileState extends State<Signup> {
             onPressed: () {
               setState(() {
                 //deleteProfile(Uid);
-                if(_formKey.currentState.validate()) {
+                if (_formKey.currentState.validate()) {
                   updateProfile(
                       Name.text,
                       Employee_code.text,
@@ -224,10 +249,10 @@ class _ProfileState extends State<Signup> {
                       Ifsc_code.text,
                       Google_account.text,
                       Uid);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => p.Profile()),
-                    );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => p.Profile()),
+                  );
                 }
               });
               // insertProfile(Uid, Name.text, Employee_code.text, Department.text, Designation.text, Grade_pay.text, Account_number.text, Ifsc_code.text, Google_account.text);

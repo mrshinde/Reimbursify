@@ -21,6 +21,8 @@ import 'classes/travelexpense.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:currency_picker/currency_picker.dart';
 
+DateFormat format = new DateFormat("ddMMMMyyyy kk:mm");
+
 Future<String> gettotalinstring(int id) async {
   List<Map> l1 = await GetTotal(id);
   List<Map> l2 = await GetOtherTotal(id);
@@ -168,7 +170,13 @@ class _TempState extends State<Temp> {
                                             ),
                                           );
                                         } else {
-                                          return Text('INR 0.0');
+                                          return Text(
+                                            'INR 0.0',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                // fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          );
                                         }
                                       },
                                     ),
@@ -184,7 +192,21 @@ class _TempState extends State<Temp> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15, bottom: 30),
-                                    child: Text(date),
+                                    child: Row(
+                                      children: [
+                                        Text(date),
+                                        Text(
+                                          '  (Modified: ' +
+                                              format
+                                                  .format(DateFormat(
+                                                          'yyyy-MM-dd – kk:mm')
+                                                      .parse(lastModified))
+                                                  .toString() +
+                                              ')',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -229,14 +251,52 @@ class _TempState extends State<Temp> {
                                     },
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(4, 8, 4, 8),
-                                  child: Text(
-                                    'Last Modified ' + lastModified,
-                                    style: TextStyle(color: Colors.white),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        blurRadius: 2.0,
+                                        spreadRadius: 0.0,
+                                        offset: Offset(2.0,
+                                            2.0), // shadow direction: bottom right
+                                      )
+                                    ],
+                                  ),
+                                  // color: Colors.red,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.picture_as_pdf,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () async {
+                                      setState(() {
+                                        showDialog(
+                                            context: context,
+                                            builder: (ct) {
+                                              return createpopup(
+                                                  widget.trip_id);
+                                            });
+                                      });
+                                    },
                                   ),
                                 ),
+                                // Padding(
+                                //   padding:
+                                //       const EdgeInsets.fromLTRB(4, 8, 4, 8),
+                                //   child: Text(
+                                //     'Last Modified ' +
+                                //         format
+                                //             .format(
+                                //                 DateFormat('yyyy-MM-dd – kk:mm')
+                                //                     .parse(lastModified))
+                                //             .toString(),
+                                //     style: TextStyle(color: Colors.white),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -980,7 +1040,7 @@ class button extends StatefulWidget {
   button(this.trip_id, this.callback1);
   final int trip_id;
   Function() callback1;
-  bool isfabactive = false;
+  // bool isfabactive = false;
   @override
   _buttonState createState() => _buttonState();
 }
@@ -990,91 +1050,28 @@ class _buttonState extends State<button> {
   Widget build(BuildContext context) {
     return Container(
       // padding: const EdgeInsets.only(left: 15.0),
-      child: (() {
-        if (widget.isfabactive == false) {
-          return FloatingActionButton(
-            backgroundColor: Colors.purple,
-            onPressed: () async {
-              await gettotalinstring(this.widget.trip_id);
-              // await GetTotal(this.widget.trip_id);
-              setState(() {
-                widget.isfabactive = true;
-              });
-            },
-            child: Icon(Icons.add),
-          );
-        } else {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(bottom: 4.0),
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (ct) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: createpopup(this.widget.trip_id),
-                          );
-                        });
-                    // createPDF(widget.trip_id);
-                  },
-                  // onPressed: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => Homepage()),
-                  //   );
-                  // },
-                  elevation: 15,
-                  heroTag: "btn1",
-                  splashColor: Colors.blue,
-                  backgroundColor: Colors.purple,
-                  icon: Icon(Icons.picture_as_pdf_rounded),
-                  label: Text("Create Form "),
-                ),
-              ),
-              Container(
-                // padding: const EdgeInsets.only(top: 4.0),
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (ct) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MyHomePage(
-                                this.widget.trip_id, this.widget.callback1),
-                          );
-                        });
-                  },
-                  heroTag: "btn2",
-                  elevation: 15,
-                  splashColor: Colors.blue,
-                  backgroundColor: Colors.purple,
-                  icon: Icon(Icons.addchart_rounded),
-                  label: Text("Add Expense"),
-                ),
-              ),
-              Container(
-                // height: 40,
-                margin: EdgeInsets.only(top: 4),
-                child: FloatingActionButton(
-                  backgroundColor: Colors.purple,
-                  onPressed: () {
-                    setState(() {
-                      widget.isfabactive = false;
-                    });
-                  },
-                  child: Icon(Icons.keyboard_arrow_down_rounded),
-                ),
-              ),
-            ],
-          );
-        }
-      }()),
+      child: Container(
+        // padding: const EdgeInsets.only(top: 4.0),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (ct) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        MyHomePage(this.widget.trip_id, this.widget.callback1),
+                  );
+                });
+          },
+          heroTag: "btn2",
+          elevation: 15,
+          splashColor: Colors.blue,
+          backgroundColor: Colors.purple,
+          icon: Icon(Icons.addchart_rounded),
+          label: Text("Add Expense"),
+        ),
+      ),
     );
   }
 }
@@ -1087,7 +1084,7 @@ class createpopup extends StatefulWidget {
 }
 
 class _createpopupState extends State<createpopup> {
-  List<bool> buttons = [true, false];
+  List<bool> buttons = [false, true];
   List<bool> buttons2 = [true, false];
   bool iscreatepdfcompleted = false;
   bool check = false;
@@ -1110,6 +1107,44 @@ class _createpopupState extends State<createpopup> {
                   // Container(
                   // width: 0,
                   // ),
+
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: (() {
+                      if (buttons[1] == true) {
+                        return RaisedButton(
+                          elevation: 5,
+                          color: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {},
+                          child: Text(
+                            'Simple',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      } else {
+                        return RaisedButton(
+                          elevation: 5,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              side:
+                                  BorderSide(color: Colors.redAccent, width: 2),
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {
+                            setState(() {
+                              buttons[1] = true;
+                              buttons[0] = false;
+                            });
+                          },
+                          child: Text(
+                            'Simple',
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                        );
+                      }
+                    }()),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: (() {
@@ -1147,45 +1182,9 @@ class _createpopupState extends State<createpopup> {
                       }
                     }()),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: (() {
-                      if (buttons[1] == true) {
-                        return RaisedButton(
-                          elevation: 5,
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () {},
-                          child: Text(
-                            'Other',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
-                      } else {
-                        return RaisedButton(
-                          elevation: 5,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              side:
-                                  BorderSide(color: Colors.redAccent, width: 2),
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () {
-                            setState(() {
-                              buttons[1] = true;
-                              buttons[0] = false;
-                            });
-                          },
-                          child: Text(
-                            'Other',
-                            style: TextStyle(color: Colors.redAccent),
-                          ),
-                        );
-                      }
-                    }()),
-                  ),
                 ],
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1205,7 +1204,7 @@ class _createpopupState extends State<createpopup> {
                                 }),
                           ),
                           Container(
-                            child: Text('Pdf'),
+                            child: Text('PDF'),
                           )
                         ],
                       );
@@ -1224,7 +1223,7 @@ class _createpopupState extends State<createpopup> {
                                 }),
                           ),
                           Container(
-                            child: Text('Pdf'),
+                            child: Text('PDF'),
                           )
                         ],
                       );
@@ -1246,7 +1245,7 @@ class _createpopupState extends State<createpopup> {
                                 }),
                           ),
                           Container(
-                            child: Text('xlsx'),
+                            child: Text('Excel(.xlsx)'),
                           )
                         ],
                       );
@@ -1265,7 +1264,7 @@ class _createpopupState extends State<createpopup> {
                                 }),
                           ),
                           Container(
-                            child: Text('xlsx'),
+                            child: Text('Excel(.xlsx)'),
                           )
                         ],
                       );
@@ -1273,7 +1272,17 @@ class _createpopupState extends State<createpopup> {
                   }())
                 ],
               ),
-
+              (() {
+                if (buttons[0] == true &&
+                    buttons2[0] == true &&
+                    iscreatepdfcompleted == true) {
+                  return Container(
+                    child: Text('This will take some time. Please wait.'),
+                  );
+                } else {
+                  return Container();
+                }
+              }()),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: (() {
@@ -1299,7 +1308,7 @@ class _createpopupState extends State<createpopup> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'Generate',
+                        'Generate & Download',
                         style: TextStyle(color: Colors.white),
                       ),
                       elevation: 5,

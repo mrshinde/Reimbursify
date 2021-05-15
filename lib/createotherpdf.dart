@@ -193,7 +193,7 @@ Future<void> createotherPDF(int id) async {
   await addreimbursement(
       id,
       tt.title,
-      'other-pdf',
+      'simple-pdf',
       '$path/' + formattedDate + '.pdf',
       DateFormat('yyyy-MM-dd – kk:mm').format(dd));
 //Open the PDF document in mobile

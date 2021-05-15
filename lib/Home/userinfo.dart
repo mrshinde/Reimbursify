@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tripmanager/Home/signup.dart';
 
-
 // import './classes/';'
 // import 'file:///D:/AndroidStudioProjects/TripManagerV1/lib/classes/profileclass.dart';
 
@@ -99,13 +98,13 @@ class _userinfoState extends State<userinfo> {
                         children: [
                           Center(
                             child: Container(
-                              margin: EdgeInsets.fromLTRB(15, 50, 15, 15),
-                              height: 200,
+                              margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                              height: 150,
                               width: MediaQuery.of(context).size.width,
                               // color: Colors.redAccent,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 68.0, 0, 0),
+                                    const EdgeInsets.fromLTRB(0, 28.0, 0, 0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -147,24 +146,59 @@ class _userinfoState extends State<userinfo> {
                               ),
                             ),
                           ),
-                          Center(
-                            child: CircleAvatar(
-                              child: Image.asset('assets/iit.png', ),
+                          // Center(
+                          //   child: CircleAvatar(
+                          //     child: Image.asset(
+                          //       'assets/iit.png',
+                          //     ),
 
-                              backgroundColor: Colors.transparent,
-                              // backgroundImage: AssetImage('assets/iitrpr.png'),
-                              radius: 50.0,
-                            ),
-                          ),
+                          //     backgroundColor: Colors.transparent,
+                          //     // backgroundImage: AssetImage('assets/iitrpr.png'),
+                          //     radius: 50.0,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
                   ),
-                  Container(
+                  SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  blurRadius: 2.0,
+                                  spreadRadius: 0.0,
+                                  offset: Offset(2.0,
+                                      2.0), // shadow direction: bottom right
+                                )
+                              ],
+                              // boxShadow: ,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white60,
+                            ),
+                            child: Text(
+                              "Department: " + department,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -322,7 +356,7 @@ class _userinfoState extends State<userinfo> {
                               color: Colors.white60,
                             ),
                             child: Text(
-                              "Google Account: " + google_account,
+                              "Email: " + google_account,
                               style: TextStyle(
                                   fontSize: 22.0, color: Colors.black),
                             ),
