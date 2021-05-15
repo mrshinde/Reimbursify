@@ -67,9 +67,6 @@ class _YourTripState extends State<YourTrip> {
   String tripName = 'IIT Bombay';
   String date = '09/03/2021';
 
-
-
-
   @override
   void initState() {
     super.initState();
@@ -161,8 +158,15 @@ class _YourTripState extends State<YourTrip> {
                 }
               });
             },
-            items: <String>['Select', 'StartDate\u{2B06}', 'StartDate\u{2B07}', 'Title\u{2B06}', 'Title\u{2B07}', 'Favourites', 'Archives']
-                .map<DropdownMenuItem<String>>((String value) {
+            items: <String>[
+              'Select',
+              'StartDate\u{2B06}',
+              'StartDate\u{2B07}',
+              'Title\u{2B06}',
+              'Title\u{2B07}',
+              'Favourites',
+              'Archives'
+            ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -187,7 +191,8 @@ class _YourTripState extends State<YourTrip> {
               Expanded(
                 child: SingleChildScrollView(
                   child: StreamBuilder<List<Map<dynamic, dynamic>>>(
-                      stream: Stream.fromFuture(getTripbyAll(searchTitle, search)),
+                      stream:
+                          Stream.fromFuture(getTripbyAll(searchTitle, search)),
                       builder: (context,
                           AsyncSnapshot<List<Map<dynamic, dynamic>>> snapshot) {
                         if (snapshot.hasData) {
@@ -203,18 +208,19 @@ class _YourTripState extends State<YourTrip> {
                                   //Having True at this place means That tile will be shown otherwise not
                                   //I can have if and else here to decide to show or not
                                   //So what I want is Archive to be shown when it is arhive ie search is 9 or I am searching string ie search==1
-                                  if (snapshot.data[index]['archive'] == 0||search==9) {
+                                  if (snapshot.data[index]['archive'] == 0 ||
+                                      search == 9) {
                                     return new Trip(
                                       snapshot.data[index]["id"],
                                       snapshot.data[index]["total"],
                                       snapshot.data[index]["title"],
-                                      snapshot.data[index] ["start_date"],
+                                      snapshot.data[index]["start_date"],
                                       // snapshot.data[index]["end_date"],
                                       () {
                                         showDialog<void>(
                                           context: context,
                                           barrierDismissible:
-                                          false, // user must tap button!
+                                              false, // user must tap button!
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text('Delete Trip?'),
@@ -231,16 +237,26 @@ class _YourTripState extends State<YourTrip> {
                                                   child: Text('Yes'),
                                                   onPressed: () async {
                                                     setState(() {
-                                                      deleteTrip(snapshot.data[index]["id"]);
-                                                      deleteTravelbyTrip(snapshot.data[index]["id"]);
-                                                      deleteItemPersonalExpensebyTrip(snapshot.data[index]["id"]);
-                                                      deleteItemOtherExpensebyTrip(snapshot.data[index]["id"]);
+                                                      deleteTrip(snapshot
+                                                          .data[index]["id"]);
+                                                      deleteTravelbyTrip(
+                                                          snapshot.data[index]
+                                                              ["id"]);
+                                                      deleteItemPersonalExpensebyTrip(
+                                                          snapshot.data[index]
+                                                              ["id"]);
+                                                      deleteItemOtherExpensebyTrip(
+                                                          snapshot.data[index]
+                                                              ["id"]);
                                                       print("deleted");
                                                       final snackBar = SnackBar(
-                                                        content: Text('Item Deleted'),
+                                                        content: Text(
+                                                            'Item Deleted'),
                                                       );
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar(snackBar);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
                                                     });
                                                     Navigator.of(context).pop();
                                                   },
@@ -260,12 +276,14 @@ class _YourTripState extends State<YourTrip> {
 
                                         setState(() {
                                           int k = 0;
-                                          if (snapshot.data[index]['fav'] == 1) {
+                                          if (snapshot.data[index]['fav'] ==
+                                              1) {
                                             k = 0;
                                           } else {
                                             k = 1;
                                           }
-                                          favTrip(snapshot.data[index]["id"], k);
+                                          favTrip(
+                                              snapshot.data[index]["id"], k);
                                         });
                                       },
                                       () {
@@ -276,7 +294,8 @@ class _YourTripState extends State<YourTrip> {
                                             .showSnackBar(snackBar);
 
                                         setState(() {
-                                          int k = snapshot.data[index]["archive"];
+                                          int k =
+                                              snapshot.data[index]["archive"];
                                           if (k == 0) {
                                             k = 1;
                                           } else {
@@ -296,12 +315,21 @@ class _YourTripState extends State<YourTrip> {
                             ],
                           );
                         } else {
-                          return Center(child: Column(
+                          return Center(
+                              child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(height: 200,),
-                              Text("List is Empty", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.green),),
+                              SizedBox(
+                                height: 200,
+                              ),
+                              Text(
+                                "List is Empty",
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green),
+                              ),
                             ],
                           ));
                         }
@@ -320,9 +348,10 @@ class _YourTripState extends State<YourTrip> {
                 return addTrip(callback1);
               });
         },
+        heroTag: 'btn2',
         elevation: 15,
         splashColor: Colors.blue,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.deepPurple,
         icon: Icon(Icons.addchart_rounded),
         label: Text("Add Trip"),
       ),
