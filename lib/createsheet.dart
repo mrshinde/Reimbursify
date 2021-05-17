@@ -44,7 +44,7 @@ Future<bool> generateExcel(int tripid) async {
   sheet.enableSheetCalculations();
   final Range range0 = sheet.getRangeByName('A1:K1');
   range0.merge();
-  range0.setText('Travel Expeses');
+  range0.setText('Travel Expenses');
   range0.cellStyle.fontSize = 30;
   range0.cellStyle.bold = true;
   range0.cellStyle.hAlign = HAlignType.center;
