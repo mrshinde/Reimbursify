@@ -14,7 +14,7 @@ Future<bool> isLoggedIn() async {
     prefs.setBool("loggedIn", false);
   }
   final log = prefs.getBool("loggedIn");
-  prefs.setBool("loggedIn", true);
+  //prefs.setBool("loggedIn", true);
   return log;
 }
 

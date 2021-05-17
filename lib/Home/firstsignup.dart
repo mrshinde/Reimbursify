@@ -5,7 +5,7 @@ import 'package:tripmanager/classes/profileclass.dart' as profclass;
 import 'package:tripmanager/classes/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tripmanager/classes/profileclass.dart';
 
 import '../homepage.dart';
@@ -325,7 +325,7 @@ class _LogInInfoState extends State<LogInInfo> {
                     Padding(
                       padding: EdgeInsets.all(20.0),
                       child: FlatButton(
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               _validate = true;
                             });
@@ -340,6 +340,9 @@ class _LogInInfoState extends State<LogInInfo> {
                                   Ifsc_code.text,
                                   Google_account.text,
                                   Uid);
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setBool("loggedIn", true);
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -569,7 +572,7 @@ class _LogInInfoState extends State<LogInInfo> {
                     Padding(
                       padding: EdgeInsets.all(20.0),
                       child: FlatButton(
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               _validate = true;
                             });
@@ -584,6 +587,8 @@ class _LogInInfoState extends State<LogInInfo> {
                                   Ifsc_code.text,
                                   Google_account.text,
                                   Uid);
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setBool("loggedIn", true);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
