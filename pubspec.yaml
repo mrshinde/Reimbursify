@@ -47,6 +47,7 @@ dependencies:
 
   syncfusion_flutter_xlsio: ^19.1.59-beta
   expandable: ^4.1.4
+  flutter_phoenix: ^1.0.0
 
 
 dev_dependencies:
