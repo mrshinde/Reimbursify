@@ -535,7 +535,7 @@ class _HomepageState extends State<Homepage> {
                   padding: const EdgeInsets.fromLTRB(8.0, 30, 8, 8),
                   child: Container(
                     height: 50,
-                    child: Text('Made by CSE Department @ IIT Ropar'),
+                    child: Text('Developed by CSE IIT Ropar'),
                   ),
                 ),
               ],
