@@ -427,15 +427,17 @@ class _HomepageState extends State<Homepage> {
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 5, 0, 5),
                   alignment: Alignment.centerLeft,
-                  child:
-                  FutureBuilder<List<Map<String, dynamic>>>(
+                  child: FutureBuilder<List<Map<String, dynamic>>>(
                       future: cards,
-                      builder:
-                          (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-                        if (snapshot.hasData&&snapshot.data.length == 2) {
-                          return Container(child: Text("*Add Card to Profile section", style: TextStyle(color: Colors.red),));
-                        }
-                        else{
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                        if (snapshot.hasData && snapshot.data.length == 2) {
+                          return Container(
+                              child: Text(
+                            "*Add Card in Profile section",
+                            style: TextStyle(color: Colors.red),
+                          ));
+                        } else {
                           return Container();
                         }
                       }),

@@ -119,11 +119,11 @@ class _userinfoState extends State<userinfo> {
                                       style: TextStyle(
                                           fontSize: 25, color: Colors.black),
                                     ),
-                                    Text(
-                                      'IIT Ropar',
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black45),
-                                    ),
+                                    // Text(
+                                    //   'IIT Ropar',
+                                    //   style: TextStyle(
+                                    //       fontSize: 20, color: Colors.black45),
+                                    // ),
                                   ],
                                 ),
                               ),
