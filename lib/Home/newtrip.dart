@@ -7,8 +7,8 @@ class Trip extends StatefulWidget {
   final VoidCallback onfav;
   final VoidCallback onArchive;
   Icon favIcon;
-  Trip(this.id, this.amount, this.title, this.start_date,
-      this.onPressed, this.onfav, this.onArchive, this.favIcon);
+  Trip(this.id, this.amount, this.title, this.start_date, this.onPressed,
+      this.onfav, this.onArchive, this.favIcon);
   double amount;
   int id;
   String title;
@@ -79,17 +79,17 @@ class _TripState extends State<Trip> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
+                  icon: widget.favIcon,
+                  // if(fav){}
+                  onPressed: () => widget.onfav(),
+                ),
+                IconButton(
                   icon: Icon(Icons.archive_outlined),
                   onPressed: () => widget.onArchive(),
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () => widget.onPressed(),
-                ),
-                IconButton(
-                  icon: widget.favIcon,
-                  // if(fav){}
-                  onPressed: () => widget.onfav(),
                 ),
               ],
               // ),

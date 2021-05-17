@@ -76,7 +76,7 @@ class _YourTripState extends State<YourTrip> {
   Widget build(BuildContext ct) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.deepPurple,
         title: appBarTitle,
         centerTitle: true,
         leading: IconButton(
@@ -117,14 +117,18 @@ class _YourTripState extends State<YourTrip> {
             },
           ),
           DropdownButton<String>(
+            dropdownColor: Colors.deepPurple,
             value: dropdownValue,
-            icon: const Icon(Icons.arrow_downward),
+            icon: const Icon(
+              Icons.arrow_downward,
+              color: Colors.yellow,
+            ),
             iconSize: 24,
             elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
+            style: const TextStyle(color: Colors.white),
             underline: Container(
               height: 2,
-              color: Colors.deepPurpleAccent,
+              color: Colors.yellow,
             ),
             onChanged: (String newValue) {
               setState(() {

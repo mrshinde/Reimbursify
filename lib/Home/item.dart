@@ -127,13 +127,17 @@ class _ItemState extends State<Item> {
                   Container(
                       padding: EdgeInsets.all(10),
                       child: (() {
-                        if (widget.mot == "Train") {
+                        if (widget.mot == "Train" || widget.mot == "Metro") {
                           return Icon(
                             Icons.train,
                             color: Colors.indigo,
                             size: 50,
                           );
-                        } else if (widget.mot == "Roadways") {
+                        } else if (widget.mot == "Roadways" ||
+                            widget.mot == "Taxi" ||
+                            widget.mot == "Bus" ||
+                            widget.mot == "Own Car" ||
+                            widget.mot == "Auto") {
                           return Icon(
                             Icons.add_road,
                             color: Colors.indigo,
@@ -142,6 +146,18 @@ class _ItemState extends State<Item> {
                         } else if (widget.mot == "Airways") {
                           return Icon(
                             Icons.airplanemode_on_rounded,
+                            color: Colors.indigo,
+                            size: 50,
+                          );
+                        } else if (widget.mot == "Steamer") {
+                          return Icon(
+                            Icons.directions_boat_rounded,
+                            color: Colors.indigo,
+                            size: 50,
+                          );
+                        } else if (widget.mot == "Other") {
+                          return Icon(
+                            Icons.bike_scooter,
                             color: Colors.indigo,
                             size: 50,
                           );
@@ -162,7 +178,7 @@ class _ItemState extends State<Item> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Travel',
+                              widget.mot,
                               style: TextStyle(
                                   fontSize: 20, color: Colors.deepPurple),
                             ),
@@ -188,11 +204,14 @@ class _ItemState extends State<Item> {
                     padding: EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        Text(
-                          this.widget.currency +
-                              ' ' +
-                              this.widget.fare.toString(),
-                          style: TextStyle(fontSize: 20, color: Colors.blue),
+                        Container(
+                          width: MediaQuery.of(context).size.width * (0.2),
+                          child: Text(
+                            this.widget.currency +
+                                ' ' +
+                                this.widget.fare.toString(),
+                            style: TextStyle(fontSize: 20, color: Colors.blue),
+                          ),
                         ),
                         Text(
                           this.widget.dep_date,
@@ -233,23 +252,77 @@ class _ItemState extends State<Item> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      'Mode of Travel :',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(widget.mot),
-                                    Text(
-                                      'Distance :',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(widget.km.toString()),
-                                  ],
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * (0.8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                (0.4),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (0.2),
+                                              child: Text(
+                                                'Mode of Travel :',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    (0.2),
+                                                child: Text(widget.mot)),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                (0.4),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (0.2),
+                                              child: Text(
+                                                'Distance :',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  (0.2),
+                                              child: (() {
+                                                if (widget.km == 0.0) {
+                                                  return Text('N.A.');
+                                                } else {
+                                                  return Text(
+                                                      widget.km.toString());
+                                                }
+                                              }()),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -259,47 +332,63 @@ class _ItemState extends State<Item> {
                                   color: Colors.blue,
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          widget.dep_station,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
-                                              color: Colors.red),
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width * (0.8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                (0.3),
+                                            child: Text(
+                                              widget.dep_station,
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w900,
+                                                  color: Colors.red),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      Text('Dep. Date : ' + widget.dep_date),
-                                      Text('Dep. Time : ' + widget.dep_time),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          widget.arr_station,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
-                                              color: Colors.red),
+                                        Text('Dep. Date : ' + widget.dep_date),
+                                        Text('Dep. Time : ' + widget.dep_time),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                (0.3),
+                                            child: Text(
+                                              widget.arr_station,
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w900,
+                                                  color: Colors.red),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      Text('Arr. Date : ' + widget.arr_date),
-                                      Text('Arr. Time : ' + widget.arr_time),
-                                    ],
-                                  )
-                                ],
+                                        Text('Arr. Date : ' + widget.arr_date),
+                                        Text('Arr. Time : ' + widget.arr_time),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ), // ,mot: ,km: ,pnr: ,remarks: ,ticket_address: ,receipt_location: ,
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -309,32 +398,74 @@ class _ItemState extends State<Item> {
                                 ),
                               ),
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        child: Text(
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.4),
+                                    child: Column(
+                                      children: [
+                                        Text(
                                           'Payment Mode',
                                           style: TextStyle(
                                               color: Colors.deepPurple,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.75,
-                                            child: Text(widget.payment_info)),
-                                      ),
-                                    ],
-                                  )
+                                        Text(
+                                          (widget.payment_info),
+                                          // Text(widget.remarks),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.4),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'PNR/Ticket No.',
+                                          style: TextStyle(
+                                              color: Colors.deepPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(widget.pnr),
+                                      ],
+                                    ),
+                                  ),
+                                  // Text('Receipt : ' + widget.receipt_location),
                                 ],
                               ),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Column(
+                              //       children: [
+                              //         Container(
+                              //           child: Text(
+                              //             'Payment Mode',
+                              //             style: TextStyle(
+                              //                 color: Colors.deepPurple,
+                              //                 fontWeight: FontWeight.bold),
+                              //           ),
+                              //         ),
+                              //         Padding(
+                              //           padding: const EdgeInsets.all(8.0),
+                              //           child: Container(
+                              //               width: MediaQuery.of(context)
+                              //                       .size
+                              //                       .width *
+                              //                   0.75,
+                              //               child: Text(widget.payment_info)),
+                              //         ),
+                              //       ],
+                              //     )
+                              //   ],
+                              // ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -343,13 +474,12 @@ class _ItemState extends State<Item> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     width: MediaQuery.of(context).size.width *
-                                        (0.5),
+                                        (0.4),
                                     child: Column(
                                       children: [
                                         Text(
@@ -364,6 +494,8 @@ class _ItemState extends State<Item> {
                                     ),
                                   ),
                                   Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        (0.4),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -492,6 +624,7 @@ class _ItemState extends State<Item> {
                                                   remarks: widget.remarks,
                                                   ticket_address:
                                                       widget.ticket_address,
+                                                  currency: widget.currency,
                                                   receipt_location:
                                                       widget.receipt_location));
                                         });

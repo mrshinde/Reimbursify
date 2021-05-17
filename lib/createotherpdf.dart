@@ -183,7 +183,9 @@ Future<void> createotherPDF(int id) async {
   tripclass tt = await getTripById(id);
 
   DateTime dd = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) + tt.title;
+  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) +
+      tt.title +
+      UniqueKey().toString();
 //Create an empty file to write PDF data
   File file = File('$path/' + formattedDate + '.pdf');
 

@@ -24,7 +24,7 @@ class _FormsState extends State<Forms> {
     return Scaffold(
       backgroundColor: Colors.purple[100],
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.deepPurple,
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {

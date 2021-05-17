@@ -9,10 +9,12 @@ import 'package:tripmanager/temp.dart';
 
 final snackBar = SnackBar(content: Text('Expense Deleted!'));
 
-Map<String, String> parseComment(String comment) {
+Map<String, String> parseOtherComment(String comment) {
   final regex = RegExp(
-      r'^Payment made through card which has type: (.+), account number: (.*), card number: (.*);(.*)$');
+      r'^Payment made through card which has type: (.+), account number: (.*), card number: (.*);(.*);(.*)$');
   final match = regex.firstMatch(comment);
+  // print("hithis is temp ");
+  // print(match.toString());
   if (match == null)
     return null;
   else {
@@ -20,7 +22,8 @@ Map<String, String> parseComment(String comment) {
       'type': match.group(1),
       'acc_no': match.group(2),
       'number': match.group(3),
-      'additional_comments': match.group(4)
+      'pnr': match.group(4),
+      'additional_comments': match.group(5)
     };
   }
 }
@@ -59,6 +62,7 @@ class Item2 extends StatefulWidget {
   String acc_no;
   String payment_info;
   String add_rem;
+  String pnr;
   @override
   _Item2State createState() => _Item2State();
 }
@@ -67,12 +71,15 @@ class _Item2State extends State<Item2> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-    if (parseComment(widget.receipt_details) != null) {
-      widget.type1 = parseComment(widget.receipt_details)['type'];
-      widget.acc_no = parseComment(widget.receipt_details)['acc_no'];
-      widget.numb = parseComment(widget.receipt_details)['number'];
+    print('hayabusha' + widget.receipt_details);
+    print(parseOtherComment(widget.receipt_details));
+    if (parseOtherComment(widget.receipt_details) != null) {
+      widget.type1 = parseOtherComment(widget.receipt_details)['type'];
+      widget.acc_no = parseOtherComment(widget.receipt_details)['acc_no'];
+      widget.numb = parseOtherComment(widget.receipt_details)['number'];
+      widget.pnr = parseOtherComment(widget.receipt_details)['pnr'];
       widget.add_rem =
-          parseComment(widget.receipt_details)['additional_comments'];
+          parseOtherComment(widget.receipt_details)['additional_comments'];
     }
     // print("sdfsdf"+widget.type)
     if (widget.type1 == 'Cash') {
@@ -182,21 +189,23 @@ class _Item2State extends State<Item2> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Text(
-                          this.widget.currency +
-                              ' ' +
-                              this.widget.amount_paid.toString(),
-                          style: TextStyle(fontSize: 20, color: Colors.blue),
-                        ),
-                        Text(
-                          this.widget.date,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ],
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Text(
+                            this.widget.currency +
+                                ' ' +
+                                this.widget.amount_paid.toString(),
+                            style: TextStyle(fontSize: 20, color: Colors.blue),
+                          ),
+                          Text(
+                            this.widget.date,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -229,46 +238,111 @@ class _Item2State extends State<Item2> {
                                 height: 1,
                                 color: Colors.blue,
                               ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    // width: MediaQuery.of(context).size.width *
+                                    // (0.5),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Payment Mode',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(widget.payment_info),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Receipt No./GSTIN',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(widget.pnr),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(8.0),
+                              //   child: Container(
+                              //     height: 1,
+                              //     color: Colors.white,
+                              //   ),
+                              // ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   height: 1,
                                   color: Colors.white,
                                 ),
+                              ),
+                              Container(
+                                height: 1,
+                                color: Colors.blue,
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        (0.5),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Receipt Details',
-                                          style: TextStyle(
-                                              color: Colors.deepPurple,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(widget.add_rem),
-                                      ],
+                                  Expanded(
+                                    flex: 1,
+                                    // width: MediaQuery.of(context).size.width *
+                                    //     (0.5),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Remarks',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(widget.add_rem),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Receipt Location',
-                                        style: TextStyle(
-                                            color: Colors.deepPurple,
-                                            fontWeight: FontWeight.bold),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Receipt Location',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(widget.receipt_location),
+                                        ],
                                       ),
-                                      Text(widget.receipt_location),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
+
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -276,40 +350,40 @@ class _Item2State extends State<Item2> {
                                   color: Colors.white,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 1,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          'Payment Mode',
-                                          style: TextStyle(
-                                              color: Colors.deepPurple,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.75,
-                                            child: Text(widget.payment_info)),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(8.0),
+                              //   child: Container(
+                              //     height: 1,
+                              //     color: Colors.blue,
+                              //   ),
+                              // ),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.center,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Column(
+                              //       children: [
+                              //         Container(
+                              //           child: Text(
+                              //             'Payment Mode',
+                              //             style: TextStyle(
+                              //                 color: Colors.deepPurple,
+                              //                 fontWeight: FontWeight.bold),
+                              //           ),
+                              //         ),
+                              //         Padding(
+                              //           padding: const EdgeInsets.all(8.0),
+                              //           child: Container(
+                              //               width: MediaQuery.of(context)
+                              //                       .size
+                              //                       .width *
+                              //                   0.75,
+                              //               child: Text(widget.payment_info)),
+                              //         ),
+                              //       ],
+                              //     )
+                              //   ],
+                              // ),
                             ],
                           ),
                         ),
@@ -411,6 +485,7 @@ class _Item2State extends State<Item2> {
                                                       widget.receipt_address,
                                                   receipt_location:
                                                       widget.receipt_location,
+                                                  currency: widget.currency,
                                                   date: widget.date));
                                         });
                                   }),

@@ -40,7 +40,22 @@ Widget editTravelForm(
     mode_val = 0;
   else if (mode == "Roadways")
     mode_val = 1;
-  else if (mode == "Airways") mode_val = 2;
+  else if (mode == "Airways")
+    mode_val = 2;
+  else if (mode == "Taxi")
+    mode_val = 3;
+  else if (mode == "Bus")
+    mode_val = 4;
+  else if (mode == "Own Car")
+    mode_val = 5;
+  else if (mode == "Auto")
+    mode_val = 6;
+  else if (mode == "Steamer")
+    mode_val = 7;
+  else if (mode == "Metro")
+    mode_val = 8;
+  else if (mode == "Other") mode_val = 9;
+  // else if (mode == "Airways") mode_val = 2;
   arrivalPlace = dataMap.arr_station;
   arrivalDate = dataMap.arr_date;
   arrivalTime = dataMap.arr_time;
@@ -62,9 +77,11 @@ Widget editTravelForm(
   ticketAddress = dataMap.ticket_address;
   currency = (dataMap.currency == null) ? 'INR' : dataMap.currency;
   print(currency);
+  TextEditingController cur = new TextEditingController();
+  cur.text = currency;
   if (ticketAddress == "Local")
     ticket_val = 0;
-  else if (ticketAddress == "GMail")
+  else if (ticketAddress == "EMail")
     ticket_val = 1;
   else if (ticketAddress == "Google Drive") ticket_val = 2;
   receiptLocation = dataMap.receipt_location;
@@ -110,9 +127,37 @@ Widget editTravelForm(
                                       child: Text('Airplane'),
                                       value: 2,
                                     ),
+                                    DropdownMenuItem(
+                                      child: Text('Taxi'),
+                                      value: 3,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Bus'),
+                                      value: 4,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Own Car'),
+                                      value: 5,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Auto'),
+                                      value: 6,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Steamer'),
+                                      value: 7,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Metro'),
+                                      value: 8,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Other'),
+                                      value: 9,
+                                    ),
                                   ],
                                   decoration: InputDecoration(
-                                    labelText: 'Enter Mode of Travel',
+                                    labelText: 'Enter Mode of Travel*',
                                   ),
                                   onChanged: (value) {
                                     switch (value) {
@@ -124,6 +169,27 @@ Widget editTravelForm(
                                         break;
                                       case 2:
                                         mode = 'Airways';
+                                        break;
+                                      case 3:
+                                        mode = 'Taxi';
+                                        break;
+                                      case 4:
+                                        mode = 'Bus';
+                                        break;
+                                      case 5:
+                                        mode = 'Own Car';
+                                        break;
+                                      case 6:
+                                        mode = 'Auto';
+                                        break;
+                                      case 7:
+                                        mode = 'Steamer';
+                                        break;
+                                      case 8:
+                                        mode = 'Metro';
+                                        break;
+                                      case 9:
+                                        mode = 'Other';
                                     }
                                   },
                                 ),
@@ -149,7 +215,7 @@ Widget editTravelForm(
                                         : null,
                                 initialValue: departurePlace,
                                 decoration: InputDecoration(
-                                  labelText: 'From',
+                                  labelText: 'From*',
                                   hintText: 'Enter Departure Station',
                                   prefixIcon: Icon(Icons.location_city),
                                   enabledBorder: OutlineInputBorder(),
@@ -172,7 +238,7 @@ Widget editTravelForm(
                                         : null,
                                 initialValue: arrivalPlace,
                                 decoration: InputDecoration(
-                                  labelText: 'To',
+                                  labelText: 'To*',
                                   hintText: 'Enter Arrival Station',
                                   prefixIcon: Icon(Icons.location_city),
                                   enabledBorder: OutlineInputBorder(),
@@ -201,7 +267,7 @@ Widget editTravelForm(
                                 initialDate: departureDate,
                                 initialTime:
                                     TimeOfDay.fromDateTime(departureDate),
-                                dateLabelText: 'Departure Date',
+                                dateLabelText: 'Departure Date*',
                                 timeLabelText: 'Time',
                                 onChanged: (value) {
                                   departureDate = DateTime.parse(value);
@@ -220,8 +286,17 @@ Widget editTravelForm(
                                   validator: (value) {
                                     if (value == null || value.isEmpty)
                                       return 'Required Field';
+                                    List<String> parts1 =
+                                        departureDate.toString().split(" ");
+                                    List<String> parts2 =
+                                        arrivalDate.toString().split(" ");
                                     if (arrivalDate != null &&
-                                        departureDate != null) if (arrivalDate
+                                        departureDate != null) if ((parts1[1] ==
+                                                parts2[1] &&
+                                            parts1[1] == '00:00:00.000') ||
+                                        (parts1[1] != '00:00:00.000' &&
+                                            parts2[1] !=
+                                                '00:00:00.000')) if (arrivalDate
                                             .compareTo(departureDate) <
                                         0)
                                       return 'Arrival Date Time is before Departure';
@@ -234,7 +309,7 @@ Widget editTravelForm(
                                   initialDate: arrivalDate,
                                   initialTime:
                                       TimeOfDay.fromDateTime(arrivalDate),
-                                  dateLabelText: 'Arrival Date',
+                                  dateLabelText: 'Destination Arrival Date*',
                                   timeLabelText: 'Time',
                                   onChanged: (value) {
                                     arrivalDate = DateTime.parse(value);
@@ -250,10 +325,10 @@ Widget editTravelForm(
                           Row(children: <Widget>[
                             Expanded(
                               child: TextFormField(
-                                validator: (value) =>
-                                    (value == null || value.isEmpty)
-                                        ? 'Required Field'
-                                        : null,
+                                // validator: (value) =>
+                                //     (value == null || value.isEmpty)
+                                //         ? 'Required Field'
+                                //         : null,
                                 initialValue: ticket_no,
                                 decoration: InputDecoration(
                                   labelText: 'PNR/Ticket No',
@@ -275,7 +350,7 @@ Widget editTravelForm(
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value == null || value.isEmpty)
-                                    return 'Required Field';
+                                    return null;
                                   else if (double.tryParse(value) == null)
                                     return 'Not a valid number';
                                   else
@@ -311,6 +386,7 @@ Widget editTravelForm(
                                       showCurrencyCode: true,
                                       onSelect: (Currency curr) {
                                         currency = curr.code;
+                                        cur.text = currency;
                                       },
                                     );
                                   },
@@ -321,6 +397,21 @@ Widget editTravelForm(
                                 child: SizedBox(),
                                 flex: 1,
                               ),
+                              Expanded(
+                                  child: TextField(
+                                controller: cur,
+                                decoration: new InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: 2.0),
+                                  ),
+                                ),
+                                readOnly: true,
+                              )),
                               Expanded(
                                 child: TextFormField(
                                   keyboardType: TextInputType.number,
@@ -333,7 +424,7 @@ Widget editTravelForm(
                                       return null;
                                   },
                                   decoration: InputDecoration(
-                                    labelText: 'Fare',
+                                    labelText: 'Fare*',
                                     prefixIcon: Icon(Icons.money),
                                     enabledBorder: OutlineInputBorder(),
                                   ),
@@ -371,8 +462,8 @@ Widget editTravelForm(
                             children: [
                               Expanded(
                                 child: DropdownButtonFormField(
-                                  validator: (value) =>
-                                      value == null ? 'Required Value' : null,
+                                  // validator: (value) =>
+                                  //     value == null ? 'Required Value' : null,
                                   value: ticket_val,
                                   items: [
                                     DropdownMenuItem(
@@ -380,7 +471,7 @@ Widget editTravelForm(
                                       value: 0,
                                     ),
                                     DropdownMenuItem(
-                                      child: Text('GMail'),
+                                      child: Text('EMail'),
                                       value: 1,
                                     ),
                                     DropdownMenuItem(
@@ -398,7 +489,7 @@ Widget editTravelForm(
                                         ticketAddress = 'Local';
                                         break;
                                       case 1:
-                                        ticketAddress = 'GMail';
+                                        ticketAddress = 'EMail';
                                         break;
                                       case 2:
                                         ticketAddress = 'Google Drive';
@@ -423,7 +514,7 @@ Widget editTravelForm(
                                         receiptLocation = '';
                                       }
                                     },
-                                    child: Text('Change Receipt Location'),
+                                    child: Text('Change Receipt'),
                                   ),
                                 ),
                               ),
@@ -433,9 +524,15 @@ Widget editTravelForm(
                             height: 10,
                           ),
                           ElevatedButton(
-                              child: Text('Send'),
+                              child: Text('Submit'),
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
+                                  if (ticket_no == '') {
+                                    ticket_no = 'Nil';
+                                  }
+                                  if (additional_comments == '') {
+                                    additional_comments = 'Nil';
+                                  }
                                   Map<String, dynamic> travelMap =
                                       new Map<String, dynamic>();
                                   travelMap['tripid'] = trip_id;
@@ -532,6 +629,8 @@ Widget editOtherForm(
   type = dataMap.type;
   details = dataMap.details;
   receipt_details = dataMap.receipt_details;
+  TextEditingController cur = new TextEditingController();
+  cur.text = currency;
   if (receipt_details.split(';').length == 3) {
     cardInfo = receipt_details.split(';')[0];
     additional_comments = receipt_details.split(';')[2];
@@ -556,7 +655,7 @@ Widget editOtherForm(
     typeVal = 5;
   if (receipt_address == "Local")
     receiptVal = 0;
-  else if (receipt_address == "GMail")
+  else if (receipt_address == "EMail")
     receiptVal = 1;
   else if (receipt_address == "Google Drive") receiptVal = 2;
   return Padding(
@@ -617,7 +716,7 @@ Widget editOtherForm(
                                 ],
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
-                                  labelText: 'Type of Expense',
+                                  labelText: 'Type of Expense*',
                                 ),
                                 onChanged: (value) {
                                   switch (value) {
@@ -659,7 +758,7 @@ Widget editOtherForm(
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                               initialDate: DateTime.parse(dateString),
-                              dateLabelText: 'Date of Expense',
+                              dateLabelText: 'Date of Expense*',
                               onChanged: (value) {
                                 dateString = value;
                               },
@@ -679,7 +778,7 @@ Widget editOtherForm(
                                 initialValue: details,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
-                                  labelText: 'Name of establishment',
+                                  labelText: 'Vendor/Website/Hotel*',
                                 ),
                                 onChanged: (value) {
                                   details = value;
@@ -704,6 +803,7 @@ Widget editOtherForm(
                                     showCurrencyCode: true,
                                     onSelect: (Currency curr) {
                                       currency = curr.code;
+                                      cur.text = currency;
                                     },
                                   );
                                 },
@@ -711,6 +811,21 @@ Widget editOtherForm(
                               flex: 2,
                             ),
                             Expanded(child: SizedBox(), flex: 1),
+                            Expanded(
+                                child: TextField(
+                              controller: cur,
+                              decoration: new InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.blue, width: 2.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.black, width: 2.0),
+                                ),
+                              ),
+                              readOnly: true,
+                            )),
                             Expanded(
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
@@ -721,7 +836,7 @@ Widget editOtherForm(
                                 initialValue: amount_paid,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
-                                  labelText: 'Amount Paid',
+                                  labelText: 'Amount Paid*',
                                 ),
                                 onChanged: (value) {
                                   amount_paid = value;
@@ -731,14 +846,15 @@ Widget editOtherForm(
                             ),
                           ],
                         ),
+                        SizedBox(height: 10),
                         Row(
                           children: [
                             Expanded(
                               child: TextFormField(
-                                validator: (value) =>
-                                    (value == null || value.isEmpty)
-                                        ? 'Required Field'
-                                        : null,
+                                // validator: (value) =>
+                                //     (value == null || value.isEmpty)
+                                //         ? 'Required Field'
+                                //         : null,
                                 initialValue: receipt_details,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(),
@@ -764,7 +880,7 @@ Widget editOtherForm(
                                     value: 0,
                                   ),
                                   DropdownMenuItem(
-                                    child: Text('GMail'),
+                                    child: Text('EMail'),
                                     value: 1,
                                   ),
                                   DropdownMenuItem(
@@ -782,7 +898,7 @@ Widget editOtherForm(
                                       receipt_address = 'Local';
                                       break;
                                     case 1:
-                                      receipt_address = 'GMail';
+                                      receipt_address = 'EMail';
                                       break;
                                     case 2:
                                       receipt_address = 'Google Drive';
@@ -802,7 +918,7 @@ Widget editOtherForm(
                                           .pickFiles(type: FileType.any);
                                       receipt_location = result.paths.first;
                                     },
-                                    child: Text('Add Receipt Location'),
+                                    child: Text('Change Receipt'),
                                   ),
                                 )),
                           ],
@@ -831,9 +947,15 @@ Widget editOtherForm(
                           height: 10,
                         ),
                         ElevatedButton(
-                          child: Text('Send'),
+                          child: Text('Submit'),
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
+                              if (additional_comments == '') {
+                                additional_comments = 'Nil';
+                              }
+                              if (receipt_details == '') {
+                                receipt_details = 'Nil';
+                              }
                               double amount = double.parse(amount_paid);
                               if (cardInfo == null)
                                 receipt_details =
@@ -844,6 +966,12 @@ Widget editOtherForm(
                                     receipt_details +
                                     ';' +
                                     additional_comments;
+                              if (receipt_address == '') {
+                                receipt_address = 'Nil';
+                              }
+                              // if (receipt_address.isEmpty() == true) {
+                              //   receipt_address = 'Nil';
+                              // }
                               updateOtherExpense(
                                   id,
                                   tripid,
@@ -892,7 +1020,10 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
   type = dataMap.type;
   details = dataMap.details;
   dateString = dataMap.date;
+  TextEditingController cur = new TextEditingController();
   currency = (dataMap.currency == null) ? 'INR' : dataMap.currency;
+  cur.text = currency;
+
   return Padding(
     padding: const EdgeInsets.only(top: 40),
     child: Dialog(
@@ -946,7 +1077,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime(2100),
                                 initialDate: DateTime.parse(dateString),
-                                dateLabelText: 'Date of Expense',
+                                dateLabelText: 'Date of Expense*',
                                 onChanged: (value) {
                                   dateString = value;
                                 },
@@ -969,6 +1100,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                                       showCurrencyCode: true,
                                       onSelect: (Currency curr) {
                                         currency = curr.code;
+                                        cur.text = currency;
                                       },
                                     );
                                   },
@@ -976,6 +1108,21 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                                 flex: 2,
                               ),
                               Expanded(child: SizedBox(), flex: 1),
+                              Expanded(
+                                  child: TextField(
+                                controller: cur,
+                                decoration: new InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: 2.0),
+                                  ),
+                                ),
+                                readOnly: true,
+                              )),
                               Expanded(
                                 child: TextFormField(
                                   keyboardType: TextInputType.number,
@@ -986,7 +1133,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                                   initialValue: amount_paid,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(),
-                                    labelText: 'Amount Paid',
+                                    labelText: 'Amount Paid*',
                                   ),
                                   onChanged: (value) {
                                     amount_paid = value;
@@ -998,6 +1145,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                           ),
                           ElevatedButton(
                               onPressed: () async {
+                                if (details == '') details = 'Nil';
                                 if (_formKey.currentState.validate()) {
                                   updatePersonalExpense(
                                       id,
@@ -1013,7 +1161,7 @@ Widget editPersonalForm(Function() callback, int id, BuildContext context,
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: Text('Send')),
+                              child: Text('Submit')),
                         ],
                       )),
                 ]),

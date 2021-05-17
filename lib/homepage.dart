@@ -189,7 +189,6 @@ class _HomepageState extends State<Homepage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image(image: AssetImage('assets/logo3.png')),
                 Container(
                   child: Column(
                     children: [
@@ -328,6 +327,11 @@ class _HomepageState extends State<Homepage> {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 28.0),
+                  child: Image(image: AssetImage('assets/logo3.png')),
+                ),
+
                 // Expanded(
                 //   child: Row(
                 //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

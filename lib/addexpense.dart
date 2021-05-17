@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(),
-                labelText: 'Mode of Payment',
+                labelText: 'Mode of Payment*',
               ),
             );
           } else {
@@ -96,13 +96,20 @@ class _MyHomePageState extends State<MyHomePage> {
           arrivalDate,
           departurePlace,
           departureDate,
-          km,
-          fare,
-          ticket_no,
-          additional_comments,
+          km = 0.0,
+          fare = 0.0,
+          ticket_no = 'Nil',
+          additional_comments = 'Nil',
           cardVal,
           mode,
-          ticketAddress;
+          ticketAddress = 'Nil';
+      // call(String s) {
+      //   currency = s;
+      //   setState(() {});
+      // }
+      TextEditingController cur = new TextEditingController();
+      cur.text = 'INR';
+
       setState(() {
         currency = 'INR';
         travelDetails = Form(
@@ -126,9 +133,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Text('Airplane'),
                             value: 2,
                           ),
+                          DropdownMenuItem(
+                            child: Text('Taxi'),
+                            value: 3,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Bus'),
+                            value: 4,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Own Car'),
+                            value: 5,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Auto'),
+                            value: 6,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Steamer'),
+                            value: 7,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Metro'),
+                            value: 8,
+                          ),
+                          DropdownMenuItem(
+                            child: Text('Other'),
+                            value: 9,
+                          ),
                         ],
                         decoration: InputDecoration(
-                          labelText: 'Enter Mode of Travel',
+                          labelText: 'Enter Mode of Travel*',
                         ),
                         validator: (value) =>
                             value == null ? 'Required Field' : null,
@@ -142,6 +177,27 @@ class _MyHomePageState extends State<MyHomePage> {
                               break;
                             case 2:
                               mode = 'Airways';
+                              break;
+                            case 3:
+                              mode = 'Taxi';
+                              break;
+                            case 4:
+                              mode = 'Bus';
+                              break;
+                            case 5:
+                              mode = 'Own Car';
+                              break;
+                            case 6:
+                              mode = 'Auto';
+                              break;
+                            case 7:
+                              mode = 'Steamer';
+                              break;
+                            case 8:
+                              mode = 'Metro';
+                              break;
+                            case 9:
+                              mode = 'Other';
                           }
                         },
                       ),
@@ -165,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ? 'Required Field'
                           : null,
                       decoration: InputDecoration(
-                        labelText: 'From',
+                        labelText: 'From*',
                         hintText: 'Enter Departure Station',
                         prefixIcon: Icon(Icons.location_city),
                         enabledBorder: OutlineInputBorder(),
@@ -186,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ? 'Required Field'
                           : null,
                       decoration: InputDecoration(
-                        labelText: 'To',
+                        labelText: 'To*',
                         hintText: 'Enter Arrival Station',
                         prefixIcon: Icon(Icons.location_city),
                         enabledBorder: OutlineInputBorder(),
@@ -211,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       firstDate: DateTime(1900),
                       lastDate: DateTime(2100),
                       initialDate: DateTime.now(),
-                      dateLabelText: 'Departure Date',
+                      dateLabelText: 'Departure Date*',
                       timeLabelText: 'Time',
                       onChanged: (value) {
                         departureDate = DateTime.parse(value);
@@ -230,8 +286,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         validator: (value) {
                           if (value == null || value.isEmpty)
                             return 'Required Field';
+                          List<String> parts1 =
+                              departureDate.toString().split(" ");
+                          List<String> parts2 =
+                              arrivalDate.toString().split(" ");
+                          print(parts1);
                           if (arrivalDate != null &&
-                              departureDate != null) if (arrivalDate
+                              departureDate != null) if ((parts1[1] ==
+                                      parts2[1] &&
+                                  parts1[1] == '00:00:00.000') ||
+                              (parts1[1] != '00:00:00.000' &&
+                                  parts2[1] !=
+                                      '00:00:00.000')) if (arrivalDate
                                   .compareTo(departureDate) <
                               0) return 'Arrival Date Time is before Departure';
                           return null;
@@ -240,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2100),
                         initialDate: DateTime.now(),
-                        dateLabelText: 'Arrival Date',
+                        dateLabelText: 'Destination Arrival Date*',
                         timeLabelText: 'Time',
                         onChanged: (value) {
                           arrivalDate = DateTime.parse(value);
@@ -256,9 +322,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(children: <Widget>[
                   Expanded(
                     child: TextFormField(
-                      validator: (value) => (value == null || value.isEmpty)
-                          ? 'Required Field'
-                          : null,
+                      // validator: (value) => (value == null || value.isEmpty)
+                      //     ? 'Required Field'
+                      //     : null,
                       decoration: InputDecoration(
                         labelText: 'PNR/Ticket No',
                         prefixIcon: Icon(Icons.train),
@@ -279,7 +345,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty)
-                          return 'Required Field';
+                          return null;
                         else if (double.tryParse(value) == null)
                           return 'Not a valid number';
                         else
@@ -314,8 +380,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             showCurrencyCode: true,
                             onSelect: (Currency curr) {
                               currency = curr.code;
+                              cur.text = currency;
+                              // call(currency);
+                              // setState(() {});
                             },
                           );
+                          // setState(() {});
                         },
                       ),
                       flex: 2,
@@ -324,6 +394,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SizedBox(),
                       flex: 1,
                     ),
+                    Expanded(
+                        child: TextField(
+                      controller: cur,
+                      decoration: new InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                      ),
+                      readOnly: true,
+                    )),
+                    // Expanded(
+                    //   child: SizedBox(),
+                    //   flex: 1,
+                    // ),
                     Expanded(
                       child: TextFormField(
                         keyboardType: TextInputType.number,
@@ -336,7 +425,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             return null;
                         },
                         decoration: InputDecoration(
-                          labelText: 'Fare',
+                          labelText: 'Fare*',
                           prefixIcon: Icon(Icons.money),
                           enabledBorder: OutlineInputBorder(),
                         ),
@@ -372,15 +461,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField(
-                        validator: (value) =>
-                            value == null ? 'Required Value' : null,
+                        // validator: (value) =>
+                        //     value == null ? 'Required Value' : null,
                         items: [
                           DropdownMenuItem(
                             child: Text('Local'),
                             value: 0,
                           ),
                           DropdownMenuItem(
-                            child: Text('GMail'),
+                            child: Text('EMail'),
                             value: 1,
                           ),
                           DropdownMenuItem(
@@ -398,7 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ticketAddress = 'Local';
                               break;
                             case 1:
-                              ticketAddress = 'GMail';
+                              ticketAddress = 'EMail';
                               break;
                             case 2:
                               ticketAddress = 'Google Drive';
@@ -422,7 +511,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               receiptLocation = '';
                             }
                           },
-                          child: Text('Add Receipt Location'),
+                          child: Text('Add Receipt'),
                         ),
                       ),
                     ),
@@ -439,7 +528,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 ElevatedButton(
-                    child: Text('Send'),
+                    child: Text('Submit'),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         print('Hello');
@@ -499,6 +588,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         tripclass temp2 = await getTripById(widget.trip_id);
                         double total = temp2.total + travelMap['fare'];
                         updateAmount(widget.trip_id, total);
+                        updateLastModified(widget.trip_id);
                         widget.callback();
                         Navigator.of(context).pop();
                       }
@@ -508,15 +598,17 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     } else if (val == 1) {
       var type,
-          details,
-          amount_paid,
-          receipt_details,
-          remarks,
-          receipt_address,
-          receipt_location,
+          details = 'Nil',
+          amount_paid = 0.0,
+          receipt_details = 'Nil',
+          remarks = 'Nil',
+          receipt_address = 'Nil',
+          receipt_location = '',
           dateOfExpense,
-          dateString;
+          dateString = 'Nil';
       currency = 'INR';
+      TextEditingController cur = new TextEditingController();
+      cur.text = 'INR';
       // cardsWidget = FutureBuilder(
       //   future: listOfCards,
       //   builder: (BuildContext context,
@@ -594,7 +686,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(),
-                        labelText: 'Type of Expense',
+                        labelText: 'Type of Expense*',
                       ),
                       onChanged: (value) {
                         switch (value) {
@@ -634,7 +726,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2100),
                     initialDate: DateTime.now(),
-                    dateLabelText: 'Date of Expense',
+                    dateLabelText: 'Date of Expense*',
                     onChanged: (value) {
                       dateOfExpense = DateTime.parse(value);
                       dateString = value;
@@ -653,7 +745,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           : null,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(),
-                        labelText: 'Name of establishment',
+                        labelText: 'Vendor/Website/Hotel*',
                       ),
                       onChanged: (value) {
                         details = value;
@@ -678,6 +770,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           showCurrencyCode: true,
                           onSelect: (Currency curr) {
                             currency = curr.code;
+                            cur.text = currency;
                           },
                         );
                       },
@@ -685,6 +778,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     flex: 2,
                   ),
                   Expanded(child: SizedBox(), flex: 1),
+                  Expanded(
+                      child: TextField(
+                    controller: cur,
+                    decoration: new InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 2.0),
+                      ),
+                    ),
+                    readOnly: true,
+                  )),
                   Expanded(
                     child: TextFormField(
                       keyboardType: TextInputType.number,
@@ -694,7 +800,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               : null,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(),
-                        labelText: 'Amount Paid',
+                        labelText: 'Amount Paid*',
                       ),
                       onChanged: (value) {
                         amount_paid = double.tryParse(value);
@@ -709,9 +815,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      validator: (value) => (value == null || value.isEmpty)
-                          ? 'Required Field'
-                          : null,
+                      // validator: (value) => (value == null || value.isEmpty)
+                      //     ? 'Required Field'
+                      //     : null,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(),
                         labelText: 'Enter Receipt No/ GSTIN if any',
@@ -729,15 +835,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField(
-                      validator: (value) =>
-                          (value == null) ? 'Required Field' : null,
+                      // validator: (value) =>
+                      //     (value == null) ? 'Required Field' : null,
                       items: [
                         DropdownMenuItem(
                           child: Text('Local'),
                           value: 0,
                         ),
                         DropdownMenuItem(
-                          child: Text('GMail'),
+                          child: Text('EMail'),
                           value: 1,
                         ),
                         DropdownMenuItem(
@@ -755,7 +861,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             receipt_address = 'Local';
                             break;
                           case 1:
-                            receipt_address = 'GMail';
+                            receipt_address = 'EMail';
                             break;
                           case 2:
                             receipt_address = 'Google Drive';
@@ -774,7 +880,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .pickFiles(type: FileType.any);
                             receipt_location = result.paths.first;
                           },
-                          child: Text('Add Receipt Location'),
+                          child: Text('Add Receipt'),
                         ),
                       )),
                 ],
@@ -837,27 +943,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       tripclass temp2 = await getTripById(widget.trip_id);
                       double total = temp2.total + amount_paid;
                       updateAmount(widget.trip_id, total);
+                      updateLastModified(widget.trip_id);
                       widget.callback();
 
                       Navigator.pop(context);
                     }
                   },
-                  child: Text('Send')),
+                  child: Text('Submit')),
             ],
           ),
         );
       });
     } else {
       var type,
-          details,
-          amount_paid,
-          receipt_details,
+          details = 'Nil',
+          amount_paid = 0.0,
+          receipt_details = 'Nil',
           dateOfExpense,
           dateString,
           timeString;
+      TextEditingController cur = new TextEditingController();
+      cur.text = 'INR';
       type = 'Other';
       currency = 'INR';
-      var tripid = 1;
+      // var tripid = 1;
       setState(() {
         travelDetails = Form(
             key: _formKey,
@@ -868,9 +977,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        validator: (value) => (value == null || value.isEmpty)
-                            ? 'Required Field'
-                            : null,
+                        // validator: (value) => (value == null || value.isEmpty)
+                        //     ? 'Required Field'
+                        //     : null,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
                           labelText: 'Remarks',
@@ -894,7 +1003,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       firstDate: DateTime(1900),
                       lastDate: DateTime(2100),
                       initialDate: DateTime.now(),
-                      dateLabelText: 'Date of Expense',
+                      dateLabelText: 'Date of Expense*',
                       onChanged: (value) {
                         dateOfExpense = DateTime.parse(value);
                         dateString = value;
@@ -932,7 +1041,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(),
-                      labelText: 'Type of Expense',
+                      labelText: 'Type of Expense*',
                     ),
                     onChanged: (value) {
                       switch (value) {
@@ -971,6 +1080,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             showCurrencyCode: true,
                             onSelect: (Currency curr) {
                               currency = curr.code;
+                              cur.text = currency;
                             },
                           );
                         },
@@ -982,6 +1092,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       flex: 1,
                     ),
                     Expanded(
+                        child: TextField(
+                      controller: cur,
+                      decoration: new InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                      ),
+                      readOnly: true,
+                    )),
+                    Expanded(
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         validator: (value) =>
@@ -990,7 +1115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 : null,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(),
-                          labelText: 'Amount Paid',
+                          labelText: 'Amount Paid*',
                         ),
                         onChanged: (value) {
                           amount_paid = double.tryParse(value);
@@ -998,14 +1123,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       flex: 2,
                     ),
-                    Expanded(
-                      child: SizedBox(),
-                      flex: 1,
-                    ),
+                    // Expanded(
+                    //   child: SizedBox(),
+                    //   flex: 1,
+                    // ),
                   ],
                 ),
                 ElevatedButton(
                     onPressed: () async {
+                      if (details == '') details = 'Nil';
                       if (_formKey.currentState.validate()) {
                         insertPersonalExpense(widget.trip_id, type, details,
                             amount_paid, currency, dateString);
@@ -1013,7 +1139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.pop(context);
                       }
                     },
-                    child: Text('Send')),
+                    child: Text('Submit')),
                 SizedBox(height: 10),
                 Text(
                   "*Personal Expenses will not be added to the Final Total",

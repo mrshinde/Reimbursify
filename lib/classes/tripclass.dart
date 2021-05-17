@@ -247,7 +247,9 @@ Future<int> updateLastModified(
 ) async {
   //databaseHelper has been injected in the class
   DateTime now = DateTime.now();
+  // print(now);
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+  // print(formattedDate);
   int sn = await _databaseHelper.db.rawUpdate(
       '''UPDATE trip SET last_modified = ? WHERE id = ?''',
       [formattedDate, id]);

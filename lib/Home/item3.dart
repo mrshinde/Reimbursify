@@ -77,7 +77,7 @@ class _Item3State extends State<Item3> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              this.widget.type,
+                              "Personal-" + this.widget.type,
                               style: TextStyle(
                                   fontSize: 20, color: Colors.deepPurple),
                             ),
@@ -90,21 +90,23 @@ class _Item3State extends State<Item3> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Text(
-                          this.widget.currency +
-                              ' ' +
-                              this.widget.amount_paid.toString(),
-                          style: TextStyle(fontSize: 20, color: Colors.blue),
-                        ),
-                        Text(
-                          this.widget.date,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ],
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Text(
+                            this.widget.currency +
+                                ' ' +
+                                this.widget.amount_paid.toString(),
+                            style: TextStyle(fontSize: 20, color: Colors.blue),
+                          ),
+                          Text(
+                            this.widget.date,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -138,22 +140,26 @@ class _Item3State extends State<Item3> {
                                 color: Colors.blue,
                               ),
                               Row(
-                                // mainAxisAlignment:
-                                // MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Details',
-                                          style: TextStyle(
-                                              color: Colors.deepPurple,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
-                                        ),
-                                        Text(widget.details),
-                                      ],
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          (0.8),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Remarks',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(widget.details),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -254,6 +260,7 @@ class _Item3State extends State<Item3> {
                                                   details: widget.details,
                                                   amount_paid:
                                                       widget.amount_paid,
+                                                  currency: widget.currency,
                                                   date: widget.date));
                                         });
                                   }),

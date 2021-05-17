@@ -295,7 +295,9 @@ Future<bool> createPDF(int id) async {
   final path = directory.path;
 
   DateTime dd = DateTime.now();
-  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) + tt.title;
+  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dd) +
+      tt.title +
+      UniqueKey().toString();
 //Create an empty file to write PDF data
   File file = File('$path/' + formattedDate + '.pdf');
 

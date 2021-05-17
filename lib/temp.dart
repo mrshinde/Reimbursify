@@ -111,7 +111,7 @@ class _TempState extends State<Temp> {
   @override
   Widget build(BuildContext context) {
     // CurrencyUtils.currencyToEmoji(Currency(code: 'INR',));
-
+    // print(DateFormat('yyyy-MM-dd – hh:mm').parse(lastModified));
     return Scaffold(
         body: SafeArea(
           child: Column(
@@ -199,7 +199,7 @@ class _TempState extends State<Temp> {
                                           '  (Modified: ' +
                                               format
                                                   .format(DateFormat(
-                                                          'yyyy-MM-dd – kk:mm')
+                                                          'yyyy-MM-dd – hh:mm')
                                                       .parse(lastModified))
                                                   .toString() +
                                               ')',
@@ -273,30 +273,14 @@ class _TempState extends State<Temp> {
                                       color: Colors.black,
                                     ),
                                     onPressed: () async {
-                                      setState(() {
-                                        showDialog(
-                                            context: context,
-                                            builder: (ct) {
-                                              return createpopup(
-                                                  widget.trip_id);
-                                            });
-                                      });
+                                      showDialog(
+                                          context: context,
+                                          builder: (ct) {
+                                            return createpopup(widget.trip_id);
+                                          });
                                     },
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.fromLTRB(4, 8, 4, 8),
-                                //   child: Text(
-                                //     'Last Modified ' +
-                                //         format
-                                //             .format(
-                                //                 DateFormat('yyyy-MM-dd – kk:mm')
-                                //                     .parse(lastModified))
-                                //             .toString(),
-                                //     style: TextStyle(color: Colors.white),
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
@@ -603,6 +587,88 @@ class _TempState extends State<Temp> {
                                         StreamBuilder<
                                                 List<Map<dynamic, dynamic>>>(
                                             stream: Stream.fromFuture(
+                                                getElementsPersonalExpense(
+                                                    widget.trip_id)),
+                                            builder: (context,
+                                                AsyncSnapshot<
+                                                        List<
+                                                            Map<dynamic,
+                                                                dynamic>>>
+                                                    snapshot) {
+                                              if (snapshot.hasData &&
+                                                  snapshot.connectionState ==
+                                                      ConnectionState.done) {
+                                                // print("Hi in");
+                                                // print(isSelected);
+                                                isPersonalEmpty = false;
+                                                return Column(
+                                                  children: [
+                                                    Container(),
+                                                    ListView.builder(
+                                                      itemCount:
+                                                          snapshot.data.length,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        print(snapshot
+                                                            .data[index]);
+                                                        // return Item2(
+                                                        //     1,
+                                                        //     0,
+                                                        //     'Food',
+                                                        //     'Stay at IIT Bombay hostel',
+                                                        //     1000,
+                                                        //     'sdfgasdg',
+                                                        //     'GMail',
+                                                        //     'NA',
+                                                        //     '21-01-21',
+                                                        //     callback1);
+                                                        // print(
+                                                        //     snapshot.data);
+                                                        return Item3(
+                                                          snapshot.data[index]
+                                                              ["tripid"],
+                                                          snapshot.data[index]
+                                                              ["serial_number"],
+                                                          snapshot.data[index]
+                                                              ["type"],
+                                                          snapshot.data[index]
+                                                              ["details"],
+                                                          snapshot.data[index]
+                                                              ["amount_paid"],
+                                                          snapshot.data[index]
+                                                              ["date"],
+                                                          snapshot.data[index]
+                                                              ["currency"],
+                                                          callback1,
+                                                        );
+                                                      },
+                                                    ),
+                                                    // Container(
+                                                    //   child: Image.asset(
+                                                    //       'assets/tick.png'),
+
+                                                    //   // child: Image.network(
+                                                    //   //   'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                    //   height: 30,
+                                                    //   width: 30,
+                                                    // ),
+                                                    // Container(
+                                                    //   height: 50,
+                                                    // ),
+                                                  ],
+                                                );
+                                              } else {
+                                                print("hi");
+                                                isPersonalEmpty = true;
+                                                return Container();
+                                              }
+                                            }),
+                                        StreamBuilder<
+                                                List<Map<dynamic, dynamic>>>(
+                                            stream: Stream.fromFuture(
                                                 getElementsOtherExpense(
                                                     widget.trip_id)),
                                             builder: (context,
@@ -672,18 +738,27 @@ class _TempState extends State<Temp> {
                                                       },
                                                     ),
 
-                                                    Container(
-                                                      child: Image.network(
-                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Image.asset(
+                                                              'assets/tick.png'),
+                                                          // child: Image.network(
+                                                          //   'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                          height: 30,
+                                                          width: 30,
+                                                        ),
+                                                        Container(
+                                                          height: 50,
+                                                        )
+                                                      ],
                                                     ),
                                                     // if(snapshot.connectionState==ConnectionState.active)
                                                   ],
                                                 );
                                               } else if (isTravelEmpty ==
-                                                  true) {
+                                                      true &&
+                                                  isPersonalEmpty == true) {
                                                 return Column(
                                                   children: [
                                                     Container(),
@@ -710,12 +785,21 @@ class _TempState extends State<Temp> {
                                               } else {
                                                 print("hi");
                                                 isOtherEmpty = true;
-                                                return Container(
-                                                  child: Image.network(
-                                                    'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
-                                                    height: 30,
-                                                    width: 30,
-                                                  ),
+                                                return Column(
+                                                  children: [
+                                                    Container(
+                                                      child: Image.asset(
+                                                          'assets/tick.png'),
+
+                                                      // child: Image.network(
+                                                      //   'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                      height: 30,
+                                                      width: 30,
+                                                    ),
+                                                    Container(
+                                                      height: 50,
+                                                    )
+                                                  ],
                                                 );
                                               }
                                             }),
@@ -792,12 +876,21 @@ class _TempState extends State<Temp> {
                                                         );
                                                       },
                                                     ),
-                                                    Container(
-                                                      child: Image.network(
-                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          child: Image.asset(
+                                                              'assets/tick.png'),
+
+                                                          // child: Image.network(
+                                                          //   'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                          height: 30,
+                                                          width: 30,
+                                                        ),
+                                                        Container(
+                                                          height: 50,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 );
@@ -884,11 +977,16 @@ class _TempState extends State<Temp> {
                                                       },
                                                     ),
                                                     Container(
-                                                      child: Image.network(
-                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
+                                                      child: Image.asset(
+                                                          'assets/tick.png'),
+
+                                                      // child: Image.network(
+                                                      //   'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                      height: 30,
+                                                      width: 30,
+                                                    ),
+                                                    Container(
+                                                      height: 50,
                                                     ),
                                                   ],
                                                 );
@@ -980,11 +1078,16 @@ class _TempState extends State<Temp> {
                                                       },
                                                     ),
                                                     Container(
-                                                      child: Image.network(
-                                                        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
-                                                        height: 30,
-                                                        width: 30,
-                                                      ),
+                                                      child: Image.asset(
+                                                          'assets/tick.png'),
+
+                                                      // child: Image.network(
+                                                      //   'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.flaticon.com%2Ficons%2Fpng%2F512%2F339%2F339821.png&f=1&nofb=1',
+                                                      height: 30,
+                                                      width: 30,
+                                                    ),
+                                                    Container(
+                                                      height: 50,
                                                     ),
                                                   ],
                                                 );
