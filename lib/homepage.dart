@@ -1,6 +1,10 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:tripmanager/Home/faq.dart';
 import 'package:tripmanager/classes/profileclass.dart' as p;
+import 'package:tripmanager/main.dart';
 import 'package:tripmanager/trip.dart';
 import 'package:tripmanager/Home/profile.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,6 +18,109 @@ import 'database.dart';
 import 'package:tripmanager/viewreimbursements.dart';
 
 // import 'package:tripmanager/classes/profileclass.dart';
+
+Future<io.File> moveFile(io.File sourceFile, String newPath) async {
+  try {
+    /// prefer using rename as it is probably faster
+    /// if same directory path
+    return await sourceFile.rename(newPath);
+  } catch (e) {
+    /// if rename fails, copy the source file
+    final newFile = await sourceFile.copy(newPath);
+    return newFile;
+  }
+}
+
+Future<int> _onImport(BuildContext context) async {
+  FilePickerResult result = await FilePicker.platform.pickFiles();
+  if (result != null) {
+    List<io.File> files = result.paths.map((path) => io.File(path)).toList();
+    String fileName = files[0].path.split('/').last;
+    String extension = fileName.split('.').last;
+    if (extension == 'db') {
+      io.Directory documentsDirectory =
+          await getApplicationDocumentsDirectory();
+
+      // await deleteDatabase(path);
+      // await deleteDatabase(documentsDirectory.path);
+
+      var file = await moveFile(
+          files[0], documentsDirectory.path + "/" + "reimbursement1.db");
+      return 1;
+    } else {
+      return -1;
+    }
+    // Phoenix.rebirth(context);
+    // RestartWidget.restartApp(context);
+    // open the database
+    // await Injection.initInjection();
+    // Database _db = await openDatabase(
+    //     documentsDirectory.path + "/" + "reimbursement1.db");
+  }
+  return 0;
+}
+
+class ImportWidget extends StatefulWidget {
+  int flag = -2;
+  @override
+  _ImportWidgetState createState() => _ImportWidgetState();
+}
+
+class _ImportWidgetState extends State<ImportWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: (() {
+        if (widget.flag == -2) {
+          return Text(
+            'The App needs to be restarted after import.',
+            style: TextStyle(color: Colors.red),
+          );
+        } else if (widget.flag == 1) {
+          return Text(
+            'Import Successful! Please restart the App.',
+            style: TextStyle(color: Colors.red),
+          );
+        } else if (widget.flag == -1) {
+          return Text(
+            'Wrong file selected.',
+            style: TextStyle(color: Colors.red),
+          );
+        } else {
+          return Text(
+            'No File Selected.',
+            style: TextStyle(color: Colors.red),
+          );
+        }
+      }()),
+      content: Text(''),
+      actions: <Widget>[
+        (() {
+          if (widget.flag == 1 || widget.flag == 0 || widget.flag == -1) {
+            return Container();
+          } else {
+            return TextButton(
+              child: Text('Continue'),
+              onPressed: () async {
+                int x = await _onImport(context);
+                setState(() {
+                  widget.flag = x;
+                });
+                print(x);
+              },
+            );
+          }
+        }()),
+        TextButton(
+          child: Text('Back'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
 
 class Homepage extends StatefulWidget {
   @override
@@ -33,6 +140,7 @@ class _HomepageState extends State<Homepage> {
     // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
+  int flag = -2;
   void SelectedItem(BuildContext context, item) {
     switch (item) {
       case 'Export':
@@ -70,27 +178,7 @@ class _HomepageState extends State<Homepage> {
           context: context,
           barrierDismissible: false, // user must tap button!
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                'Restart Application after Importing Database File.',
-                style: TextStyle(color: Colors.red),
-              ),
-              content: Text(''),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Continue'),
-                  onPressed: () {
-                    _onImport(context);
-                  },
-                ),
-                TextButton(
-                  child: Text('Back'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
+            return ImportWidget();
           },
         );
         break;
@@ -126,25 +214,33 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  _onImport(BuildContext context) async {
+  Future<int> _onImport(BuildContext context) async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       List<io.File> files = result.paths.map((path) => io.File(path)).toList();
+      String fileName = files[0].path.split('/').last;
+      String extension = fileName.split('.').last;
+      if (extension == 'db') {
+        io.Directory documentsDirectory =
+            await getApplicationDocumentsDirectory();
 
-      io.Directory documentsDirectory =
-          await getApplicationDocumentsDirectory();
+        // await deleteDatabase(path);
+        // await deleteDatabase(documentsDirectory.path);
 
-      // await deleteDatabase(path);
-      // await deleteDatabase(documentsDirectory.path);
-
-      var file = await moveFile(
-          files[0], documentsDirectory.path + "/" + "reimbursement1.db");
-
+        var file = await moveFile(
+            files[0], documentsDirectory.path + "/" + "reimbursement1.db");
+        return 1;
+      } else {
+        return -1;
+      }
+      // Phoenix.rebirth(context);
+      // RestartWidget.restartApp(context);
       // open the database
       // await Injection.initInjection();
       // Database _db = await openDatabase(
       //     documentsDirectory.path + "/" + "reimbursement1.db");
     }
+    return 0;
   }
 
   @override

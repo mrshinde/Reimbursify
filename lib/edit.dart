@@ -59,7 +59,7 @@ Widget editTravelForm(
   arrivalPlace = dataMap.arr_station;
   arrivalDate = dataMap.arr_date;
   arrivalTime = dataMap.arr_time;
-  arrivalDate = DateTime.parse(arrivalDate + ' ' + arrivalTime);
+  arrivalDate = DateTime.tryParse(arrivalDate + ' ' + arrivalTime);
   departurePlace = dataMap.dep_station;
   departureDate = dataMap.dep_date;
   departureTime = dataMap.dep_time;
@@ -285,7 +285,7 @@ Widget editTravelForm(
                                 child: DateTimePicker(
                                   validator: (value) {
                                     if (value == null || value.isEmpty)
-                                      return 'Required Field';
+                                      return null;
                                     List<String> parts1 =
                                         departureDate.toString().split(" ");
                                     List<String> parts2 =
@@ -302,14 +302,14 @@ Widget editTravelForm(
                                       return 'Arrival Date Time is before Departure';
                                     return null;
                                   },
-                                  initialValue: arrivalDate.toString(),
+                                  initialValue: (arrivalDate == null) ? null :arrivalDate.toString(),
                                   type: DateTimePickerType.dateTimeSeparate,
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
-                                  initialDate: arrivalDate,
+                                  initialDate: (arrivalDate == null) ? DateTime.now() : arrivalDate,
                                   initialTime:
-                                      TimeOfDay.fromDateTime(arrivalDate),
-                                  dateLabelText: 'Destination Arrival Date*',
+                                      (arrivalDate == null) ? null : TimeOfDay.fromDateTime(arrivalDate),
+                                  dateLabelText: 'Destination Arrival Date',
                                   timeLabelText: 'Time',
                                   onChanged: (value) {
                                     arrivalDate = DateTime.parse(value);
@@ -536,21 +536,29 @@ Widget editTravelForm(
                                   Map<String, dynamic> travelMap =
                                       new Map<String, dynamic>();
                                   travelMap['tripid'] = trip_id;
-                                  var temp =
-                                      departureDate.toString().split(" ");
+                                  var temp;
+                                  if(departureDate != null){
+                                    temp = departureDate.toString().split(" ");
 
-                                  travelMap['dep_time'] =
-                                      temp[1].split(":")[0] +
-                                          ":" +
-                                          temp[1].split(":")[1];
-                                  travelMap['dep_date'] = temp[0];
+                                    travelMap['dep_time'] =
+                                        temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                                    travelMap['dep_date'] = temp[0];
+                                  }
+                                  else{
+                                    travelMap['arr_date'] = '';
+                                    travelMap['arr_time'] = '';
+                                  }
                                   travelMap['dep_station'] = departurePlace;
-                                  temp = arrivalDate.toString().split(" ");
-                                  travelMap['arr_time'] =
-                                      temp[1].split(":")[0] +
-                                          ":" +
-                                          temp[1].split(":")[1];
-                                  travelMap['arr_date'] = temp[0];
+                                  if(arrivalDate != null){
+                                    temp = arrivalDate.toString().split(" ");
+                                    travelMap['arr_time'] =
+                                        temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                                    travelMap['arr_date'] = temp[0];
+                                  }
+                                  else{
+                                    travelMap['arr_date'] = '';
+                                    travelMap['arr_time'] = '';
+                                  }
                                   travelMap['arr_station'] = arrivalPlace;
                                   travelMap['mot'] = mode;
                                   travelMap['km'] = km;

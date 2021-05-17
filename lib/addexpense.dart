@@ -285,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: DateTimePicker(
                         validator: (value) {
                           if (value == null || value.isEmpty)
-                            return 'Required Field';
+                            return null;
                           List<String> parts1 =
                               departureDate.toString().split(" ");
                           List<String> parts2 =
@@ -306,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2100),
                         initialDate: DateTime.now(),
-                        dateLabelText: 'Destination Arrival Date*',
+                        dateLabelText: 'Destination Arrival Date',
                         timeLabelText: 'Time',
                         onChanged: (value) {
                           arrivalDate = DateTime.parse(value);
@@ -548,16 +548,29 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ? ''
                                     : additional_comments);
                         travelMap['tripid'] = widget.trip_id;
-                        var temp = departureDate.toString().split(" ");
+                        var temp;
+                        if(departureDate != null){
+                          temp = departureDate.toString().split(" ");
 
-                        travelMap['dep_time'] =
-                            temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
-                        travelMap['dep_date'] = temp[0];
+                          travelMap['dep_time'] =
+                              temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                          travelMap['dep_date'] = temp[0];
+                        }
+                        else{
+                          travelMap['arr_date'] = '';
+                          travelMap['arr_time'] = '';
+                        }
                         travelMap['dep_station'] = departurePlace;
-                        temp = arrivalDate.toString().split(" ");
-                        travelMap['arr_time'] =
-                            temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
-                        travelMap['arr_date'] = temp[0];
+                        if(arrivalDate != null){
+                          temp = arrivalDate.toString().split(" ");
+                          travelMap['arr_time'] =
+                              temp[1].split(":")[0] + ":" + temp[1].split(":")[1];
+                          travelMap['arr_date'] = temp[0];
+                        }
+                        else{
+                          travelMap['arr_date'] = '';
+                          travelMap['arr_time'] = '';
+                        }
                         travelMap['arr_station'] = arrivalPlace;
                         travelMap['mot'] = mode;
                         travelMap['km'] = km;
