@@ -131,12 +131,13 @@ class _HomepageState extends State<Homepage> {
   String path;
   List<String> databasePaths = [];
   Future<p.Profile> user_profile;
+  Future<List<Map<String, dynamic>>> cards;
 
   void initState() {
     // SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {}));
     super.initState();
+    cards = p.getCards();
     user_profile = p.getProfileById('1');
-
     // WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -423,6 +424,23 @@ class _HomepageState extends State<Homepage> {
                     ],
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 5, 0, 5),
+                  alignment: Alignment.centerLeft,
+                  child:
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                      future: cards,
+                      builder:
+                          (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                        if (snapshot.hasData&&snapshot.data.length == 2) {
+                          return Container(child: Text("*Add Card to Profile section", style: TextStyle(color: Colors.red),));
+                        }
+                        else{
+                          return Container();
+                        }
+                      }),
+                ),
+
                 Padding(
                   padding: const EdgeInsets.only(top: 28.0),
                   child: Image(image: AssetImage('assets/logo3.png')),
