@@ -183,7 +183,8 @@ class _mycardstate extends State<Mycards> {
                                         }
                                       }());
                                     },
-                                  )
+                                  ),
+
                                 ],
                               ),
                             );
@@ -201,6 +202,17 @@ class _mycardstate extends State<Mycards> {
                         })),
               ),
             ),
+            Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.purple[200], Colors.purple[200]]),
+                  ),
+                  child: Text("Tap and Hold to Delete Cards.", style: TextStyle(color: Colors.yellowAccent),),
+            )
           ],
         ),
       ),
