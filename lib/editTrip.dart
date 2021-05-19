@@ -86,7 +86,7 @@ class _editTripState extends State<editTrip> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              labelText: 'Enter Title',
+                              labelText: 'Enter Title*',
                               enabledBorder: OutlineInputBorder(),
                             ),
                             onChanged: (value) {
@@ -110,7 +110,7 @@ class _editTripState extends State<editTrip> {
                                   value: complete,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(),
-                                    labelText: 'Completed',
+                                    labelText: 'Completed*',
                                   ),
                                   onChanged: (value) {
                                     complete = value;
@@ -129,7 +129,7 @@ class _editTripState extends State<editTrip> {
                                           ? 'Required Field'
                                           : null,
                                   initialDate: start_date,
-                                  dateLabelText: 'Start Date',
+                                  dateLabelText: 'Start Date*',
                                   onChanged: (value) {
                                     start_date = DateTime.parse(value);
                                   },

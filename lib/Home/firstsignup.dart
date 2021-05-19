@@ -261,7 +261,7 @@ class _LogInInfoState extends State<LogInInfo> {
                       top: 60.0,
                     ),
                     child: Text(
-                      'Tripiva',
+                      'Reimbursify',
                       style: TextStyle(
                           fontSize: 80.0,
                           fontWeight: FontWeight.bold,
@@ -343,8 +343,9 @@ class _LogInInfoState extends State<LogInInfo> {
                                   Ifsc_code.text,
                                   Google_account.text,
                                   Uid);
-                              SharedPreferences prefs = await SharedPreferences.getInstance();
-                                prefs.setBool("loggedIn", true);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setBool("loggedIn", true);
 
                               Navigator.push(
                                   context,
@@ -627,7 +628,8 @@ class _LogInInfoState extends State<LogInInfo> {
                                   Ifsc_code.text,
                                   Google_account.text,
                                   Uid);
-                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
                               prefs.setBool("loggedIn", true);
                               Navigator.push(
                                   context,

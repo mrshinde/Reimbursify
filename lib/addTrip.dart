@@ -82,7 +82,7 @@ class _addTripState extends State<addTrip> {
                                     ? 'Required Field'
                                     : null,
                             decoration: InputDecoration(
-                              labelText: 'Enter Title',
+                              labelText: 'Enter Title*',
                               enabledBorder: OutlineInputBorder(),
                               suffixText: '*',
                               suffixStyle: TextStyle(
@@ -110,16 +110,16 @@ class _addTripState extends State<addTrip> {
                                   ],
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(),
-                                    labelText: 'Completed',
+                                    labelText: 'Completed*',
                                     suffixText: '*',
                                     suffixStyle: TextStyle(
                                       color: Colors.red,
-
                                     ),
                                   ),
 
                                   // validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                                  validator : (value) => (value == null) ? 'Required Field' : null,
+                                  validator: (value) =>
+                                      (value == null) ? 'Required Field' : null,
                                   onChanged: (value) {
                                     complete = value;
                                   },
@@ -136,8 +136,11 @@ class _addTripState extends State<addTrip> {
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
                                   initialDate: DateTime.now(),
-                                  validator : (value) => (value == null || value.isEmpty) ? 'Required Field' : null,
-                                  dateLabelText: 'Start Date',
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
+                                  dateLabelText: 'Start Date*',
                                   // initialValue: DateTime.now().toString(),
                                   // decoration: InputDecoration(
                                   //   suffixText: '*',
