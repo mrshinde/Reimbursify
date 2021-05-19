@@ -265,7 +265,7 @@ class _LogInInfoState extends State<LogInInfo> {
                     child: Text(
                       'Reimbursify',
                       style: TextStyle(
-                          fontSize: 80.0,
+                          fontSize: 50.0,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.red,
@@ -506,17 +506,20 @@ class _LogInInfoState extends State<LogInInfo> {
                           Padding(padding: EdgeInsets.all(10.0)),
                           DropdownButtonFormField(
                             value: drop_value,
-                            onChanged: (value){
+                            onChanged: (value) {
                               Pay_scale = value;
-                              setState((){drop_value = value;});
+                              setState(() {
+                                drop_value = value;
+                              });
                             },
-                            items: List<String>.generate(18, (i) => (i + 1).toString())
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                    }).toList(),
+                            items: List<String>.generate(
+                                    18, (i) => (i + 1).toString())
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                             decoration: InputDecoration(
                               // errorText: _validate
                               //     ? validatePassword(Grade_pay.text)

@@ -63,6 +63,8 @@ Future<bool> createPDF(int id) async {
   String dep = user_profile.dep;
   String designation = user_profile.designation;
   String gradepay = user_profile.grade_pay;
+  String payscale = '1';
+  payscale = user_profile.pay_scale;
 
   tripclass tt = await getTripById(id);
 
@@ -110,7 +112,8 @@ Future<bool> createPDF(int id) async {
   page.graphics.drawString(
       'xzsM osru lfxr ewy osru', PdfTrueTypeFont(font.readAsBytesSync(), 10),
       bounds: Rect.fromLTWH(25, 160, 500, 40));
-  page.graphics.drawString('/Basic Pay with Grade Pay: ' + gradepay,
+  page.graphics.drawString(
+      '/Basic Pay with Pay Level : ' + gradepay + ' - ' + payscale,
       PdfStandardFont(PdfFontFamily.helvetica, 10),
       bounds: Rect.fromLTWH(115, 160, 500, 40));
   String bh = """ctV 'kh"kZ@""";
