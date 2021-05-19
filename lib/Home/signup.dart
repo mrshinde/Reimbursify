@@ -29,6 +29,8 @@ class _ProfileState extends State<Signup> {
   TextEditingController Grade_pay = TextEditingController();
   TextEditingController Account_number = TextEditingController();
   TextEditingController Ifsc_code = TextEditingController();
+  String Pay_scale;
+  String drop_value;
   TextEditingController Google_account = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -41,6 +43,13 @@ class _ProfileState extends State<Signup> {
     Department.text = this.widget.userclass.dep;
     Designation.text = this.widget.userclass.designation;
     Grade_pay.text = this.widget.userclass.grade_pay;
+    Pay_scale = this.widget.userclass.pay_scale;
+    if(Pay_scale == ''){
+      drop_value = '1';
+    }
+    else{
+      drop_value = Pay_scale;
+    }
     Account_number.text = this.widget.userclass.acc_number;
     super.initState();
   }
@@ -163,11 +172,37 @@ class _ProfileState extends State<Signup> {
                                   controller: Grade_pay,
                                   decoration: const InputDecoration(
                                     icon: Icon(Icons.person),
-                                    labelText: 'Grade Pay *',
+                                    labelText: 'Basic Pay *',
                                   ),
                                   onSaved: (String value) {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
+                                  },
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required Field'
+                                          : null,
+                                )),
+                              FractionallySizedBox(
+                                widthFactor: 0.9,
+                                child: DropdownButtonFormField(
+                                  value: drop_value,
+                                  items: List<String>.generate(18, (i) => (i + 1).toString())
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                    }).toList(),
+                                  decoration: const InputDecoration(
+                                    icon: Icon(Icons.person),
+                                    labelText: 'Pay Level *',
+                                  ),
+                                  onChanged: (value){
+                                    Pay_scale = value;
+                                    setState((){
+                                      drop_value = value;
+                                    });
                                   },
                                   validator: (value) =>
                                       (value == null || value.isEmpty)
@@ -245,6 +280,7 @@ class _ProfileState extends State<Signup> {
                       Department.text,
                       Designation.text,
                       Grade_pay.text,
+                      Pay_scale,
                       Account_number.text,
                       Ifsc_code.text,
                       Google_account.text,

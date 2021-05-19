@@ -235,6 +235,8 @@ class _LogInInfoState extends State<LogInInfo> {
 
   TextEditingController Grade_pay = TextEditingController();
 
+  String drop_value = '1';
+
   String Pay_scale = '';
 
   TextEditingController Account_number = TextEditingController();
@@ -503,8 +505,10 @@ class _LogInInfoState extends State<LogInInfo> {
                           ),
                           Padding(padding: EdgeInsets.all(10.0)),
                           DropdownButtonFormField(
+                            value: drop_value,
                             onChanged: (value){
                               Pay_scale = value;
+                              setState((){drop_value = value;});
                             },
                             items: List<String>.generate(18, (i) => (i + 1).toString())
                                   .map<DropdownMenuItem<String>>((String value) {
