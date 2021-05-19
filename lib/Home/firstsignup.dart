@@ -235,6 +235,8 @@ class _LogInInfoState extends State<LogInInfo> {
 
   TextEditingController Grade_pay = TextEditingController();
 
+  String Pay_scale = '';
+
   TextEditingController Account_number = TextEditingController();
 
   TextEditingController Ifsc_code = TextEditingController();
@@ -336,6 +338,7 @@ class _LogInInfoState extends State<LogInInfo> {
                                   Department.text,
                                   Designation.text,
                                   Grade_pay.text,
+                                  Pay_scale,
                                   Account_number.text,
                                   Ifsc_code.text,
                                   Google_account.text,
@@ -466,13 +469,49 @@ class _LogInInfoState extends State<LogInInfo> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            'Grade Pay',
+                            'Basic Pay',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                           ),
                           Padding(padding: EdgeInsets.all(10.0)),
                           TextField(
                             controller: Grade_pay,
+                            decoration: InputDecoration(
+                              // errorText: _validate
+                              //     ? validatePassword(Grade_pay.text)
+                              //     : null,
+
+                              filled: true,
+                              hoverColor: Colors.white,
+                              fillColor: Colors.white30,
+                              //disabledBorder:OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Pay Level',
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                          Padding(padding: EdgeInsets.all(10.0)),
+                          DropdownButtonFormField(
+                            onChanged: (value){
+                              Pay_scale = value;
+                            },
+                            items: List<String>.generate(18, (i) => (i + 1).toString())
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                    }).toList(),
                             decoration: InputDecoration(
                               // errorText: _validate
                               //     ? validatePassword(Grade_pay.text)
@@ -583,6 +622,7 @@ class _LogInInfoState extends State<LogInInfo> {
                                   Department.text,
                                   Designation.text,
                                   Grade_pay.text,
+                                  Pay_scale,
                                   Account_number.text,
                                   Ifsc_code.text,
                                   Google_account.text,

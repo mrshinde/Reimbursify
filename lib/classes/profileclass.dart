@@ -9,6 +9,7 @@ class Profile {
   final String dep; //department
   final String designation;
   final String grade_pay;
+  final String pay_scale;
   final String acc_number;
   final String ifsc_code;
   final String google; //google account
@@ -20,6 +21,7 @@ class Profile {
     this.dep,
     this.designation,
     this.grade_pay,
+    this.pay_scale,
     this.acc_number,
     this.ifsc_code,
     this.google,
@@ -33,6 +35,7 @@ class Profile {
     map["dep"] = dep;
     map["designation"] = designation;
     map["grade_pay"] = grade_pay;
+    map["pay_scale"] = pay_scale;
     map["acc_number"] = acc_number;
     map["ifsc_code"] = ifsc_code;
     map["google"] = google;
@@ -47,6 +50,7 @@ class Profile {
     dep: data['dep'],
     designation: data['designation'],
     grade_pay: data['grade_pay'],
+    pay_scale: data['pay_scale'],
     acc_number: data['acc_number'],
     ifsc_code: data['ifsc_code'],
     google: data['google'],
@@ -118,6 +122,7 @@ Future<int> insertProfile(
     String dep,
     String designation,
     String grade_pay,
+    String pay_scale,
     String acc_number,
     String ifsc_code,
     String google) async {
@@ -128,6 +133,7 @@ Future<int> insertProfile(
     dep: dep,
     designation: designation,
     grade_pay: grade_pay,
+    pay_scale: pay_scale,
     acc_number: acc_number,
     ifsc_code: ifsc_code,
     google: google,
@@ -156,12 +162,13 @@ Future<int> updateProfile(
     String dep,
     String designation,
     String grade_pay,
+    String pay_scale,
     String acc_number,
     String ifsc_code,
     String google,
     String uid) async {
-  return await _databaseHelper.db.rawUpdate('UPDATE profile SET name = ?, id = ?, dep =?, designation =?, grade_pay =?, acc_number =?, ifsc_code =?, google =? WHERE uid = ?',
-      [name, id, dep, designation, grade_pay, acc_number, ifsc_code, google, uid]);
+  return await _databaseHelper.db.rawUpdate('UPDATE profile SET name = ?, id = ?, dep =?, designation =?, grade_pay =?, pay_scale =?, acc_number =?, ifsc_code =?, google =? WHERE uid = ?',
+      [name, id, dep, designation, grade_pay, pay_scale, acc_number, ifsc_code, google, uid]);
 }
 
 Future<int> deleteProfile(String id) async {
