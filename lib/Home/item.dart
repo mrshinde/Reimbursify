@@ -200,24 +200,28 @@ class _ItemState extends State<Item> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * (0.2),
-                          child: Text(
-                            this.widget.currency +
-                                ' ' +
-                                this.widget.fare.toString(),
-                            style: TextStyle(fontSize: 20, color: Colors.blue),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            // width: MediaQuery.of(context).size.width * (0.2),
+                            child: Text(
+                              this.widget.currency +
+                                  ' ' +
+                                  this.widget.fare.toString(),
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.blue),
+                            ),
                           ),
-                        ),
-                        Text(
-                          this.widget.dep_date,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ],
+                          Text(
+                            this.widget.dep_date,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

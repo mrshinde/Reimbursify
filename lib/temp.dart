@@ -21,7 +21,7 @@ import 'classes/travelexpense.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:currency_picker/currency_picker.dart';
 
-DateFormat format = new DateFormat("ddMMMMyyyy kk:mm");
+DateFormat format = new DateFormat("ddMMMMyyyy hh:mm");
 
 Future<String> gettotalinstring(int id) async {
   List<Map> l1 = await GetTotal(id);
@@ -144,7 +144,7 @@ class _TempState extends State<Temp> {
                         children: [
                           Container(
                             // color: Colors.red,
-                            // width: MediaQuery.of(context).size.width / 3,
+                            width: MediaQuery.of(context).size.width * .7,
                             child: SingleChildScrollView(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -182,30 +182,40 @@ class _TempState extends State<Temp> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, bottom: 10),
-                                    child: Text(
-                                      tripName,
-                                      style: TextStyle(fontSize: 30),
-                                    ),
-                                  ),
+                                      padding: const EdgeInsets.only(
+                                          left: 15, bottom: 10),
+                                      child: Container(
+                                        // width: 200,
+                                        child: Text(
+                                          tripName,
+                                          style: TextStyle(fontSize: 30),
+                                        ),
+                                      )),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15, bottom: 30),
-                                    child: Row(
-                                      children: [
-                                        Text(date),
-                                        Text(
-                                          '  (Modified: ' +
-                                              format
-                                                  .format(DateFormat(
-                                                          'yyyy-MM-dd – hh:mm')
-                                                      .parse(lastModified))
-                                                  .toString() +
-                                              ')',
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ],
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .6,
+                                      // width: ,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(date),
+                                          Text(
+                                            '(Modified: ' +
+                                                format
+                                                    .format(DateFormat(
+                                                            'yyyy-MM-dd – hh:mm')
+                                                        .parse(lastModified))
+                                                    .toString() +
+                                                ')',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
