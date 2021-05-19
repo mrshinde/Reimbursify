@@ -21,6 +21,7 @@ class _userinfoState extends State<userinfo> {
   String department;
   String designation;
   String grade_pay;
+  String pay_scale;
   String account_number;
   String ifsc_code;
   String google_account;
@@ -83,6 +84,7 @@ class _userinfoState extends State<userinfo> {
             department = snapshot.data.dep;
             designation = snapshot.data.designation;
             grade_pay = snapshot.data.grade_pay;
+            pay_scale = snapshot.data.pay_scale;
             account_number = snapshot.data.acc_number;
             ifsc_code = snapshot.data.ifsc_code;
             google_account = snapshot.data.google;
@@ -257,7 +259,40 @@ class _userinfoState extends State<userinfo> {
                               color: Colors.white60,
                             ),
                             child: Text(
-                              "Grade Pay: " + grade_pay,
+                              "Basic Pay: " + grade_pay,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black,
+                                  blurRadius: 2.0,
+                                  spreadRadius: 0.0,
+                                  offset: Offset(2.0,
+                                      2.0), // shadow direction: bottom right
+                                )
+                              ],
+                              // boxShadow: ,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.white60,
+                            ),
+                            child: Text(
+                              "Pay Level: " + pay_scale,
                               style: TextStyle(
                                 fontSize: 22.0,
                                 color: Colors.black,
