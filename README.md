@@ -1,12 +1,15 @@
 ### Reimbursify:Reimbursement Managment App
 A CP301 Course Project
-By Team A6
+
+By Team A6  
+
 Guided By Dr Puneet Goyal
-Contributors
-Mohit Rajoria 2018csb1103
-Mohit Rajan Shinde 2018csb1104
-Navneet Kumar 2018csb1237
-Aman Dhawan 2018csb1070
+
+#Contributors
+* Mohit Rajoria 2018csb1103
+* Mohit Rajan Shinde 2018csb1104
+* Navneet Kumar 2018csb1237
+* Aman Dhawan 2018csb1070
 
 
 ## Introduction:
