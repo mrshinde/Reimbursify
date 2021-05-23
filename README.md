@@ -58,7 +58,6 @@ flutter build apk
 
 ### Libraries & Tools Used
 
-* [Dio](https://github.com/flutterchina/dio)
 * Flutter Official Documentation
 * Flutter - Cookbook
 * SQFlite Flutter Tutorial
