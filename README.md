@@ -54,3 +54,18 @@ Go to project root and execute the following command to build the application
 ```
 flutter build apk
 ```
+
+
+### Libraries & Tools Used
+
+* [Dio](https://github.com/flutterchina/dio)
+* Flutter Official Documentation
+* Flutter - Cookbook
+* SQFlite Flutter Tutorial
+* Stackoverflow
+* [Syncfusion Flutter PDF & XLSX](https://pub.dev/packages/syncfusion_flutter_pdf)
+* [Currency Picker](https://pub.dev/packages/currency_picker/versions/2.0.3)
+* [Share](https://pub.dev/packages/shared_preferences)
+* [File Picker](https://pub.dev/packages/file_picker)
+* [Open File](https://pub.dev/packages/open_file)
+* [Date Time Picker](https://pub.dev/packages/date_time_picker)
